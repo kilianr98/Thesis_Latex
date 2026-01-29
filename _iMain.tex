@@ -1,0 +1,111 @@
+%===================================================================
+%%
+%%  Hauptdatei  für Hinweise Abschlussarbeiten
+%%
+%%  Autor:   Arnemann
+%%
+%===================================================================
+%% P R Ä A M B E L
+%-------------------------------------------------------------------
+%
+% !TeX outputDirectory=build
+% !TeX root = _iMain.tex
+\input{FBMStyle}
+%
+\input{000_Setup/pdf-setup}      % z.B. Farben für Links  
+\input{000_Setup/macros}         % Macros lagen
+\input{001_Vorspann/titleM}      % Titeldefinition, kann so nicht 
+                                   % genutzt werden
+
+%--- Bib.Datei einbinden
+%\addbibresource{Literatur.bib}     % 
+\addbibresource{FinaleBib.bib}
+\input{000_Setup/Silbentrennung}  %	Defintionen für Silbentrennung
+
+\makeindex
+
+%===================================================================
+% B E G I N N  D E S  D O K U M E N T S
+%
+%% Hier kommen die einzelnen Kapitel, die jeweils in einem eigenen
+%% Folder stehen. Dateiendung MUSS .tex sein. Wird hier nicht angegeben. 
+%% W I C H T I G : Pfade in Unix-Syntax d.h.:
+%% 0010/chapter und NICHT 0010\chapter !!!
+%% ALLE PFADE RELATIV ZU DIESER DATEI!!
+%-------------------------------------------------------------------
+\begin{document}
+
+%---------------------------------------
+% für Einheiten nach  siunitx
+\sisetup{
+output-decimal-marker = {,},
+exponent-product = \cdot,  % für .10^7
+}%
+%----------------------------------------
+
+\pagestyle{scrheadings}            % Kopf- und Fusszeilen
+\clearscrheadfoot                  % Alles auf "" setzen
+%\pagestyle{empty}
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\include{001_Vorspann/-pagestyle-pre}     % Titelblatt erzeugen
+\include{001_Vorspann/erklaerung}         % Hochschul-spezifisch
+%\include{001_Vorspann/danksagung}
+\cleardoublepage
+\include{001_Vorspann/Kurzfassung}        % 
+%\include{001_Vorspann/nomenklatur}        % Formelzeichen- und Abkürzungsverzeichnis 
+\include{001_Vorspann/Inhaltsverzeichnis} %
+%-------------------------------------------------------------------
+%  Hauptteil
+%-------------------------------------------------------------------
+%
+\hypersetup{pageanchor=true}
+\include{001_Vorspann/-pagestyle-main}
+\include{002_Einleitung/Einleitung}
+\include{003_Grundlagen/Grundlagen}
+\include{004_Bedrohungsmodell/Bedrohungsmodell}
+
+
+%
+%
+%-------------------------------------------------------------------
+%Literaturverzeichnis
+%-------------------------------------------------------------------
+\printbibliography
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+                                \label{cha:LitVerzeichnis}
+%\printbibliography[title=Alphabetic]  % alternative (zum Spielen)
+%
+%-------------------------------------------------------------------
+% andere Verzeichnisse
+%-------------------------------------------------------------------
+\include{001_Vorspann/Verzeichnisse} 
+%
+%-------------------------------------------------------------------
+% Index
+%-------------------------------------------------------------------
+%%%\renewcommand{\indexname}{Stichwortverzeichnis}
+%%%\printindex
+%-------------------------------------------------------------------
+%
+%
+\newpage
+%-------------------------------------------------------------------
+% Anhang
+%-------------------------------------------------------------------
+\automark[section]{chapter} % zurücksetzen
+\appendix        % Alles was hier kommt, landet im Anhang
+%-------------------------------------------------------------------
+%
+%\include{Anhang/Anhang}
+%\include{Anhang/anhang03}
+
+
+\end{document}   % Nach dieser Zeile darf nichts mehr kommen
+%-------------------------------------------------------------------
+% E N D E  D E S  D O K U M E N T S
+%-------------------------------------------------------------------

@@ -1,0 +1,307 @@
+
+%#############################################################################
+%
+% Makros       Arnemann
+%
+% 2015-10-18ar
+% 2016-03-02 
+%%=============================================================================
+%%-- Farben 
+%%=============================================================================
+%%
+%%% Farbe .s http://www.namsu.de/Extra/pakete/Xcolor.html
+%%%  Hochschulfarbe
+%\definecolor{hskarot}{rgb}{219,0,49} 
+%\definecolor{hskarot}{rgb}{0.86,0,0.192} % 
+\definecolor{hskarot}{rgb}{0.7,0,0} % kräftig rot Ersatz für Hska orig
+
+%\colorlet{showcolor}{white}       % zum Verbergen von Texten  z.B. in ToDo-boxen
+                                   % Text wird aber gedruckt, man kann danach suchen 
+%\colorlet{showcolor}{red}          % zum Verbergen von Texten  z.B. in ToDo-boxen
+%
+%%-----------------------------------------------------------------------------
+%% Neue Umgebungen
+%%-----------------------------------------------------------------------------
+%
+% --- Gleichungen 
+% Syntax: \beq{NAME DER GLEICHUNG} 
+%         \eeq
+% Referenz: \ref{eqt:NAME DER GLEICHUNG}
+%
+\newcommand{\beq}[1]
+           {
+            \begin{equation}
+            \label{#1}
+           }
+% end
+\newcommand{\eeq}
+           {
+             \end{equation}
+           }
+\newcommand{\ba}{\begin{array}}
+\newcommand{\ea}{\end{array}}
+
+\newcommand{\bdm}{\begin{displaymath}}
+\newcommand{\edm}{\end{displaymath}}
+	   
+% --- Itemize 
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+% --- Itemize 
+\newcommand{\bci}{\begin{compactitem}}
+\newcommand{\eci}{\end{compactitem}}
+
+
+% --- Enumerate
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+
+% ---
+\newcommand{\bd}{\begin{description}}
+\newcommand{\ed}{\end{description}}
+
+% --- Umgebungen wie compactitem, compactenum etc
+% erlauben kleinen Abstand zwischen Aufzählungen
+
+
+% --- Umgebung
+%\def\d@nger{\marginpar[\hfill\dbend]{\dbend\hfill}}
+%\newenvironment{danger}{\medskip\hspace{0pt}\d@nger}{\medskip}
+%--- Umgebung  2015-05-09  diese Definition mit aen ist besser als mit @ . Sonst erhebl Probleme
+\def\daenger{\marginpar[\hfill\dbend]{\dbend\hfill}}
+\newenvironment{danger}{\medskip\hspace{0pt}\daenger}{\medskip}
+
+%%-----------------------------------------------------------------------------
+%% Abkürzungen 
+%%-----------------------------------------------------------------------------
+%
+%--- Fußnoten
+% Syntax: \fn legt fest, wo das Fußnotenzeichen steht
+%         \fnt{FUSSNOTENTEXT} legt den Text fest
+\newcommand{\fn}{\footnotemark}
+\newcommand{\fnt}[1]{\footnotetext{#1}}
+
+\newcommand{\ol}{\ddot{O}l}
+\newcommand{\p}{\partial}
+\newcommand{\Dp}{\Delta p}
+\newcommand{\te}{$\vartheta$}             % spezielles theta für Temperatur Celsius
+\newcommand{\cT}{\vartheta}               %      Celsiustemperatur, dass nicht in  t geändert werden darf
+\newcommand{\Ct}{\vartheta}               %var   Celsiustemperatur, kann evtl in t geändert werden
+\newcommand{\R}{{\em\bf R}}               % Universelle Gaskonstante fett 
+%%
+%% --- Einheiten werden vorzugsweise mit dem package siunitx formatiert !
+%%
+\newcommand{\C}{$^\circ$C}                % Grad Celsius als Einheit im Text
+%\newcommand{\C}{~\textcentigrade{}}      % Grad Celsius alternativ
+%\newcommand{\CC}{^\circ\mbox{C}}         % Grad Celsius alternativ2
+\newcommand{\CC}{\,^\circ\mathrm{C}}      % Grad Celsius als Einheit im mathemodus
+\newcommand{\CCe}{^\circ\mathrm{C}}       % Grad Celsius als Einheit im mathemodus
+%%
+%% MatheOperatoren
+%%
+\newcommand{\mue}{\textmu}                % 
+\renewcommand{\d}{\partial\mspace{2mu}}   % partielles Diff. Zeichen 
+\newcommand{\td}{\,\mathrm{d}}           	% totales Diff (d, nicht kursiv)
+\newcommand{\ddt}[1]{\frac{\td #1}{\td t}}% zweifach 
+%% siehe
+%% from physic  shttp://www.dfcd.net/articles/latex/latex.html
+%%
+
+% ---  unbestimmtes Differenzial  (kleines d mit horizontalem Strich durch
+\def\dbar{{\mathchar'26\mkern-11mu\mathrm{d}}}  % hier für lmodern,  Achtung passt nich bei jedem Font !
+%\def\dbar{{\mathchar'26\mkern-12mu d}}  %(The space after the \mu" is optional but is added f
+%\def\dbar{{\mathchar'26\mkern-9mu\mathrm{d}}}  % 130102ar hier für times !
+%%%
+%% Index: oben oder/und unten
+%%
+\newcommand{\idx}[1]{_\mathrm{#1}}        % nicht kursiver Index in Gleichungen, mit Umlauten wie "a
+\newcommand{\idxi}[2]{_{\mathrm{#1,}{#2}}}% 1. Parameter nicht kursiv, zweiter kursivzB für Laufvariable
+\newcommand{\idy}[1]{^\mathrm{#1}}        % hochgestellt
+
+%%
+%% Texthervorhebungen
+%%
+\newcommand{\name}[1]{\textsc{#1}}        % für Firmen, Autoren
+\newcommand{\uu}[1]{\emph{#1}}            % Texthervorhebung (Unterstreichungen sind unüblich)%%
+\newcommand{\fettA}[1]{{\sffamily\small\textbf{#1}}}   % Texthervorhebung fett
+
+\newcommand{\s}{\scriptscriptstyle}
+\newcommand{\D}{\displaystyle}            % für Fonts in Brüchen
+
+\newcommand{\bff}[1]{\noindent {\textbf{#1}}}
+
+\newcommand{\du}[1]{\underline{\underline{#1}}} %  Ergebnisse von Berechungen doppelt unterstreichen
+
+%%
+%% Abkürzungen im Text, alphabetisch, 
+%%
+\def\bzw{bzw.\ }
+\def\bspw{bspw.\ }
+\def\ca{ca. }
+%\def\CO2{CO$_2$}  % neu
+\def\dh{d.\,h.\ }
+\def\etc{etc.\ }
+\def\evtl{evtl. }
+\def\ggf{ggf.\ }
+\def\inkl{inkl.\ }
+\def\oä{o.\,ä.\ }
+\def\og{o.\,g.\ }
+\def\so{s.\,o.}
+\def\su{s.\,u.}
+\def\ua{u.\,a.\ }
+\def\zB{z.\,B.\ }
+\def\zT{z.\,T.\ }
+
+%%
+%%---------------------------------------------------------------
+%%   Abkürzungen für Variablen in Gleichungen
+%%---------------------------------------------------------------
+%%
+%% verkürzte Schreibweise, mathematische Symbole, alphabetisch, Beispiele
+%%   wichtige Regel: keine Zahlen in Variablennamen 
+%% 
+\def\mp{\dot{m}}
+\def\md{\dot{m}}                      %
+%\def\m.{\dot{m}} % geht?
+\def\pWsT{p\idx{W}\idy{S}(T)}         % 
+\def\Vd{\dot{V}}                      %  
+
+\def\hepx{h_\mathrm{1+X}}             % 
+
+%%
+%% Kennzahlen werden auch kursiv formatiert, aber mit wenig Zwischenraum, darum so:
+%%  muss in $ $ 
+
+\def\GWP{\mathin{GWP}}  % 
+\def\Re{\mathin{Re}}    % Reynold
+\def\Nu{\mathin{Nu}}    % Nusselt
+\def\Pr{\mathin{Pr}}    % Prandtl
+%%
+%% --- Referenzen im Text -----------------------------------------------
+%%
+%  Referenzieren eine Tabelle im Text, beim ersten Mal
+\newcommand{\RefTab}[1]{{\small \color{LinkColor}\raisebox{1pt}{$\blacktriangleright$}}{Tabelle~\ref{#1}}} 
+%\newcommand{\RefTab}[1]{$\underline{\mbox{Tab.~\ref{#1}}}$}   
+%\newcommand{\RefTab}[1]{\textbf{Tabelle~\ref{#1}}}            
+%
+%
+%  Referenzieren eine Abbildung im Text: sollte mit RefTab identisch sein
+\newcommand{\RefFig}[1]{{\small \color{LinkColor}\raisebox{1pt}{$\blacktriangleright$}}{Bild~\ref{#1}}} 
+%\newcommand{\RefFig}[1]{{\color{blue}$\blacktriangleright$\textbf{Bild~\ref{#1}}}} 
+%\newcommand{\RefFig}[1]{\textbf{Bild~\ref{#1}}}                 
+%
+%  Referenzieren eine Tabelle im Text, nach dem ersten Mal: sollte nicht hervorgehoben sein
+\newcommand{\RefTabc}[1]{Tabelle~\ref{#1}}                     % 2. Tabellenref. im Text
+\newcommand{\RefFigc}[1]{Bild~\ref{#1}}                        % 2. Bildref.
+%
+%  Referenzieren einer Gleichung 
+\newcommand{\RefEq}[1]{\mbox{Gl.~(\ref{#1})}}                  % Gleichungen
+
+%%
+%% --- Einheiten werden immer steil formatiert! 
+%%     Einheiten werden vorzugsweise mit dem *package siunits* formatiert !
+%%     folgende Abkürzungen benötigen das Package nicht 
+%%
+\newcommand{\ZmE}[2]{$#1$~{#2}}                                % Zahl:#1 mit Einheiten#2 #3 in TextUmgebung
+\newcommand{\zme}[2]{#1~\mbox{#2}}                             % Zahl:#1 mit Einheiten#2 #3 in MatheUmgebung
+\newcommand{\EH}[1]{#1}                                        % Einheiten
+\newcommand{\B}[1]{\mbox{#1}}                                  % Steiler Text in MatheUmgebung 
+\newcommand{\eb}[2]{\frac{\text{#1}}{\text{#2}}}               % EINHEITEN in echten Brüchen
+
+%%
+%%--- Font Größe  ----------------------------------------------------------
+%%
+\newfont{\ssf}{cmss10 scaled 1000}
+\newfont{\ssb}{cmssbx10 scaled 1000}
+\newcommand{\cf}{\ssf}                 % CaptionFonts: in Bildunter-, Tab-Überschriften
+\newcommand{\rf}{\em}                  % RefFonts    : Kennzeichnung von Referenzen im Text
+\newcommand{\eng}{\ttfamily}           % englische Begriffe im deutschen Text besonders hervorheben
+%
+% Hinweis
+% Syntax: \oops{ÜBERSCHRIFT}{TEXT}
+%        : nach Überschtift wird automatisch eingefügt
+\newcommand{\oops}[2]{\begin{quote}\textbf{#1}:\\ {#2} \end{quote} }
+
+%---------------------------------------------------------------
+% Bildunter- und Tabellenüberschriften
+%---------------------------------------------------------------
+% z.B. andere Schrift, oder auch Schriftform und andere Abkürzung
+%
+% alternaiv : "Abbildungen" lassen und
+%  Zeilenumbruch bei Bildbeschreibungen einführen \setcapindent{1em}
+% bessere Methoden: siehe Komaskript
+%
+\addto\captionsngerman{% 
+\renewcommand{\figurename}{Bild}   % Standard wäre Abbildung
+\renewcommand{\tablename}{Tabelle}    % Standard wäre Tabelle
+} 
+%
+\renewcommand*{\captionformat}{.~} % DIN lässt grüssen
+%\addtokomafont{caption}{\sffamily\small\raggedright}  % kleinere Schrift, linksbündig
+\addtokomafont{caption}{\sffamily\small}  % kleinere Schrift in Überschrift
+%\setkomafont{descriptionlabel}{\sffamily\small}
+\setkomafont{captionlabel}{\sffamily\bfseries}
+\setcaphanging
+\setcapindent{0em}             % kein Einzug
+%
+%---------------------------------------------------------------
+%  Kommentare
+%---------------------------------------------------------------
+%-- Formatieren eigener Kommentare, Anmerkungen, Arbeitsanweisungen 
+\newcommand{\Kommentar}[1]{{\em #1}} 
+
+%---------------------------------------------------------------
+%-- Verstecktes
+% Alles innerhalb von \Hide{} oder \ignore{}
+% wird von LaTeX komplett ignoriert (wie ein Kommentar)
+%------------------------
+% methode 1
+\newcommand{\Hide}[1]{}
+\let\ignore\Hide
+%
+% methode 2
+%\newcommand{\Hide}[1]{
+%{\color{cyan}\sffamily\small #1}} % green red blue magenta cyan
+%
+% methode 3
+\newcommand{\HideB}[1]{}
+\let\ignore\HideB
+
+%-----------------------------------------------------
+% auskommentieren von längeren Textpassgen 
+%
+%\newcommand{\showme}{1}  % \usepackage{ifthen}
+\newcommand{\hideandshow}[1]{%
+	\ifthenelse{\isundefined{\showme}}{}{#1}}
+
+
+%--- Umbrüche
+%  eigner Befehl, lässt sich besser modifizieren
+%  eigene Umbrüche, die nur bei der Textentwicklung eingeführt wurden,
+%  können hier zentral entfernt werden
+\newcommand{\mynewpage}{\newpage}
+\newcommand{\myclearpage}{\clearpage}
+
+%%====================================================================
+%%
+%%--  Tabellen 
+%%
+%\usepackage{tabularx} % automatische Spaltenbreite 
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\newcommand{\LCIRC}[1]{{\large\textcircled{\normalsize \texttt{#1}}}}
+\newcommand{\NCIRC}[1]{\textcircled{ {\small \texttt{#1}} } }
+
+\newcommand{\bul}{$\bullet$}              % Mark in Tabs
+\newcommand{\Q}{$\bullet$}                % mark2 in Tabs
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\cg}{\centering}    % for multicolumn
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% EOF  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

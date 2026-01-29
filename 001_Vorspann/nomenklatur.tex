@@ -1,0 +1,151 @@
+%==============================================================
+%
+% Nomenklatur
+%
+%==============================================================
+\chapter*{Nomenklatur%
+  \footnote{ Das ist hier nur beispielhaft; es werden sonst nur (alle) tatsächlich genutzte Zeichen aufgeführt!\\
+	beim Sortieren: alphabetisch, erst kleine, dann große Buchstaben.} }%
+  \label{Nomenklatur}%
+   % Die folgende Zeile erzwingt einen Eintag ins Inhaltsverz.
+  \addcontentsline{toc}{chapter}{Nomenklatur}%
+%-----------
+\manualmark
+\markright{Nomenklatur}
+\markleft{Nomenklatur}
+%\ohead[]{\headmark}
+%\begin{longtable}{p{3cm} p{2cm} p{\textwidth}}  % ACHTUNG Breite
+\begin{longtable}{p{0.15\textwidth} p{0.15\textwidth} p{0.6\textwidth}}  % ACHTUNG Breite 0.9
+%-----------------------------------------------
+\multicolumn{3}{l}{%
+\textbf{\textsf{\large Lateinische Formelzeichen}}
+}\\
+%-----------------------------------------------
+%
+%----Große Buchstaben----
+&&\\
+%----kleine Buchstaben----
+$c\idx{lim}$              & {-}             & Konstante des Turbulenzmodells   \\
+$g_i$                     & {m/s$^2$}       & Vektor der Schwerkraft    \\
+%$k$                       & {m$^2$/s$^2$}   & turbulente kinetische Energie \\
+$k$                       & \si{m^2/s^2}    & turbulente kinetische Energie \\
+$l$                       &   m             & Längenmaß \\
+$L$                       &  m              & charakteristische Länge \\
+$\dot m$                  &   kg/s          & Massenstrom \\
+$p$                       &   N/m$^2$       & Druck \\
+$R$                       &   -             &  Residuenmatrix   \\
+{\textbf{R}}              & \si{J/(mol.K)}  & Universelle Gaskonstante \\
+$s$ 										  &  \si{J/(kg.K)}    & spezifische Entropie \\
+$ S $                     & J/K             & Entropie \\
+$S_{ij}$                  &   1/s           &  Scherrate   \\
+$t$                       &   s             & Zeit \\
+$ T $                     & K               & Temperatur \\
+$u,v,w$                   &   m/s           & Geschwindigkeitskomponente \\
+                      & & \\ % LEERZEILE
+
+%----Griechische Buchstaben-----------------------------------------------------------------------
+\\
+\multicolumn{3}{l}{%
+\textbf{\textsf{\large Griechische Formelzeichen}}
+ }\\
+$\alpha$                &    -                & allgemeine Zustandsgröße \\
+$\beta^*$               &    -                & Konstante des Turbulenzmodells \\
+$\eta$                  & \si{kg/(m.s)}       & dynamische Viskosität\\  
+$\eta$                  &    W/W              & Wirkungsgrad\\  
+$\vartheta$             &    \C               & Temperatur\\ 
+$\nu$                   &  \si{m^2/s}         & kinematische Viskosität \\
+$\varkappa, \kappa$     &     -               & Isentropenexponent \\ 
+$\xi$                   &    kg/kg            & Massenanteil\\
+$\varrho$               &  \si{kg/m^3}        & Dichte   \\
+$\sigma_i$              &    -                & Konstante des Turbulenzmodells \\
+$\tau_{ij}$             &  \si{N/m^2}         & Spannungstensor   \\
+$\varphi$               &    -                & relative Feuchte \\
+$\Phi$                  &    -                & allgemeine Konstante des Turbulenzmodells   \\
+$\omega$                &    1/s              & Frequenz der turbulenten Schwankung   \\
+ & & \\ 
+%--------------------------------------------------------------------------
+\\
+\newpage \multicolumn{3}{l}{%
+\textbf{\textsf{\large Indizes}}
+}\\
+%-----------------------------------------------
+bulk                   & & mittlere Geschwindigkeit \\ 
+$i$                    & & Richtungsindex, Spezies \\ 
+$j$                    & & Summationsindex, Element \\ 
+$n$                    & & Zeitschritt \\
+t                      & & turbulent, total, tangential \\
+U                      & & Umgebung \\
+                       & & \\ %LEERZEILE
+%--------------------------------------------------------------------------
+%\newpage
+\multicolumn{3}{l}{%
+\textbf{\textsf{\large Besondere Zeichen}}
+}\\
+%---------------------------------------------
+$\mathrm{d}$ & &      steiles d: vollständiges Differenzial\\  
+$\dbar$      & &      palatales d: unvollständiges Differential, alternativ $\delta$\\
+$\partial$   & &      partieller Differentialoperator\\
+$\Delta$     & &      Differenz\\
+ $:=$        & &      definiert durch\\
+$\equiv$     & &      identisch\\
+$\propto$    & &      proportional\\
+$\approx$    & &      etwa \\
+$\dot{ x}$	 & &	    Strom von $x$\\
+$\bar{ x}$	 & &	    Mittelwert von $x$, oder molare Größe\\
+$\hat{ x}$	 & &      Amplitude von $x$\\
+(1.1)        & &      Gleichungsnummer, die erste Zahl gibt die\\
+             & &         Nummer des Kapitels an, die zweite Zahl ist fortlaufend im Kapitel\\
+$[12]$       & &      Nummer im Quellenverzeichnis\\             
+
+ & & \\ % LEERZEILE
+
+%--------------------------------------------------------------------------
+\\
+\multicolumn{3}{l}{%
+\textbf{\textsf{\large Dimensionslose Kennzahlen}}
+}\\
+%---------------------------------------------
+$\mathit{Re} := w L /\nu$  & &   Reynolds-Zahl\\
+ & & \\ % LEERZEILE
+
+%---------------------------------------------
+\\
+\multicolumn{3}{l}{%
+\textbf{\textsf{\large Abkürzungen\footnote{Abkürzungen, die bereits im Duden stehen, werden nicht aufgeführt. }}}
+}\\
+%---------------------------------------------
+
+HsKA     & & Hochschule Karlsruhe -- Technik und Wirtschaft\\
+IKKU     & & Institut für Kälte-, Klima- und Umwelttechnik\\
+IMP      & & Institute of Materials and Processes\\
+MMT      & & Maschinenbau und Mechatronik \\
+%  im Duden  PDF      & & Portable Document Format \\ 
+R-134a   & & 1,1,1,2-Tetrafluorethan (Kältemittel)\\
+RKS      & & Redlich-Kwong-Soave \\
+%SST      & & Shear Stress Transport \\
+%TKE      & & Turbulente Kinetische Energie \\
+
+
+\end{longtable}
+
+\cleardoublepage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+%%
+%%  Pagestyle für Pre
+%%  061218ar
+%==============================================================================
+%
+\pagestyle{scrheadings}            % Kopf- und Fusszeilen
+\clearscrheadfoot                  % Alles auf "" setzen
+\setcounter{page}{100}             % anpassen: wenn 1-seitig  dann 2     
+\pagenumbering{roman}
+%
+%%bis 2017-09-24 
+\lehead{\pagemark \hspace*{2em} \headmark}
+\rohead{\headmark \hspace*{2em} \pagemark}
+
+% ab 2017-09-24 
+%%  Kolumnentitel  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  alternativ: von wiley 
+%%
+\clearscrheadings
+\clearscrplain
+\pagestyle{scrheadings}
+
+% Kopfzeile links gerade 
+\lehead[%
+  \llap{%
+    \pagemark
+    \hspace{1mm}%
+    \smash{\rule[-2.8mm]{1pt}{6mm}}%
+    \hspace{2mm}%
+  }%
+]{%
+  \llap{%
+    \pagemark
+    \hspace{1mm}%
+    \smash{\rule[-2.8mm]{1pt}{6mm}}%
+    \hspace{2mm}%
+  }%
+  {%
+    \sffamily
+    \itshape
+    \selectfont
+    \headmark
+  }%
+}
+% Kopfzeile rechts ungerade
+\rohead[%
+  \rlap{%
+    \hspace{2mm}%
+    \smash{\rule[-2.8mm]{1pt}{6mm}}%
+    \hspace{1mm}%
+    \pagemark
+  }%
+]{%
+  {%
+    \sffamily
+    \itshape
+    \selectfont
+    \headmark
+  }%
+  \rlap{%
+    \hspace{2mm}%
+    \smash{\rule[-2.8mm]{1pt}{6mm}}%
+    \hspace{1mm}%
+    \pagemark
+  }%
+}
+
+\renewcommand\pnumfont{%
+  \sffamily%
+%  \bfseries  %fette Schrift
+  \upshape
+%  \fontsize{8}{12}%
+  \fontsize{10}{12}%
+  \selectfont
+}
+
+\renewcommand\headfont{%
+  \sffamily%
+  \itshape
+%  \fontsize{8.5}{12}%
+  \fontsize{10}{12}%
+  \selectfont
+}
+%============================================================================

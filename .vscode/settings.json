@@ -1,0 +1,17 @@
+{
+    "latex-workshop.latex.outDir": "build",
+    "ltex.language": "de-DE",
+    "ltex.additionalRules.motherTongue": "en",
+
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false,
+        "c": true,
+        "cpp": true,
+        "python": true,
+        "tex": true
+    }
+
+}

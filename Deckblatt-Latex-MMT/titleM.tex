@@ -1,0 +1,88 @@
+%-----------------------------------------------------------------
+% Beschriftung des Titelblatts - Vorderseite
+%-------------------------------------------------------------------
+
+\renewcommand{\maketitle}{%
+
+    \begin{titlepage}
+
+    \thispagestyle{empty}
+
+        \oddsidemargin4mm   % Hier BCOR  eingeben  !! 14
+        \evensidemargin4mm  %
+
+  \vspace*{10mm}
+
+\vspace*{-30mm} % -30 wenn Zeilenabstand 1.2
+
+\begin{minipage}[b][5cm][t]{0.45\textwidth} 
+	  \includegraphics[width=34mm]{HKA_Wortmarke-XL-v_RGB.jpg}     % HsKA für pdf
+\end{minipage}
+\hfill 
+%\raisebox{13mm}{ 
+\begin{minipage}[b][5cm][t]{0.45\textwidth} 
+    \hfill 
+		\includegraphics[width=40mm]{HKA_Bildmarke-h_RGB.jpg}       % MMT für pdf
+\end{minipage}
+%}
+
+%%% oder
+%\begin{minipage}[b][5cm][t]{0.45\textwidth} 
+%	%	  \includegraphics[width=32mm]{HKA_Wortmarke-XL-v_RGB.jpg}     % HsKA für pdf
+%	\includegraphics[width=45mm]{HKA_MMT_Wortmarke_RGB.jpg}      % 
+%\end{minipage}
+%\hfill 
+%%\raisebox{13mm}{ 
+%\begin{minipage}[b][5cm][t]{0.45\textwidth} 
+%	\hfill 
+%	%		\includegraphics[width=40mm]{HKA_Bildmarke-h_RGB.jpg}       % MMT für pdf
+%	\includegraphics[width=40mm]{HKA_MMT_Bildmarke-h_RGB.jpg}       % MMT für
+%\end{minipage}
+ 
+
+\vspace{30mm}%
+
+\begin{center}
+  \sffamily
+   {\huge  \bfseries Hinweise zur Anfertigung 
+	   von Abschlussarbeiten\\}
+%
+    \vspace*{10mm}
+%    
+    \large Stand: \today
+%    
+    \vspace*{80mm}
+		
+    Fakultät für Maschinenbau und Mechatronik\\    
+    Institut für Kälte-, Klima- und Umwelttechnik\\   
+    Prof. Dr.-Ing. Michael Arnemann
+%
+\end{center}
+
+\newpage
+
+    %%---------------------------------------------------------------
+    %%   Rückseite
+    \pagestyle{empty}
+		\section*{Änderungen zur letzten Version}
+%
+\begin{itemize}
+	\item 2021-07-15    
+	\begin{compactitem}
+		\item	Neues Logo
+	\end{compactitem}
+	
+%  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  siehe   anderes Deckblatt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+%
+\end{itemize}
+
+%    \cleardoublepage
+
+    \end{titlepage}
+
+}% end
