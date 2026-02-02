@@ -2,10 +2,79 @@
 \label{Stand_Technik_Non_IP}
 
 % Was ich in dem Kapitel sagen will:
-% - 
+% - Aufgrund mangelender Rechenleistung kann keine 
+
+% Onboarding von Devices, wie wird ein Grät identifiziert?
+% - Typenschild?
+
+% Auszug aus BSI, 3.2.1.4 Man in the middle Angriff - unverschlüsselte Kommunikationen
+Die Hauptpriorität der Sicherheit von OT wird oftmals in der Verfügbarkeit und Zuverlässigkeit der Systeme gesehen.
+Aspekte der Vertraulichkeit und Integrität werden unter Umständen nachrangig berücksichtigt.
+Bspw. wird häufig auf eine Verschlüsselung der Daten oder Transportwege verzichtet.
+Hieraus entsteht die Gefahr das Daten von Angreifern abgefangen sogar manipuliert werden können.
+In einem solchen Fall ist die Integrität und die Vertraulichkeit der Daten nicht mehr sichergestellt. 
+Ein Angreifer mit physischem Zugriff auf das OT-Netz kann diese Werte somit auslesen, verändern oder neue einspielen (z. B. zur Steuerung einer Maschine oder zur Fälschung von Sensordaten \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+% Warum gibt es keine krypto?
 
 
+% Wie wird geschützt?
+% Air Gapped
+Als Schutzmaßnahme gegen Cyberangriffe wurden speziell ältere Anlagen eine Zeit lang physikalisch von anderen Netzen getrennt.
+Dies gilt insbesondere für solche, in denen Systeme mit bekannten Schwachstellen enthalten sind oder eine unzureichende Zugangskontrolle bieten.
+Diese so genannten „Air-Gaps“ bieten jedoch selten das angestrebte Schutzniveau gegen Cyberangriffe.
+Denn in vielen Fällen ist weiterhin ein Datenaustausch notwendig oder erwünscht.
+Die hierfür eingesetzten Daten können von Angreifern genutzt werden, um die Trennung zu überwinden.
 
-Hier ist Stand der Technik bei nicht netzwerkfähigen 
-Feldgeräten \cite{paar_understanding_2024} und \cite{souppaya_nist_2026}
+% Geräte im Geschützten Bereich
+Feldgeräte werden oft im geschützten Bereich eingesetzt, dass bedeutet, dass keine unbefugten Personen Zutritt zum Feldgerät haben.
+Zum Beispiel durch eine Pforte. Angenommen, diese Maßnahme würde tatsächlich den Zutritt von unbefugten Personen wirksam unterbinden, schützt das nicht
+gegen Angreifer von Innen, sprich Personen die Zutritt haben.
 
+Zudem gibt es auch Anwendungsszenarien, in dem ein geschützter Bereich nicht möglich ist, und Feldgeräte für jeden frei zugänglich sind.
+Als Beispiel sein hier Stauseen genannt.
+
+
+% Hardware
+Bei vielen Feldgeräten spielt der Energieverbrauch eine sehr große Rolle. Es gibt einen maximalen Wert der nicht überschritten werden kann. Bei 
+Berechnungen von Kryptooperationen ohne spezielle Kryptographische Prozessoren sind rechenintensiv. Dadruch, dass harte Grenzen beim Energieverbrauch gelten,
+und der Takt vom Mikrocontroller generell gedrosselt ist, können solche Operationen zu langen Rechenzeiten führen, die nicht mehr akzeptabel sind.
+(Hier irgendwie auf einen Test oder so verweisen). Aufgrund dessen wird häufig auf Kryptographische Operationen verzichtet, bzw. sind auch aufgrund 
+der vorgegebenen Anforderungen an Energieverbrauch schlichtweg nichtmöglich.
+
+Durch den Trend, auch Feldgeräte "smart" miteinander zu vernetzen, steigt auch der Wunsch und Nachfrage auch in ressourcenbeschränkten Geräten Kryptooperationen
+durchzuführen.
+Somit gibt es viele Mikrocontroller die kryptographische Berechnungen in einem dafür gemachten HW-Bereich durchführen. Damit können kryptographische Operationen schneller und 
+energieeffizienter durchfügehrt werden. Dadurch kann der eigentliche Chip immernoch langsam, bzw. Energieeffizient sein, aber gleichzeitig die Anferderung nach
+schnellen Kryptographischen Operationen erfüllen.
+Somit werden 
+
+Feldgeräte werden über längere Zeiträume mit gleicher Hardware betrieben. Die Lebensdauer beträgt zwischen 10 und 15 Jahren.
+Daher sind noch viele Feldgeräte im Einsatz, die noch ältere Leistungs- und Effizienzschwächere Hardware verwenden.
+Dadurch dauert es eine lange Zeit, bis sich neuere Trends z.B. die Verwendung von Krypto HW durchsetzt. 
+
+
+% Was ändert sich gerade?
+% - Mehr Kryptoprozessoren
+
+% Thema begrenzter Strom
+Bei vielen industriellen Feldgeräten, insbesondere  Feldgeräte mit 2-Draht-Technik ist der verfügbare Energiehaushalt sehr stark begrenzt.
+Der Strom für die gesamte Elektronik (Sensor, A/D-Wandlung, Signalverarbeitung, Kommunikation) muss typischerweise aus wenigen Milliampere der Stromschleife bereitgestellt werden.
+Designrichtlinien wie \cite{johnson_power_2013} nennen Budgets von 3 - 3,5~\si{\milli\ampere} für die interne Elektronik, die nicht überschritten werden dürfen,
+damit der Messbereich von 4 - 20~\si{\milli\ampere} eingehalten wird.
+
+Kryptographische Verfahren, die rein in Software auf einem Mikrocontroller, ohne spezielle Krypto-Peripherien, durchgeführt werden,
+sind im Vergleich zu klassischer Signalverarbeitung sehr rechen- und energieintensiv.
+Während die meisten Feldgeräte wenig Energie-/ Leistungsreserven besitzen, müssen die Krypto-Operationen auch noch in die Reserven passen.
+
+Ein möglicher Ansatz, um diesen Konflikt zu umgehen, ist der Einsatz von Crypto-Peripherie. Diese lagert die Berechung in dedizierte HW aus, die speziell dafür konstruiert wurde und die Ausführungszeit,
+sowie auch den Energieverbauch pro Operation deutlich reduzieren.
+
+Ein weiterer Vorteil ist auch die erhöhte Sicherheit, da weitere Security Mechanismen wie sichere Erzeugung von privaten Schlüsseln, Zertifizierte Entropie, Anti-Tampering-Maßnahmen und weitere Features bietet.
+
+Werden eigene
+Messungen auf dem (auch hier in der Arbeit verwendeten Mikrocontroller) zeigen, dass
+
+Ein weiterer Aspekt ist die lange Einsatzdauer industrieller Feldgeräte. Komponenten der Betriebstechnik (OT) werden in industriellen Steuerungssystemen typischerweise über Zeiträume von 10 bis 15 Jahren oder länger betrieben,
+deutlich länger als klassische IT-Hardware (Zitat). Das bedeutet, dass heute noch eine große installierte Basis von Feldgeräten mit älterer, nicht kryptofähiger Hardware im Feld ist.
+Die Modernisierung hin zu Geräten mit integrierter Krypto-Hardware und damit die breite Umsetzung kryptografisch gesicherter Verbindungen bis hinunter zum Feldgerät erfolgt daher nur schrittweise im Rahmen von Migrations- und Retrofit-Projekten und wird durch Lebensdauer, Zertifizierungen (z. B. ATEX/IECEx) und die hohen Kosten von Gerätewechseln zusätzlich verlangsamt.
