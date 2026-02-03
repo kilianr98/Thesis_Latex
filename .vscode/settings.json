@@ -12,6 +12,9 @@
         "cpp": true,
         "python": true,
         "tex": true
-    }
+    },
 
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 90,
+    "latex-workshop.synctex.afterBuild.enabled": true
 }

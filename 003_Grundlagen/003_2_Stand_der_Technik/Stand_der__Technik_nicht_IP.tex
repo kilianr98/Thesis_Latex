@@ -35,46 +35,42 @@ Zudem gibt es auch Anwendungsszenarien, in dem ein geschützter Bereich nicht m�
 Als Beispiel sein hier Stauseen genannt.
 
 
-% Hardware
-Bei vielen Feldgeräten spielt der Energieverbrauch eine sehr große Rolle. Es gibt einen maximalen Wert der nicht überschritten werden kann. Bei 
-Berechnungen von Kryptooperationen ohne spezielle Kryptographische Prozessoren sind rechenintensiv. Dadruch, dass harte Grenzen beim Energieverbrauch gelten,
-und der Takt vom Mikrocontroller generell gedrosselt ist, können solche Operationen zu langen Rechenzeiten führen, die nicht mehr akzeptabel sind.
-(Hier irgendwie auf einen Test oder so verweisen). Aufgrund dessen wird häufig auf Kryptographische Operationen verzichtet, bzw. sind auch aufgrund 
-der vorgegebenen Anforderungen an Energieverbrauch schlichtweg nichtmöglich.
-
-Durch den Trend, auch Feldgeräte "smart" miteinander zu vernetzen, steigt auch der Wunsch und Nachfrage auch in ressourcenbeschränkten Geräten Kryptooperationen
-durchzuführen.
-Somit gibt es viele Mikrocontroller die kryptographische Berechnungen in einem dafür gemachten HW-Bereich durchführen. Damit können kryptographische Operationen schneller und 
-energieeffizienter durchfügehrt werden. Dadurch kann der eigentliche Chip immernoch langsam, bzw. Energieeffizient sein, aber gleichzeitig die Anferderung nach
-schnellen Kryptographischen Operationen erfüllen.
-Somit werden 
-
-Feldgeräte werden über längere Zeiträume mit gleicher Hardware betrieben. Die Lebensdauer beträgt zwischen 10 und 15 Jahren.
-Daher sind noch viele Feldgeräte im Einsatz, die noch ältere Leistungs- und Effizienzschwächere Hardware verwenden.
-Dadurch dauert es eine lange Zeit, bis sich neuere Trends z.B. die Verwendung von Krypto HW durchsetzt. 
-
-
 % Was ändert sich gerade?
 % - Mehr Kryptoprozessoren
 
+
+% Thema lange Einsatzdauer
+Ein weiterer Aspekt ist die lange Einsatzdauer industrieller Feldgeräte.
+Komponenten der Betriebstechnik (OT) werden in industriellen Steuerungssystemen typischerweise über Zeiträume von 10 bis 15 Jahren oder länger betrieben, deutlich länger als klassische IT-Hardware (Zitat).
+Das bedeutet, dass heute noch eine große installierte Basis von Feldgeräten mit älterer, nicht kryptofähiger Hardware im Feld ist.
+Die Modernisierung hin zu Geräten mit integrierter Krypto-Hardware und damit die breite Umsetzung kryptografisch gesicherter Verbindungen bis hinunter zum Feldgerät erfolgt daher nur schrittweise im Rahmen von Migrations- und Retrofit-Projekten
+und wird durch Lebensdauer, Zertifizierungen (z. B. ATEX/IECEx) und die hohen Kosten von Gerätewechseln zusätzlich verlangsamt.
+
+
 % Thema begrenzter Strom
-Bei vielen industriellen Feldgeräten, insbesondere  Feldgeräte mit 2-Draht-Technik ist der verfügbare Energiehaushalt sehr stark begrenzt.
-Der Strom für die gesamte Elektronik (Sensor, A/D-Wandlung, Signalverarbeitung, Kommunikation) muss typischerweise aus wenigen Milliampere der Stromschleife bereitgestellt werden.
-Designrichtlinien wie \cite{johnson_power_2013} nennen Budgets von 3 - 3,5~\si{\milli\ampere} für die interne Elektronik, die nicht überschritten werden dürfen,
-damit der Messbereich von 4 - 20~\si{\milli\ampere} eingehalten wird.
+Bei vielen industriellen Feldgeräten, insbesondere bei Feldgeräten mit 2-Draht-Technik, ist der verfügbare Energiehaushalt stark begrenzt.
+Der Strom für die gesamte Elektronik (Sensorik, A/D-Wandlung, Signalverarbeitung und Kommunikation) muss typischerweise aus wenigen Milliampere der Stromschleife bereitgestellt werden. 
+Designrichtlinien wie \cite{johnson_power_2013} nennen für Feldgeräte Budgets von etwa 3~bis 3{,}5~\si{\milli\ampere} für die interne Elektronik, die nicht überschritten werden dürfen, damit der Messbereich von 4~bis 20~\si{\milli\ampere} eingehalten werden kann. %Pass
 
-Kryptographische Verfahren, die rein in Software auf einem Mikrocontroller, ohne spezielle Krypto-Peripherien, durchgeführt werden,
-sind im Vergleich zu klassischer Signalverarbeitung sehr rechen- und energieintensiv.
-Während die meisten Feldgeräte wenig Energie-/ Leistungsreserven besitzen, müssen die Krypto-Operationen auch noch in die Reserven passen.
+Kryptographische Verfahren, die rein in Software auf einem Mikrocontroller ohne spezielle Krypto-Peripherie ausgeführt werden,
+sind im Vergleich zu klassischer Signalverarbeitung in der Regel deutlich rechen- und energieintensiver.
+Die Ausführung von Beispielsweise AES oder ECC in Software, weist eine hohe Anzahl von Taktzyklen auf und entsprechend einen signifikanten Energiebedarf pro Operation, was sich unmittelbar auf Laufzeit und Leistungsaufnahme auswirkt. \todo{Brauch ich hier eine Quelle?}
 
-Ein möglicher Ansatz, um diesen Konflikt zu umgehen, ist der Einsatz von Crypto-Peripherie. Diese lagert die Berechung in dedizierte HW aus, die speziell dafür konstruiert wurde und die Ausführungszeit,
-sowie auch den Energieverbauch pro Operation deutlich reduzieren.
+In Feldgeräten, deren Taktfrequenz zusätzlich bewusst niedrig gewählt wird, um die Verlustleistung zu minimieren, müssen diese kryptographischen Operationen in das ohnehin sehr knappe Leistungsbudget eingepasst werden. 
+Dies kann dazu führen, dass entweder die Rechenzeiten für Kryptofunktionen inakzeptabel lang werden, oder der zulässige Energieverbrauch überschritten würde. 
+In der Praxis ist dies ein wesentlicher Grund dafür, dass viele existierende Feldgeräte bislang keine oder nur sehr eingeschränkt kryptographische Mechanismen unterstützen. \todo{Quelle finden}.
+ 
+Ein etablierter Ansatz \todo{Formulierung}, um diesen Zielkonflikt zu entschärfen, ist der Einsatz dedizierter Krypto-Peripherie bzw.~ Hardwarebeschleuniger. 
+Hierbei werden rechenintensive Primitive wie AES, SHA oder ECC in eigenständigen Hardwareblöcken implementiert, die speziell auf diese Operationen hin optimiert sind und deutlich weniger Taktzyklen sowie weniger Energie pro Operation benötigen als eine reine Software-Implementierung. %\cite{banerjee_energy-efficient_2017,panic_embedded_2016,rozlomii_hardware_2024}
+Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
+Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
+9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
+Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
+Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
+Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
+Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware kryptographische Operationen in vertretbarer Zeit ausführbar, sobald geeignete Hardwarebeschleuniger vorhanden sind. \todo{Wie verhält sich der Energieverbrauch dabei?}
 
-Ein weiterer Vorteil ist auch die erhöhte Sicherheit, da weitere Security Mechanismen wie sichere Erzeugung von privaten Schlüsseln, Zertifizierte Entropie, Anti-Tampering-Maßnahmen und weitere Features bietet.
 
-Werden eigene
-Messungen auf dem (auch hier in der Arbeit verwendeten Mikrocontroller) zeigen, dass
-
-Ein weiterer Aspekt ist die lange Einsatzdauer industrieller Feldgeräte. Komponenten der Betriebstechnik (OT) werden in industriellen Steuerungssystemen typischerweise über Zeiträume von 10 bis 15 Jahren oder länger betrieben,
-deutlich länger als klassische IT-Hardware (Zitat). Das bedeutet, dass heute noch eine große installierte Basis von Feldgeräten mit älterer, nicht kryptofähiger Hardware im Feld ist.
-Die Modernisierung hin zu Geräten mit integrierter Krypto-Hardware und damit die breite Umsetzung kryptografisch gesicherter Verbindungen bis hinunter zum Feldgerät erfolgt daher nur schrittweise im Rahmen von Migrations- und Retrofit-Projekten und wird durch Lebensdauer, Zertifizierungen (z. B. ATEX/IECEx) und die hohen Kosten von Gerätewechseln zusätzlich verlangsamt.
+Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
+Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
+Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.

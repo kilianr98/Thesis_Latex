@@ -1,0 +1,42 @@
+Um deine LaTeX-Konfiguration und Pakete auf einen anderen Computer zu spiegeln, kannst du die folgenden Schritte ausführen:
+
+1. LaTeX-Distribution und Pakete
+a) Exportiere die installierten Pakete
+Falls du TeX Live verwendest, kannst du die Liste der installierten Pakete exportieren. In deinem Workspace sehe ich bereits eine Datei texlive-packages.txt, die vermutlich die Liste der Pakete enthält. Falls diese Datei nicht aktuell ist, kannst du sie mit folgendem Befehl aktualisieren:
+
+b) Pakete auf dem neuen Computer installieren
+Kopiere die Datei texlive-packages.txt auf den neuen Computer und führe den folgenden Befehl aus, um die Pakete zu installieren:
+
+Falls du eine andere Distribution wie MikTeX verwendest, kannst du die Pakete manuell installieren oder die Synchronisationsoptionen von MikTeX nutzen.
+
+2. VS Code Konfiguration
+a) Einstellungen exportieren
+Exportiere deine VS Code-Einstellungen, um die gleiche Konfiguration auf dem neuen Computer zu verwenden:
+
+Öffne die Einstellungen (Ctrl+,).
+Klicke oben rechts auf die drei Punkte und wähle Einstellungen als JSON öffnen.
+Kopiere den Inhalt der Datei und speichere ihn in einer Datei, z. B. vscode-settings.json.
+b) Einstellungen importieren
+Auf dem neuen Computer:
+
+Öffne die Einstellungen in VS Code.
+Öffne die JSON-Ansicht und füge den Inhalt der vscode-settings.json ein.
+c) Erweiterungen synchronisieren
+Installiere die gleichen Erweiterungen auf dem neuen Computer. Du kannst die Liste der installierten Erweiterungen exportieren:
+
+Und auf dem neuen Computer installieren:
+
+3. LaTeX Workshop Konfiguration
+Falls du die Erweiterung LaTeX Workshop verwendest, überprüfe, ob du benutzerdefinierte Einstellungen hast. Diese sind in der settings.json enthalten (siehe oben). Achte besonders auf:
+
+latex-workshop.latex.tools
+latex-workshop.latex.recipes
+4. Projektdateien synchronisieren
+Da du Git bereits eingerichtet hast, kannst du sicherstellen, dass alle Projektdateien (einschließlich .tex, .bib, .sty, etc.) synchronisiert sind. Stelle sicher, dass .gitignore keine wichtigen Dateien wie .sty-Dateien ausschließt.
+
+5. Testen
+Nach der Einrichtung auf dem neuen Computer:
+
+Öffne dein Projekt in VS Code.
+Kompiliere eine .tex-Datei, um sicherzustellen, dass alle Pakete und Konfigurationen korrekt funktionieren.
+Mit diesen Schritten solltest du deine LaTeX-Umgebung erfolgreich auf den neuen Computer spiegeln können.
