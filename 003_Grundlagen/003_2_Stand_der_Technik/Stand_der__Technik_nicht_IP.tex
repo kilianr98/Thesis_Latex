@@ -1,12 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Gesetzt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stand der Technik bei nicht netzwerkfähigen Feldgeräten
 \section{Stand der Technik bei nicht netzwerkfähigen Feldgeräten}
 \label{Stand_Technik_Non_IP}
+\sloppy 
 
-% Was ich in dem Kapitel sagen will:
-% - Aufgrund mangelender Rechenleistung kann keine 
 
-% Onboarding von Devices, wie wird ein Grät identifiziert?
-% - Typenschild?
+\todo{Beschreibung des Kapitels einfügen}
 
+
+% ## 1. Einordnunug und Begriffsdefinition
+% ### 1.1 Was heißt nicht-netzwerkfähige Geräte
+\subsection{Einordnung und Begriffsdefinition}
+Im Rahmen dieser Arbeit werden unter nicht-netzwerkfähigen Geräten solche Feldgeräte verstanden, die entweder ausschließlich einen kontinuierlichen Messwert bereitstellen oder zwar mit einer Steuerungs- oder Leitebene kommunizieren, selbst jedoch keinen eigenen Netzwerk- oder IP-Stack implementieren.
+
+\todo{Abschnitt einfügen was Netzwerk-Stack ist}.
+
+%%%
+Typische Vertreter dieser Geräteklasse sind klassische Prozessfeldgeräte wie Druck-, Temperatur-, Durchfluss- oder Füllstandssensoren sowie Grenz- und Näherungsschalter.
+Sie sind üblicherweise über 4-20-mA-Stromschleifen, über HART oder über feldbusbasierte Systeme wie PROFIBUS-PA oder vergleichbare Feldbusse an eine übergeordnete Steuerung angebunden.
+In der Automatisierungspyramide sind diese Geräte der Feldebene (Level 0) zuzuordnen, wie in Abbildung \todo{insert ref} dargestellt.
+\todo{Was ist die AUtomatisierungspyramide}
+
+\missingfigure{Automatisierungspyramide}
+
+Sie erfassen physikalische Größen direkt im Prozess oder wirken unmittelbar auf diesen ein und bilden damit die Schnittstelle zwischen physikalischer Anlage und digitaler Steuerung.
+%%%
+
+%%%
+Zu den nicht-netzwerkfähigen Geräten im Sinne dieser Arbeit zählen ebenfalls Feldgeräte, die keine direkte Verbindung zu einer übergeordneten Steuerung besitzen, sondern deren Messwerte ausschließlich lokal bereitgestellt werden, beispielsweise über ein angeschlossenes Anzeige- oder Bediengerät.
+In solchen Fällen wird der Messwert ausschließlich von einem Menschen abgelesen, ohne dass das Feldgerät selbst Teil eines automatisierten Kommunikationssystems ist.
+
+Feldgeräte, die über Feldbusse kommunizieren, sind damit zwar grundsätzlich kommunikationsfähig, jedoch nicht im Sinne eines autonomen Netzwerkteilnehmers.
+Die Kommunikation erfolgt typischerweise entweder über Punkt-zu-Punkt-Verbindungen (z.~B. klassische 4-20-mA-Schleifen) oder über Feldbusse, bei denen mehrere Feldgeräte gemeinsam an einem Bussegment betrieben werden.
+Solche Segmente sind elektrisch und logisch klar abgegrenzt und werden über definierte Kopplungspunkte, etwa Ein-/Ausgangskarten oder Gateway-Module, an die darüberliegenden Steuerungs- oder Leitebenen angebunden.
+
+Aus Sicht des einzelnen Feldgeräts bleibt die Kommunikationsschnittstelle dabei stets auf ein analoges Signal (4-20 mA) und/oder ein nicht-IP-basiertes Feldprotokoll beschränkt. Die Anbindung in IP-basierte Automatisierungs- oder IT-Netze erfolgt ausschließlich indirekt über die vorgelagerte Infrastruktur. Genau diese strukturelle Eigenschaft unterscheidet nicht-netzwerkfähige Feldgeräte grundlegend von modernen IoT- oder IIoT-Geräten und bildet die Ausgangsbasis für die Betrachtung sicherer Kommunikation und sicheren Onboardings in dieser Arbeit.
+%%% Passt
+
+% ## 2. Wie kommunizieren nicht netzwerkfähige Feldgeräte
+% ### 2.1 Kommunikationskanälee
+\subsection{Kommunikation bei nicht netzwerkfähigen Feldgeräten}
+
+Nicht netzwerkfähige Feldgeräte stellen Prozessinformationen auf der Feldebene bereit und kommunizieren dabei typischerweise über Signale und Protokolle, die historisch für Robustheit, einfache Verdrahtung und lange Lebensdauern ausgelegt wurden. \todo{Zitat}
+
+Im Folgenden werden die wichtigsten Kanäle beschrieben.
+
+4-20-mA-Stromschleife:
+Der klassische Übertragungsweg in der Prozessindustrie ist die 4-20-mA-Stromschleife. Das Feldgerät kodiert den Messwert als Strom im definierten Bereich, wobei 4 mA typischerweise den unteren Messbereich (oder einen definierten Grundzustand) repräsentieren und 20 mA den oberen Messbereich. Die Übertragung ist kontinuierlich und sehr störsicher; sie erlaubt zudem in vielen Ausführungen, das Feldgerät aus derselben Zweidrahtschleife zu versorgen. Funktional handelt es sich hierbei um einen rein analogen Kanal: Er liefert primär den Messwert (oder bei Aktoren eine Stellvorgabe) und besitzt ohne zusätzliche Maßnahmen weder Adressierung noch Sitzungs- oder Teilnehmerkonzepte. Aus Systemsicht ist die Stromschleife daher ein sehr einfacher, aber zentraler Kommunikationskanal zwischen Feldebene und Steuerung.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ende
+\iffalse
 % Auszug aus BSI, 3.2.1.4 Man in the middle Angriff - unverschlüsselte Kommunikationen
 Die Hauptpriorität der Sicherheit von OT wird oftmals in der Verfügbarkeit und Zuverlässigkeit der Systeme gesehen.
 Aspekte der Vertraulichkeit und Integrität werden unter Umständen nachrangig berücksichtigt.
@@ -74,3 +118,5 @@ Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware
 Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
 Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
 Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.
+
+\fi

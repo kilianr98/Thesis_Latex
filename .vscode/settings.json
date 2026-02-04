@@ -11,7 +11,7 @@
         "c": true,
         "cpp": true,
         "python": true,
-        "tex": true
+        "tex": false
     },
 
     "editor.wordWrap": "bounded",
