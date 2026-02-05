@@ -12,8 +12,7 @@
 % ### 1.1 Was heißt nicht-netzwerkfähige Geräte
 \subsection{Einordnung und Begriffsdefinition}
 Im Rahmen dieser Arbeit werden unter nicht-netzwerkfähigen Geräten solche Feldgeräte verstanden, die entweder ausschließlich einen kontinuierlichen Messwert bereitstellen oder zwar mit einer Steuerungs- oder Leitebene kommunizieren, selbst jedoch keinen eigenen Netzwerk- oder IP-Stack implementieren.
-
-\todo{Abschnitt einfügen was Netzwerk-Stack ist}.
+\todo{Abschnitt einfügen was Netzwerk-Stack ist}
 
 %%%
 Typische Vertreter dieser Geräteklasse sind klassische Prozessfeldgeräte wie Druck-, Temperatur-, Durchfluss- oder Füllstandssensoren sowie Grenz- und Näherungsschalter.
@@ -41,12 +40,72 @@ Aus Sicht des einzelnen Feldgeräts bleibt die Kommunikationsschnittstelle dabei
 % ### 2.1 Kommunikationskanälee
 \subsection{Kommunikation bei nicht netzwerkfähigen Feldgeräten}
 
-Nicht netzwerkfähige Feldgeräte stellen Prozessinformationen auf der Feldebene bereit und kommunizieren dabei typischerweise über Signale und Protokolle, die historisch für Robustheit, einfache Verdrahtung und lange Lebensdauern ausgelegt wurden. \todo{Zitat}
+Nicht netzwerkfähige Feldgeräte kommunizieren in der Praxis über vergleichsweise einfache, feldnahe Übertragungsmechanismen, die historisch auf Robustheit, deterministisches Verhalten und lange Lebensdauern ausgelegt sind. Im Unterschied zu IP-basierten Endgeräten treten sie nicht als eigenständige Netzwerkteilnehmer auf, sondern sind aus Sicht der höheren Ebenen typischerweise über Kopplungskomponenten (z.~B. Ein-/Ausgangskarten, Remote-I/O oder Gateways) angebunden.
 
-Im Folgenden werden die wichtigsten Kanäle beschrieben.
+\todo{Was noch?}
+%%% Passt
 
-4-20-mA-Stromschleife:
-Der klassische Übertragungsweg in der Prozessindustrie ist die 4-20-mA-Stromschleife. Das Feldgerät kodiert den Messwert als Strom im definierten Bereich, wobei 4 mA typischerweise den unteren Messbereich (oder einen definierten Grundzustand) repräsentieren und 20 mA den oberen Messbereich. Die Übertragung ist kontinuierlich und sehr störsicher; sie erlaubt zudem in vielen Ausführungen, das Feldgerät aus derselben Zweidrahtschleife zu versorgen. Funktional handelt es sich hierbei um einen rein analogen Kanal: Er liefert primär den Messwert (oder bei Aktoren eine Stellvorgabe) und besitzt ohne zusätzliche Maßnahmen weder Adressierung noch Sitzungs- oder Teilnehmerkonzepte. Aus Systemsicht ist die Stromschleife daher ein sehr einfacher, aber zentraler Kommunikationskanal zwischen Feldebene und Steuerung.
+% ## 4. Onboardung und Geräteidentität
+\subsection{Onboarding und Geräteidentität}
+Im Folgenden wird beschrieben, wie nicht netzwerkfähige Feldgeräte heute in Anlagen aufgenommen (Onboarding) und im Betrieb eindeutig zugeordnet werden.
+
+% ### 4.1
+%% Onboarding Prozess
+In der Praxis beginnt das Onboarding eines Feldgeräts meist mit der Zuordnung zwischen dem physischen Gerät und einer Messstelle bzw.\ einem Anlagentag.
+Dazu werden typischerweise Typenschildinformationen (Hersteller, Typbezeichnung, Seriennummer) mit den Planungsunterlagen abgeglichen.
+Diese Informationen werden dann im Asset Management System abgelegt.
+Dort wird die physische Messstelle (z.\,B.\ Tag-Nummer) manuell mit Geräteinformationen verknüpft.
+Dadurch können die Feldgeräte in Zukunt lokalisiert und identifiziert werden, sowie das Austauschen von Geräten, bzw\. das Aktualisieren von Geräten (z.~B. neue Firmware) koordiniert werden. \cite{stouffer_guide_2023}.
+Diese Informationen die eine Identifikation unterstützen sollen, sind dabei aber nicht kryptografisch gesichert, sondern dienen lediglich der Identifikation und sicherstellung, dass das Gerät äußerlich dem entspricht, das man erwartet.
+
+%% Security Maßnahmen
+Da die Identität nicht netzwerkfähiger Feldgeräte hauptsächlich organisatorisch, und nicht kryptografisch, abgesichert ist,  muss auch organisatorisch sichergestellt werden,
+dass es keinen unbefugten Zutritt zur Anlage bzw. zum Gerät gibt.
+Wenn kryptografisch nicht sichergestellt werden kann, ob ein Gerät evt. unautorisiert getauscht bzw. manipuliert wurde, muss es organisatorisch sichergestellt werden.
+Dafür werden physische Schutzmaßnahmen angewendet.
+Zutrittskontrollen (Wer darf an die Anlage, Schaltschränke, Klemmenkästen), Zäune, verschlossene Technikräume oder Schränke. NIST SP~800-82 nennt physische und organisatorische Kontrollen als integralen Bestandteil eines OT-Sicherheitsprogramms, u.\,a.\ weil viele Angriffe und Fehlhandlungen in OT erst durch physischen Zugriff möglich werden \cite{stouffer_guide_2023}.
+In der Praxis wird damit ein erheblicher Teil der Verantwortung für die Sicherstellung der Geräteintegrität und -identität auf Betreiberprozesse und physische Zugriffskontrolle verlagert.
+
+Die beschriebenen Verfahren sind in der industriellen Praxis etabliert, haben jedoch systematische Grenzen. Insbesondere liefern Nameplate/Seriennummer, Dokumentationsabgleich und konfigurierbare Kennzeichen (z.\,B.\ Tag-Felder) keinen kryptografischen Beweis dafür, dass die Kommunikationsbeziehung tatsächlich mit dem erwarteten physischen Gerät endet. Konfigurierbare Identifikationsattribute können prinzipiell geändert oder nachgeahmt werden.
+
+Zudem adressieren rein physische Schutzmaßnahmen Insider-Bedrohungen nur begrenzt: Personen mit berechtigtem Zugang können Geräte tauschen, manipulieren oder Parameter verändern, ohne dass dies zwangsläufig erkannt wird.
+OT-Sicherheitsleitfäden behandeln solche Risiken unter anderem durch Forderungen nach kontrollierten Änderungen, Protokollierung und klaren Rollen/Prozessen, weisen aber zugleich darauf hin, dass organisatorische Maßnahmen allein keinen technischen Herkunftsnachweis des Geräts liefern \cite{stouffer_guide_2023}.
+Für nicht netzwerkfähige Feldgeräte ergibt sich daraus eine Lücke zwischen praktischer Zuordnung (Asset-Verwaltung) und technischer, beweisbarer Geräteauthentizität.
+Weiterhin gibt es auch Einsatzbereiche, die nicht physisch schützbar sind, da sie öffentlich zugänglich sind.
+Beispielsweise Sensoren, die im Bereich Wastewater, also z.B. Kanalisation, eingesetzt werden. 
+
+% 5 Warum gibt es keine Krypto?
+\subsection{Warum gibt es keine Kryptografie?}
+Dieses Kapitel ordnet ein, weshalb kryptografisch abgesicherte Kommunikation in nicht netzwerkfähigen Feldgeräten historisch nur eingeschränkt umgesetzt wurde und welche Entwicklungen diese Situation heute verändern.
+
+Nicht netzwerkfähige Feldgeräte sind häufig für besonders robuste und energieeffiziente Betriebsbedingungen ausgelegt. Bei loop-versorgten 2-Draht-Geräten muss die gesamte Elektronik aus dem begrenzten Energiehaushalt der \SI{4}{\milli\ampere}--\SI{20}{\milli\ampere}-Stromschleife betrieben werden.
+Abzüglich Toleranzen und Puffer, stehen 4...20mA Geräten ein Strom von ca. \SI{3.5}{\milli\ampere} zur Verfügung \cite{johnson_power_2013.}
+Daraus resultiert, dass Mikrocontroller in Feldgeräten oft mit niedrigen Taktraten betrieben werden und die verfügbaren Ressourcen auf das für Messwerterfassung, Signalverarbeitung, Diagnose und Kommunikation notwendige Minimum optimiert sind.
+
+Kryptografische Verfahren, insbesondere asymmetrische Verfahren sowie moderne, authentifizierte Verschlüsselung, sind in reiner Softwareausführung vergleichsweise rechenintensiv.
+In ressourcenbeschränkten Feldgeräten führt dies typischerweise zu langen Ausführungszeiten und erhöhtem Energieverbrauch.
+Für den Anlagenbetrieb kann dies problematisch sein, da zusätzliche Latenzen im Kommunikations- oder Parametrierpfad auftreten und gleichzeitig der ohnehin knappe Leistungsrahmen belastet wird.
+In der Konsequenz wurden Sicherheitsmechanismen in vielen Feldgerätekategorien entweder gar nicht vorgesehen oder auf einfache Schutzfunktionen (z.\,B.\ Schreibschutz, PIN/Lock, organisatorische Prozesse) beschränkt \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+Diese Situation wird durch die lange Nutzungsdauer industrieller Feldgeräte zusätzlich verstärkt. Feldgeräte verbleiben häufig über Zeiträume von 10 bis 15 Jahren (oder länger) im Betrieb.
+Gerätewechsel sind kostenintensiv, erfordern Stillstände und sind durch Zertifizierungen, und qualitätssichernde Prozesse gebremst.
+Dadurch existiert eine große installierte Basis an Legacy-Geräten, deren Hardwareplattformen nicht für moderne Kryptografie ausgelegt wurden. Selbst wenn neue Sicherheitsanforderungen entstehen, setzen sie sich in der Feldebene daher nur langsam durch \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+%HW Krypto
+In den letzten Jahren hat sich die Hardwarelandschaft jedoch deutlich weiterentwickelt. Moderne Mikrocontroller für Industrie- und Embedded-Anwendungen integrieren zunehmend dedizierte Krypto-Beschleuniger, etwa für AES, SHA und elliptische Kurvenverfahren (ECC). Ergänzend werden Sicherheitsfunktionen wie geschützte Schlüsselspeicher, sichere Bootketten, TrustZone-basierte Isolierung, manipulationsresistente Speicherbereiche oder externe Secure-Elemente verfügbar. Dadurch verlagern sich rechenintensive kryptografische Primitive in spezialisierte Hardwareblöcke, die sowohl schneller als auch energieeffizienter arbeiten als reine Softwareimplementierungen.
+Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
+Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
+9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
+Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
+Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
+Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
+
+Aus Systemsicht hat dies zwei Konsequenzen. Erstens wird Kryptografie unter den Randbedingungen der Feldebene überhaupt erst praktikabel, weil Energie- und Laufzeitkosten pro Operation sinken. Zweitens eröffnen sich dadurch neue Architekturoptionen: Auch ohne vollwertigen IP-Stack kann ein Gerät kryptografische Operationen, Schlüsselableitung und geschützte Datenübertragung realisieren, sofern ein zuverlässiger Byte-Transportkanal vorhanden ist. Damit werden auf IP basierende Konzepte prinzipiell auch über serielle oder proprietäre Feldschnittstellen denkbar, vorausgesetzt Protokollaufbau und Nachrichtenformate werden an die beschränkten Ressourcen angepasst.
+
+Trotz der verbesserten Hardwarebasis bleibt eine wesentliche Lücke bestehen: Für viele nicht-IP-basierte Feldkommunikationswege existiert kein breit etablierter Standard, der eine kryptografisch eindeutige Geräteidentifikation bietet.
+Das obwohl mittlerweile durch entsrpechende HW, die Möglichkeit kryptografische Operationen in akzeptabler Zeit durchzuführen, da ist.
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ende
@@ -64,23 +123,6 @@ Ein Angreifer mit physischem Zugriff auf das OT-Netz kann diese Werte somit ausl
 
 % Wie wird geschützt?
 % Air Gapped
-Als Schutzmaßnahme gegen Cyberangriffe wurden speziell ältere Anlagen eine Zeit lang physikalisch von anderen Netzen getrennt.
-Dies gilt insbesondere für solche, in denen Systeme mit bekannten Schwachstellen enthalten sind oder eine unzureichende Zugangskontrolle bieten.
-Diese so genannten „Air-Gaps“ bieten jedoch selten das angestrebte Schutzniveau gegen Cyberangriffe.
-Denn in vielen Fällen ist weiterhin ein Datenaustausch notwendig oder erwünscht.
-Die hierfür eingesetzten Daten können von Angreifern genutzt werden, um die Trennung zu überwinden.
-
-% Geräte im Geschützten Bereich
-Feldgeräte werden oft im geschützten Bereich eingesetzt, dass bedeutet, dass keine unbefugten Personen Zutritt zum Feldgerät haben.
-Zum Beispiel durch eine Pforte. Angenommen, diese Maßnahme würde tatsächlich den Zutritt von unbefugten Personen wirksam unterbinden, schützt das nicht
-gegen Angreifer von Innen, sprich Personen die Zutritt haben.
-
-Zudem gibt es auch Anwendungsszenarien, in dem ein geschützter Bereich nicht möglich ist, und Feldgeräte für jeden frei zugänglich sind.
-Als Beispiel sein hier Stauseen genannt.
-
-
-% Was ändert sich gerade?
-% - Mehr Kryptoprozessoren
 
 
 % Thema lange Einsatzdauer
