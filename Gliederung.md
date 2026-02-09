@@ -1,66 +1,81 @@
 1. Einleitung
 2. Sicherheit und konzeptionelle Grundlagen
     1. Einordnung Feldgeräte in die Automatisierungspyramide
-        1. Aufgaben Feldgeräte
-        2. Übersicht in welcher Schicht Feldgeräte agieren
+        1. Funktion und Aufgaben von Feldgeräten
+        2. Systemarchitekturen und Einbindung von Feldgeräten
             1. Mittels Automatisierungspyramide einordnen (Was ist das Purdue modell und passt das?)
             2. Kurzer Abriss über Automatisierungspyarmide bzw. wie ICS grundlegend aufgebaut sind
-        3. Welche Gefahren gehen von Feldgeräten aus
+        3. Security-Relevante Bedeutung von Feldgeräten
             1. Bezüglich Security
             2. Kurz darauf eingehen welche Auswirkungen dass aber auch auf Safety haben kann
-    2. Zentrale Schutzziele für Feldgeräte und Kommunikation ableiten
+            3. Reales Beispiel (Stuxnet, o.ä.) -> Staatliche Akteure mit hohen Ressourcen
+		4. Bedrohungen für Feldgeräte 
+			1. Welche Fähigkeiten
+			2. Ressourcen
+			3. Motivationen
+    2.  Zentrale Schutzziele für Feldgeräte und industrielle Kommunikation
         1. Geheimhaltung (Confidentiality)
         2. Verfügbarkeit (Availability)
         3. Integrität (Integrity)
         4. Authentizität (Authentication)
         5. Autorisierung (Authorization)
-    3. Stand der Technik
-        1. Sichere Kommunikation und Onboading bei nicht netzwerkfähigen Geräten
-            1. Situation Schutzziel Verfügbarkeit
-                1. Physischer Zugangsschutz
-            2. Situation Schutzziel Integrität
-                1. Überprüfung Seriennummer etc.
-            3. Situation Schutzziel Geheimhaltung
-                1. Read/Write Schutz mittels PW/PIN
-            4. Situation Schutzziel Authentizität (Authentication)
-                1. Abgleich Seriennummer?
-            5. Situation Schutzziel Autorisierung (Authorization)
-                1. Admin privileges, geschützt mittels PW/PIN
-            6. Welche Kommunikationsarten (welche Feldbusse) gibt es und beinhalten diese Security Funktionen 
-                1. Analog/Feldbus
-                2. -> 6X Feldbusse in Tabellenform bewerten bezogen auf Schutzziele
-                3. Security Guideline 6X HART einarbeiten
-        2. Sichere Kommunikation und Onboading bei netzwerkfähigen Geräten
-            1. Situation Schutzziel Verfügbarkeit
-                1. Physischer Zugangsschutz
-            2. Situation Schutzziel Integrität
-                1. Digitale Signaturen
-            3. Situation Schutzziel Geheimhaltung
-                1. Verschlüsselte Kommunikation
-            4. Situation Schutzziel Authentizität (Authentication)
-                1. Zertifikate, PKI
-            5. Situation Schutzziel Autorisierung (Authorization)
-                1. Admin privileges, geschützt mittels PW/PIN? 
-                2. Gibt es hier Unterschiede zu non IP?
-            6. Welche Kommunikationsarten (welche Feldbusse) gibt es und beinhalten diese Security Funktionen 
-                1. -> Feldbusse in Tabellenform bewerten
-        3. Public-Key-Infrastrukturen und Zertifikate
+    3. Stand der Technik zur Absicherung von Feldgeräten
+        1. Security-Konzepte für nicht netzwerkfähige Feldgeräte
+			1. Betrachtung Ausgangsstatus 
+				1. Fehlende Rechenleistung, etc...
+			2. Wie werden die Schutzziele umgesetetzt?
+				1. Situation Schutzziele Verfügbarkeit
+					1. Physischer Zugangsschutz
+				2. Situation Schutzziel Integrität
+					1. Überprüfung Seriennummer etc.
+					2. CRC, aber mehr SIL-Richtung
+				3. Situation Schutzziel Geheimhaltung
+					1. Read/Write Schutz mittels PW/PIN
+				4. Situation Schutzziel Authentizität (Authentication)
+					1. Abgleich Seriennummer?
+				5. Situation Schutzziel Autorisierung (Authorization)
+	                1. Admin privileges, geschützt mittels PW/PIN
+            3. Welche Kommunikationsarten (welche Feldbusse) gibt es und beinhalten diese Security Funktionen
+                3. Analog/Feldbus
+                4. -> 6X Feldbusse in Tabellenform bewerten bezogen auf Schutzziele
+                5. Security Guideline 6X HART einarbeiten
+        2. Security-Konzepte für netzwerkfähige Feldgeräte
+	        1. Betrachtung Ausgangsstatus
+		        1. APL?
+		        2. PROFINET?
+	        2. Wie werden die Schutzziele umgesetzt?
+	            1. Situation Schutzziel Verfügbarkeit
+	                1. Physischer Zugangsschutz
+	            2. Situation Schutzziel Integrität
+	                1. Digitale Signaturen
+	            3. Situation Schutzziel Geheimhaltung
+	                1. Verschlüsselte Kommunikation
+	            4. Situation Schutzziel Authentizität (Authentication)
+	                1. Zertifikate, PKI
+	            5. Situation Schutzziel Autorisierung (Authorization)
+	                1. Admin privileges, geschützt mittels PW/PIN? 
+	                2. Gibt es hier Unterschiede zu non IP?
+            3. Welche Kommunikationsarten (welche Feldbusse) gibt es und beinhalten diese Security Funktionen 
+                1. -> Feldbusse in Tabellenform bewerten (APL)
+	4. Public-Key-Infrastrukturen und Zertifikate
             1. Rolle von PKI in industriellen Kommunikationssystemen
                 1. Skalierbare Authentisierung
-            2. Architektur einer PKI für Feldgeräte
+            2. Architektur industrieller PKI
                 1. Root CA, Sub CA , RA
                 2. Vertrauensmodell
-            3. Geräteidentitäten und Authentifizierung von Feldgeräten, mit Zertifikaten als Trust Anchor und IDevID Konzept
+            3. Geräteidentitäten auf Basis von Zertifikaten
                 1. Erklärung Zertifikate X.509
                 2. CSR
                 3. Erklärung IDevID (IEEE 802.1 AR)
-                4. Wie wird IDev in der Fertigung aufgespielt?
+                4. Wie wird IDev in der Fertigung aufgespielt? 
+	                1. Hier kurz beschreiben was dabei zu beachten gibt richtung security -> HSM etc.
+	                2. Anforderungen an die Schnittstelle zwischen Sensor und Registration Authority
                 5. Wie sieht eine Authentifizierung mittels IDevID im Feld aus?
                 6. LDEVID
                 7. Welche Schutzziele können durch IDevID erzielt werden
-    4. Regulatorische Anforderungen
-            1. CRA
-            2. IEC62443-4-2
+    5. Regulatorische Anforderungen
+            1. IEC62443-4-2
+            2. CRA
 3. Bedrohungsmodell des Ausgangssystems (Nach NIST Vorlage) *Argumentative Grundlage warum Protokoll so gestaltet ist*
 4. Konzeption eines sicheren Verbindungsaufbaus (Antwort auf Kapitel 3)
     1. Wie sieht ein Konzept für einen sicheren Verbindungsaufbau aus?
@@ -83,40 +98,31 @@
         2. Ablauf Protokoll erklären (mit schönen Bildern), kann ich fast 1:1 aus Obsidian übertragen
     6. Integration in VVO-Kommunikation
         1. Was *darf/kann/muss* ich hier schreiben?
+	        1. Ab wann verschlüsselt: Transition verschlüsselt <-> unverschlüsselt
+	        2. Akzeptieren Geräte nach Session nur noch verschlüsselte Kommunikation?
         2. Verschlüsselung innerhalb des Payloads, Frame bleibt VVO
-5. Bedrohungsmodell
+5. Zweite Iteration Bedrohungsmodell 
     1. Nach NIST Vorlage durchgehen (Kann auch fast 1:1 übertragen werden)
     2. Bedrohungsmodell des Systems nach Anwendung des Protokolls
     3. Restrisiken, Grenzen und Einschränkungen des Ansatzes
         1. Countermeasures
 6. Schnittstellen und PKI-Integration
-    5. Anforderungen an die Schnittstelle zwischen Sensor und Registration Authority
-    6. Definition des Kommunikationsinterfaces
+    1. Definition des Kommunikationsinterfaces
         1. Protokoll- und Nachrichtenstruktur
-    7. Integration in die bestehende PKI
-    8. Zertifikatsfluss zwischen Sensor und Registration Authority
+        2. Python Skript
+    2. Integration in die bestehende PKI
+    3. Zertifikatsfluss zwischen Sensor und Registration Authority
 7. Embedded-Umsetzung auf dem Feldgerät (Eher den Ablauf beschreibend, ein paar UML Diagramme einbinden)
     1. Zielplattform und Sicherheitsfunktionen des Mikrocontrollers
-    2. Erzeugung und Speicherung kryptographischer Schlüssel auf dem Sensor
+    2. Erzeugung und Speicherung kryptographischer Schlüssel auf dem Sensor (Generell HW-Unterstützung)
     3. Erstellung und Speicherung des Certificate Signing Request
     4. Zertifikatsmanagement auf dem Sensor
         1. Empfang und Speicherung des Zertifikats
         2. Validierung und Nutzung des Zertifikats
     5. Performance-, Energie- und Ressourcenbetrachtung
-        1. CSR/IDev in Fertigung
-        2. Protokollablauf
+        1. CSR/IDev in Fertigung, Laufzeit
+        2. Protokollablauf, Laufzeit/Energie
 8. Diskussion und Ausblick
     1. Bewertung der Ergebnisse
     2. Mögliche Erweiterungen und Weiterentwicklungen
-        1. Display mit Zertifikat austatten
-
-
-
----
-2.1. Einordnung Feldgeräte in die Automatisierungspyramide
-2.2. Zentrale Schutzziele für Feldgeräte und Kommunikation ableiten
-2.3. Stand der Technik
-2.3.1. Sichere Kommunikation und Onboading bei nicht netzwerkfähigen Geräten
-2.3.2. Sichere Kommunikation und Onboading bei netzwerkfähigen Geräten
-2.3.3. Public-Key-Infrastrukturen und Zertifikate
-2.3.4. Regulatorische Anforderungen
+        1. Display mit Zertifikat ausstatten -> Ausblick Richtung Post Quantum Cryptography etc..

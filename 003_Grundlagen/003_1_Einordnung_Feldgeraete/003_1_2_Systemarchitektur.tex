@@ -1,0 +1,28 @@
+\subsection{Systemarchitekturen und Einbindung von Feldgeräten}
+\label{Systemarchitektur_Feldgeraete}
+
+%% Was will ich hier sagen:
+% - Kurzer Absatz zu ICS/ OT wie generell so was organisiert ist
+% - Erklären was die Automatisierungspyramide ist
+% -- Schichten grob erklären
+% - Abgrenzung Purdue MOdell
+% - Begriffserklärung bzw. auch entscheiden ob ich von OT oder ICS spreche
+% - Feldgeräte in die Automatisierungspyramide einordnen
+% - 
+
+
+%% Was ist Automatisierungspyramide
+Die Funktionen der einzelnen Hierarchieebene werden häufig in Form einer Automatisierungspyramide darstellen.
+
+%% Folgender Absatz stammt aus ICS Kompendium
+Abbildung 3 Hierarchische Ebenen der Produktionspyramide (8) 
+Das Modell umfasst 5 Ebenen.
+Auf der obersten Ebene findet, typischerweise unter Nutzung eines ERP-Systems, die Grobplanung der Produktion statt.
+Diese unterstützen weitere Organisationsbereiche, wie beispielsweise den Vertrieb bei der Erfassung von Kundenaufträgen und den Einkauf bei der Bestellung von Materialien.
+Auf der Ebene darunter (Ebene 3) findet eine detailliertere Planung und Steuerung der Produktion statt.
+Hier kommen vermehrt Manufacturing Execution Systems (MES) an den jeweiligen Produktionsstandorten zum Einsatz.
+Ebene 3 stellt die Schnittstelle zwischen der betriebswirtschaftlich orientierten Organisationsebene und den operativen Produktionssystemen dar. Die Überwachung findet auf der Prozessleitebene statt.
+Hier kommen Supervisory Control and Data Acquisition (SCADA)-Systeme und Prozessleitsysteme (PLS) für die Produktionsdatenerfassung und -kontrolle zum Einsatz.
+Diese ermöglichen zum Beispiel die Anzeige und das Auswerten von Betriebsdaten. Auf der Steuerungsebene übernehmen SPS die Steuerung der Maschinen. Auch wenn die Funktion einer SPS mittlerweile virtualisiert werden kann, benötigt die Steuerung eine Hardwarekomponente, welche mit der Prozessebene verbunden ist und mit Hilfe einer Programmlogik Daten und Signale verarbeitet und ausgibt.
+Die Feldebene stellt die Schnittstelle zum Produktionsprozess dar.
+Die Eingangsdaten der Sensoren werden in Echtzeit verarbeitet und entsprechende Aktuatoren möglichst verzögerungsfrei angesteuert.
