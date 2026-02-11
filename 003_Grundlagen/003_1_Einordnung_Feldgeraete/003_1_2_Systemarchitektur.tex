@@ -1,5 +1,5 @@
 \subsection{Systemarchitekturen und Einbindung von Feldgeräten}
-\label{Systemarchitektur_Feldgeraete}
+\label{2_1_2_Systemarchitektur_Feldgeraete}
 
 %% Was will ich hier sagen:
 % - Kurzer Absatz zu ICS/ OT wie generell so was organisiert ist
@@ -33,7 +33,9 @@ Ergänzend zeigt die Darstellung den Einsatz von Sicherheitskomponenten wie Fire
 	\end{center}
 \end{figure}
 
-%%Einordnung Ebenen
+%Einordnung der Ebenen
+\subsubsection{Einordnung in Ebenen des Purdue-Modells}
+\label{2_1_2_Einordnung_in_Ebenen_des_Purdue_Modells}
 % Ebene 5
 %Pass
 Das Purdue-Modell ergänzt oberhalb der Produktionsführungs- und Unternehmensebene noch eine Internet Ebene, Ebene~5, welche die typische Kommunikation mit dem Internet (Web, Mail) repräsentiert.
@@ -77,7 +79,10 @@ Dazu zählen beispielsweise Endschalter und Sensoren, die im Folgenden als Feldg
 Diese Komponenten interagieren einerseits direkt mit dem physikalischen Prozess und andererseits, über eine zugehörige Infrastruktur (z.\,B. Anschluss- und Kopplungskomponenten), mit den informationsverarbeitenden Einheiten der darüberliegenden Ebenen.
 Für die Kommunikation auf Ebene~0 besteht grundsätzlich die Notwendigkeit, Sensordaten und Aktorbefehle unter deterministischen bzw. echtzeitnahen Bedingungen zu übertragen. Zusätzlich müssen bei Bedarf Diagnose- und Konfigurationsdaten übermittelt werden, etwa für Inbetriebnahme, Wartung oder Parametrierung \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 
+
 %% Kommikation der Schichten
+\subsubsection{Kommunikation der Schichten}
+\label{2_1_2_Kommunikation_der_Schichten}
 %Pass
 Die horizontale und vertikale Kommunikation wird in der Praxis häufig über Feldbus- und Automatisierungsnetzwerke realisiert, die je nach Systemarchitektur und Generation sowohl ethernetbasiert als auch nicht ethernetbasiert ausgeprägt sein können.
 
@@ -102,6 +107,8 @@ Da der Fokus dieser Arbeit jedoch auf kabelgebundenen Kommunikationspfaden liegt
 %% Unterscheidung netzwerkfähig und nicht netzwerkfähig Feldgeräten bzw. Feldbussen
 
 % Unteschied OT/IT
+\subsubsection{Abgrenzung OT/IT}
+\label{2_1_2_Abgrenzung_OT_IT}
 %Pass
 Die in der Vergangenheit übliche physische Trennung der OT von anderen IT-Systemen und Datennetzen in Büroanwendungen ist heute aufgrund zunehmender Integrationsanforderungen nur in Ausnahmefällen bei erhöhtem Schutzbedarf anwendbar.
 Mehrstufige Produktionsschritte und deren übergreifende Steuerung sowie regulatorische Anforderungen machen es zunehmend notwendig, die OT auch über Organisationsgrenzen hinweg zu öffnen.

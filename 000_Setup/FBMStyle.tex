@@ -7,7 +7,7 @@
 %%========================================================================================== 
 \documentclass[
         final,                % wenn es denn fertig ist.. 
-        12pt,                 % Schriftgröße (10pt, 11pt, 12pt) 11:pala:ok, 
+        11pt,                 % Schriftgröße (10pt, 11pt, 12pt) 11:pala:ok, 
         twoside,              % oneside, twoside
         numbers=noenddot,     % Kapitelnummer ohne . am Ende
         headings=normal,      % Groesse der Ueberschrift (bigheadings, normalheadings, 
@@ -42,7 +42,8 @@
 \usepackage[T1]{url}          % much like \verb allow line breaks for paths and URLs
 \usepackage[utf8]{inputenc}   % Eingabe nach UTF-8  2016-09-16 
 
-\usepackage{epsfig,xspace}    % PS Bilder
+\usepackage{xspace}           % PS Bilder
+\usepackage{graphicx}    
 \usepackage{graphicx,color}   % JPEG und PNG 
                               % http://en.wikibooks.org/wiki/LaTeX/Colors 
                               
@@ -80,9 +81,11 @@
 \usepackage{ziffer}           % Komma in math. Umgebung ohne folgendes Leerzeichen
 \usepackage{cancel}           % Kürzen in Brüchen 
 \usepackage{siunitx}          % für Zahlen und Einheitem 2016-03-09  
-\usepackage{wasysym}          % für \Square 
+%\usepackage{wasysym}          % für \Square 
 
 \usepackage{booktabs}         %  toprule midrule 
+
+\usepackage{todonotes}
 
 %% 2016-09-16 
 \usepackage[backend=biber, language=ngerman, 
@@ -98,7 +101,7 @@ maxcitenames=1, 	% Kürzel nur aus 1. Autor
 backref=true, 		% Rückverweise auf Zitatseiten
 maxnames=50,
 block=none]%
-{biber}
+{biblatex}
 %http://www.khirevich.com/latex/biblatex/
 
 \ExecuteBibliographyOptions{%

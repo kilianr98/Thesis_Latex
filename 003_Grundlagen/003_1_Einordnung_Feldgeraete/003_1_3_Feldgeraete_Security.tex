@@ -1,11 +1,44 @@
 \subsection{Security-Relevante Bedeutung von Feldgeräten}
 \label{Feldgeraete_Security}
 
-%% Was will ich in dem Kapitel sagen:
-% - Wie wirkt sich security auf safety aus
-% - Wie kann ein Angriff auf Feldgeräte die OT gefährden
+\subsubsection{Feldgeräte als Einfallspunkt für Angriffe}
+%Einleitung
+%%Pass
+Jedes Feldgerät, das in ein OT-Netzwerk bzw. ein Industrial Control System (ICS) integriert wird, erweitert die Funktionalität des Gesamtsystems und zugleich auch dessen Angriffsfläche.
+Abhängig von Fähigkeiten und Kommunikationsschnittstellen, sowie der Einbindung in die Systemarchitektur, können von einzelnen Feldgeräten verschiedene Risiken ausgehen.
 
-% ICS hat Safety Bezug
+% - Wie kann ein Angriff auf Feldgeräte die OT gefährden MC3
+Betrachtet man die grundlegende Funktionalität von Feldgeräten, insbesondere von Sensoren an, so lassen sich in den meisten Fällen (rein analoge Geräte ohne zusätzliche Kommunikationsschnittstellen ausgenommen) zwei wesentliche Kommunikationspfade unterscheiden:
+Der Sensor-Kanal zur Übertragung von Messwerten an übergeordnete Steuerungen sowie der Control-Kanal, über den Parametrierung, Konfiguration oder Diagnose erfolgt.
 
+% 	- Control Channel MC3, MC5
+% 		- Wie läuft das ab MC3
+Ein Angriff über den Control-Kanal zielt darauf ab, eine Systemkomponente aus einer höheren Kommunikationsschicht (verweis purdue Modell), zu kompromittieren, um anschließend manipulierte Befehle in das System einzuschleusen\cite{mclaughlin_cybersecurity_2016}.
 
-% Auswirkungen durch manipulierten Messwert
+% - (HART as an attack vector)
+In der Praxis kann dies beispielsweise über missbrauchte Feldbus- oder Serviceprotokolle erfolgen. So wurde in \cite{alexander_hart_2014} gezeigt, dass über manipulierte HART-Kommandos nicht nur Feldgeräte beeinflusst, sondern unter bestimmten Voraussetzungen auch weiterführende IT-Systeme, bis hin zur Unternehmensebene, erreicht werden können.
+Der Control-Kanal eines Feldgeräts kann somit als Einstiegspunkt dienen, um über legitime Kommunikationsbeziehungen weiter in den OT- oder sogar IT-Bereich vorzudringen.
+
+% 	- Sensor Channel MC4
+Im Gegensatz dazu zielen Sensor-Channel-Angriffe auf die Manipulation der vom physikalischen Prozess gelieferten Messwerte.
+Hierbei werden Sensordaten verfälscht, sodass Steuerungen oder Leitsysteme auf Grundlage falscher Informationen Entscheidungen treffen.
+Ziel ist es, das Verhalten des Reglers gezielt zu beeinflussen oder einen realen Prozesszustand zu verschleiern.
+Diese als False-Data-Injection (FDI) bezeichneten Angriffe wurden ursprünglich im Kontext von Energieversorgungssystemen und Smart Grids beschrieben, gelten jedoch aufgrund der zunehmenden Vernetzung industrieller Anlagen als generisches Risiko für ICS-Umgebungen. Da industrielle Prozesse häufig sicherheitskritisch sind und erhebliche ökologische, wirtschaftliche oder gesellschaftliche Auswirkungen haben können, werden Manipulationen von Sensordaten als besonders schwerwiegender Angriffsvektor betrachtet.
+So kann beispielsweise eine künstlich abgesenkte Temperaturmessung dazu führen, dass die Heizleistung erhöht wird, obwohl keine tatsächliche Abweichung vorliegt, was im Extremfall zu einer unentdeckten Überhitzung führen kann. \cite{elnour_machine_2023,mclaughlin_cybersecurity_2016}.
+
+\subsubsection{Abgrenzung Safety - Security}
+% Zusammenhang und Abgrenzung zu Safety
+Cybersicherheit (Security) dient dem Schutz von OT-Systemen vor mutwilligen Manipulationen, die deren bestimmungsgemäßen Betrieb beeinträchtigen oder verhindern können.
+Ziel ist es, die Integrität, Verfügbarkeit und Vertraulichkeit der Systeme sowie deren sichere Funktionsfähigkeit aufrechtzuerhalten.
+Hierzu zählt insbesondere auch der Schutz sicherheitskritischer Funktionen, die im Rahmen der Funktionalen Sicherheit implementiert sind.
+
+Die Funktionale Sicherheit (Safety) verfolgt das Ziel, Menschen, Umwelt und Anlagen vor Gefährdungen zu schützen, die aus Fehlfunktionen technischer Systeme resultieren können \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+Sie adressiert somit unbeabsichtigte Fehlerzustände, während Security vorsätzliche Angriffe berücksichtigt.
+
+Cyberangriffe können jedoch unmittelbar Einfluss auf die Funktionale Sicherheit nehmen, indem sie sicherheitsgerichtete Systeme manipulieren oder außer Kraft setzen.
+Ein prägnantes Beispiel hierfür ist die im Jahr 2017 entdeckte TRITON-Malware. Diese zielte auf das Safety Instrumented System (SIS) einer petrochemischen Anlage in Saudi-Arabien ab und versuchte, dessen Schutzfunktionen gezielt zu manipulieren.
+Dadurch wurde die Fähigkeit des Systems, gefährliche Prozesszustände zu erkennen und abzusichern, beeinträchtigt, was potenziell zu schweren Personen- und Umweltschäden hätte führen können \cite{di_pinto_triton_2018}.
+Der Vorfall verdeutlicht, dass Security-Schwachstellen direkte Auswirkungen auf die Safety eines Systems haben können.
+
+Obwohl Safety und Security unterschiedliche Zielrichtungen verfolgen und jeweils eigene normative Rahmenwerke besitzen, sind sie in OT-Umgebungen eng miteinander verknüpft. Während Safety den Schutz von Menschen, Umwelt und Anlagen durch das System adressiert, zielt Security auf den Schutz des Systems vor externer Manipulation ab \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+Im deutschen Sprachgebrauch wird der Begriff „Sicherheit“ häufig für beide Aspekte verwendet. Sofern in dieser Arbeit nicht ausdrücklich anders gekennzeichnet, bezieht sich der Begriff auf Security im Sinne der Informations- und Cybersicherheit.
