@@ -1,0 +1,72 @@
+\section{Regulatorische Anforderungen an Feldgeräte}
+\label{Regularien}
+
+% Einleitung
+Mit der zunehmenden Vernetzung industrieller Systeme gewinnen regulatorische Anforderungen an die Cybersicherheit von Feldgeräten zunehmend an Bedeutung. Neben technischen Schutzmaßnahmen auf Systemebene werden auch konkrete Vorgaben an die sichere Entwicklung, Integration und den Betrieb einzelner Komponenten gestellt. Insbesondere Hersteller von Feldgeräten sind verpflichtet, Security-Aspekte bereits im Entwicklungsprozess zu berücksichtigen und geeignete Schutzmechanismen umzusetzen.
+
+Im Folgenden werden die für Feldgeräte besonders relevanten Anforderungen der IEC~62443-4-2 sowie die regulatorischen Vorgaben des Cyber Resilience Act näher betrachtet.
+
+%IEC 62443-4-2
+\subsection{IEC 62443-4-2}
+Die Normenreihe IEC 62443 stellt  Anforderungen zur Gewährleistung von IT-Sicherheit für industrielle Automatisierungs- und Kontrollsysteme (IACS\footnote{Der in der Normenreihe IEC 62443 verwendete Begriff Industrial Automation and Control Systems (IACS) ist Synonym mit dem in der Thesis verwendeten Begriff Industrial Control Systems (ICS).}).
+Sie umfasst funktionale Anforderungen an  Automatisierungslösungen, -systeme und -komponenten sowie prozessorientierte Vorgehensmodelle für  den Betrieb, die Systemintegration und die Produktentwicklung. Die Norm richtet sich an Hersteller,  Integratoren, Betreiber und besteht aus mehreren Teilnormen \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+Für die Entwicklung von Feldgeräten ist insbesondere die Teilnorm IEC~62443-4-2 von Bedeutung.
+Sie definiert technische Sicherheitsanforderungen auf Komponentenebene und legt fest, welche Security-Funktionen industrielle Geräte erfüllen müssen, um einem bestimmten Security-Level zu entsprechen.
+Dieses Security-Level spiegelt das angestrebte Schutzniveau gegenüber unterschiedlich leistungsfähigen Angreifern wider.
+
+% Inhalt IEC 62443-4-2
+Die IEC 62443-4-2 legt technische Sicherheitsanforderungen für Komponenten industrieller Automatisierungs- und Kontrollsysteme fest.
+Grundlage bilden sieben sogenannte grundlegende Anforderungen (Foundational Requirements, FR).
+Diese adressieren die Bereiche:
+
+\begin{enumerate}
+\item Identifizierung und Authentifizierung,
+\item Nutzungskontrolle,
+\item Systemintegrität,
+\item Vertraulichkeit von Daten,
+\item eingeschränkter Datenfluss,
+\item rechtzeitige Reaktion auf sicherheitsrelevante Ereignisse und
+\item Verfügbarkeit von Ressourcen.
+\end{enumerate}
+
+
+Für jede FR werden Security Levels (SL) definiert, die das angestrebte Schutzniveau gegenüber Angreifern mit zunehmenden Fähigkeiten, Ressourcen und Motivation beschreiben (SL~1 bis SL~4).
+Für Komponenten wird der erreichbare Schutzgrad pro FR, von 0 bis 4 angegeben.
+Wobei SL~0 bedeutet, dass für die jeweilige FR keine spezifischen Anforderungen gelten, und SL~1 bis SL~4 steigende technische Schutzmaßnahmen voraussetzen.
+
+Kann eine Anforderung nicht allein durch die Komponente erfüllt werden, sind ergänzende Maßnahmen auf Systemebene erforderlich; entsprechende Kompensationsmaßnahmen sind vom Hersteller zu dokumentieren \cite{noauthor_iec_2019}.
+
+% Zertifizierung nach der Norm
+Ist ein Produkt nach dieser Norm zertifiziert, so wird ein Zertifikat von einer unabhängigen Prüfstelle ausgestellt, die das entsprechende Security-Level angibt.
+In \cite{tuv_nord_vegapuls_2023} ist ein solches Zertifikat dargestellt.
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CRA
+\subsection{Cyber Resilience Act}
+%Einleitung CRA
+Der Cyber Resilience Act (CRA) verfolgt das Ziel, die Cybersicherheit von \glqq Produkten mit digitalen Elementen\grqq{} in der Europäischen Union zu erhöhen und hierfür einheitliche Mindestanforderungen festzulegen.
+Produkte mit digitalen Elementen sind im CRA solche Produkte, die direkt oder indirekt mit einem Gerät oder einem Netzwerk verbunden werden können.
+Damit soll Cybersicherheit nicht nur als freiwillige Qualitätsmaßnahme verstanden werden, sondern als verbindlicher Bestandteil der Produktkonformität.
+Hersteller sollen bereits bei der Entwicklung sicherstellen, dass ihre Produkte gegenüber typischen Bedrohungen angemessen geschützt sind, und sie müssen die Sicherheit zudem über den gesamten Produktlebenszyklus hinweg aufrechterhalten \cite{niemann_profinet_2025}. 
+
+%was bedeutet das für die Entwicklung von Feldgeräten
+Für die Entwicklung von Feldgeräten bedeutet dies vor allem eine Verschiebung von Best Practice hin zu nachweisbaren, konformitätsrelevanten Anforderungen.
+Hersteller müssen Bedrohungen und Risiken systematisch bewerten und daraus technische und organisatorische Maßnahmen ableiten, beispielsweise zum Schutz vor unbefugtem Zugriff, zur Sicherstellung der Integrität von Firmware und Konfiguration, zur Geheimhaltung der gespeicherten Daten, sowie zur Etablierung eines strukturierten Schwachstellenmanagement \cite{european_parliament_regulation_2024}.
+
+In der Praxis kann dies über bereits etablierte Normen und Sicherheitsstandards realisiert werden.
+Mappings, welche CRA-Anforderungen mit bestehenden Normen und Sicherheitspraktiken in Beziehung setzen, unterstützen eine pragmatische Umsetzung und erleichtern die Ableitung konkreter Entwicklungs- und Nachweispflichten.
+Da viele CRA-Zielrichtungen (z.\,B. systematische Risikoanalyse, sichere Produktentwicklung, Schutz zentraler Sicherheitsziele) inhaltlich mit Anforderungen der IEC~62443-Familie kompatibel sind, können Hersteller, die ihre Produktentwicklung bereits an dieser Normenreihe ausrichten, wesentliche CRA-Anforderungen konsistent abdecken \cite{european_commission_joint_research_centre_cyber_2024}.
+
+% Bedeutung non ip Geräte
+Eine besondere Herausforderung stellen Feldgeräte dar, die nicht ethernetbasiert sind, wie sie z.\,B. häufig in der Prozessindustrie vorkommen.
+Solche Geräte verfügen häufig nur über eingeschränkte oder gar keine kryptographischen Schutzmechanismen, da ihre Rechenleistung, Energieversorgung oder Protokolleigenschaften dies nicht vorsehen.
+Ihre Messwerte werden entweder analog oder über ältere Feldbus-Mechanismen übertragen, und es nicht zu erwarten, dass diese Feldbusse in Zukunft mit Sicherheitsfunktionen ausgestattet werden \cite{niemann_ot-sicherheitsanforderungen_2022}.
+Da diese Geräte jedoch digitale Elemente wie Firmware, digitale Parametrierung, Diagnosedaten oder Konfigurationsschnittstellen besitzen, fallen auch diese Geräte unter die Anforderungen des CRA.
+Für Hersteller ergibt sich daraus die zentrale Frage, wie CRA-relevante Vorgaben bei begrenzten Kommunikations- und Sicherheitsressourcen technisch sinnvoll umgesetzt und nachvollziehbar begründet werden können.
+
+
+% Aspekt Thesis
+Da die Anforderungen aus dem CRA für neue Produkte erst ab Dezember 2027 greift, liegen derzeit nur begrenzte praktische Erfahrungen zur konkreten Ausgestaltung der Konformitätsprozesse bei Feldgeräten vor \cite{niemann_profinet_2025}.
+Vor diesem Hintergrund ist die in dieser Arbeit vorgenommene Untersuchung besonders relevant.
+Sie adressiert die Frage, wie auch nicht ethernetbasierte Feldgeräte kryptographisch gestützte Sicherheitsmaßnahmen und belastbare Schutzkonzepte umsetzen können, um zukünftige regulatorische Anforderungen und Nachweiserwartungen zu erfüllen.

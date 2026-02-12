@@ -10,17 +10,17 @@
 %
 % !TeX outputDirectory=build
 % !TeX root = _iMain.tex
-\input{000_Setup/FBMStyle}
+\input{000_Setup/FBMStyle.tex}
 %
-\input{000_Setup/pdf-setup}      % z.B. Farben für Links  
-\input{000_Setup/macros}         % Macros lagen
+\input{000_Setup/pdf-setup.tex}      % z.B. Farben für Links  
+\input{000_Setup/macros.tex}         % Macros lagen
 \input{001_Vorspann/titleM}      % Titeldefinition, kann so nicht 
                                    % genutzt werden
 
 %--- Bib.Datei einbinden
 %\addbibresource{Literatur.bib}     % 
 \addbibresource{bib.bib}
-\input{000_Setup/Silbentrennung}  %	Defintionen für Silbentrennung
+\input{000_Setup/Silbentrennung.tex}  %	Defintionen für Silbentrennung
 
 \makeindex
 
@@ -44,7 +44,7 @@ exponent-product = \cdot,  % für .10^7
 %----------------------------------------
 
 \pagestyle{scrheadings}            % Kopf- und Fusszeilen
-\clearscrheadfoot                  % Alles auf "" setzen
+\clearpairofpagestyles                  % Alles auf "" setzen
 %\pagestyle{empty}
 
 \hypersetup{pageanchor=false}

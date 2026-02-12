@@ -1,3 +1,4 @@
 - Latex Fehlermeldungen durchgehen
-- Warum gibt es 2mal FBMStyle.tex?
 - Inhaltsverzeichnis, Überschriften tiefe anpassen -> tocdepth ändern crasht
+- Wie Abkürzungen richtig schreiben?
+

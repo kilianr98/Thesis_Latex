@@ -14,7 +14,8 @@
 % PASS
 Zur Einordnung von Funktionen, Systemen und Kommunikationsbeziehungen in industriellen Umgebungen wird häufig das Purdue-Modell (auch als Purdue Enterprise Reference Architecture, PERA, referenziert) verwendet.
 Es beschreibt ein hierarchisches Ebenenkonzept für industrielle Produktions- bzw.\ Prozesssysteme und strukturiert die Aufgabenverteilung von der operativen Prozessausführung bis zur unternehmensweiten Planung.
-Dabei wird zwischen horizontaler Kommunikation (innerhalb einer Ebene) und vertikaler Kommunikation (zwischen unterschiedlichen Ebenen) unterschieden. Für die Ebenen 0 bis 4 ist das Modell weitgehend kompatibel mit dem in der Praxis verbreiteten fünfstufigen Ebenenkonzept der Automatisierungspyramide, im Purdue-Ansatz werden jedoch zusätzlich Zonen zur Abgrenzung und Kopplung unterschiedlicher Domänen berücksichtigt, insbesondere eine Übergangszone (Level 3.5, OT-DMZ) sowie eine externe bzw.\ Internet-nahe Zone \cite{babel_systemintegration_2024}.
+Dabei wird zwischen horizontaler Kommunikation (innerhalb einer Ebene) und vertikaler Kommunikation (zwischen unterschiedlichen Ebenen) unterschieden. Für die Ebenen 0 bis 4 ist das Modell weitgehend kompatibel mit dem in der Praxis verbreiteten fünfstufigen Ebenenkonzept der Automatisierungspyramide.
+Im Purdue-Ansatz werden jedoch zusätzlich Zonen zur Abgrenzung und Kopplung unterschiedlicher Domänen berücksichtigt, insbesondere eine Übergangszone (Level 3.5, OT-DMZ) sowie eine externe bzw.\ Internet-nahe Zone \cite{babel_systemintegration_2024}.
 Damit rückt weniger die reine funktionale Hierarchie als vielmehr die Netzsegmentierung und die kontrollierte Gestaltung von Übergängen in den Vordergrund, um Kommunikationsflüsse zwischen Office-IT, OT/ICS und externen Netzen gezielt zu steuern und abzusichern \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 
 %%Beschreibung der Abbildung
@@ -50,7 +51,7 @@ Dazu zählen insbesondere die Grobplanung der Produktion sowie unterstützende F
 Eine weitere, wichtige Erweiterung ist die Übergangszone Ebene 3.5 (OT-DMZ) zwischen der Office-IT und der Produktion.
 Als Demilitarized Zone verhindert diese Zone eine direkte Kommunikation zwischen den beiden Segmenten.
 Informationen werden ausschließlich über in der DMZ bereitgestellte Schnittstellen ausgetauscht.
-Idealerweise wird die Verbindung hierbei von der Zone mit dem höheren Schutzbedarf (das ICS) aus aufgebaut.
+Idealerweise wird die Verbindung hierbei von der Zone mit dem höheren Schutzbedarf aus aufgebaut. Da das ICS (Industrial Control System) in der Regel einen höheren Schutzbedarf als die Office-IT aufweist, wird die Verbindung von dieser Seite initiiert.
 So dürfen zum Beispiel ICS-Systeme Daten auf eine Datenbank in der DMZ schreiben, die Office Systeme hier aber nur lesend zugreifen.
 
 % Ebene 3
@@ -86,18 +87,20 @@ Für die Kommunikation auf Ebene~0 besteht grundsätzlich die Notwendigkeit, Sen
 %Pass
 Die horizontale und vertikale Kommunikation wird in der Praxis häufig über Feldbus- und Automatisierungsnetzwerke realisiert, die je nach Systemarchitektur und Generation sowohl ethernetbasiert als auch nicht ethernetbasiert ausgeprägt sein können.
 
-Die Kommunikation in ICS ist nicht auf die jeweilige Ebene beschränkt. So kann der Wert eines Positionsgebers eines Ventils auf Ebene~0 über eine SPS auf Ebene~1 an eine Software auf Ebene~2 übertragen werden.
+Die Kommunikation in ICS ist nicht auf die jeweilige Ebene beschränkt.
+So kann der Wert eines Füllstandsensor eines Ventils auf Ebene~0 über eine SPS auf Ebene~1 an eine Software auf Ebene~2 übertragen werden.
 Für die ebenenübergreifende Kommunikation kommen häufig Gateways zum Einsatz.
 Das Gateway (Ebene 1) wandelt Daten des I/O-Subsystems auf dem Feldbus (Ebene 0) in ein anderes Protokoll um und leitet diese an ein System auf Ebene 2 weiter.
 Von dort wird die Kommunikation zu Ebene 3 und 4 jeweils durch eine Firewall gefiltert und über die DMZ, die als Sicherheitszone eine direkte Kommunikation zwischen Netzwerken verhindert, geleitet.
-So können Daten zwischen “beliebigen” Systemen ausgetauscht werden, aber nicht jedes System muss mit jedem direkt kommunizieren. Das ERP-System benötigt zum Beispiel keine Sensordaten von I/O Systemen auf dem Feldbus \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+So können Daten zwischen verschiedenen Systemen ausgetauscht werden, aber nicht jedes System muss mit jedem direkt kommunizieren. Das ERP-System benötigt zum Beispiel keine Sensordaten von I/O Systemen auf dem Feldbus \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 
 % Ethernet basiert nicht ethernet basiert
 \todo{Absatz unterschied ethernet basiert und nicht}
 
 %%4..20mA HART
 %%Pass
-In bestimmten Industriebereichen, insbesondere in der Prozessindustrie, sind zudem weiterhin zahlreiche Feldgeräte im Einsatz, die Messwerte über eine 4--20\,mA Stromschleife analog liefern. Häufig wird dies durch eine zusätzliche digitale Kommunikation ergänzt, über die Konfigurations- oder Diagnosedaten übertragen werden können (z.\,B. über HART) \cite{niemann_ot-sicherheitsanforderungen_2022}.
+In bestimmten Industriebereichen, insbesondere in der Prozessindustrie, sind zudem weiterhin zahlreiche Feldgeräte im Einsatz, die Messwerte über eine 4--20\,mA Stromschleife analog liefern.
+Häufig wird dies durch eine zusätzliche digitale Kommunikation ergänzt die wenig Energie benötigt und über die Konfigurations- oder Diagnosedaten übertragen werden können (z.\,B. über HART) \cite{niemann_ot-sicherheitsanforderungen_2022}.
 
 %% Drathlose Kommunikation
 %%Pass
@@ -112,4 +115,5 @@ Da der Fokus dieser Arbeit jedoch auf kabelgebundenen Kommunikationspfaden liegt
 %Pass
 Die in der Vergangenheit übliche physische Trennung der OT von anderen IT-Systemen und Datennetzen in Büroanwendungen ist heute aufgrund zunehmender Integrationsanforderungen nur in Ausnahmefällen bei erhöhtem Schutzbedarf anwendbar.
 Mehrstufige Produktionsschritte und deren übergreifende Steuerung sowie regulatorische Anforderungen machen es zunehmend notwendig, die OT auch über Organisationsgrenzen hinweg zu öffnen.
+Dieser Prozess wird häufig als IT/OT-Konvergenz bezeichnet, ein Begriff, der die zunehmende Verschmelzung von Informationstechnologie (IT) und Betriebstechnologie (OT) beschreibt.
 Diese Entwicklung wird durch den Trend zur Optimierung von Fertigungsprozessen noch beschleunigt, vor allem im Rahmen der Industrie 4.0.\cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
