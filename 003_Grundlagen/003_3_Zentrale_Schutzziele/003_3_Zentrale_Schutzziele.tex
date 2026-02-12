@@ -3,49 +3,49 @@
 
 %Einleitung
 % - Was beschreiben Schutzziele
-Die Sicherheit moderner IT- und OT-Systeme basiert auf dem Konzept der Informationssicherheit.
-Sie umfasst Maßnahmen und Strategien, die darauf abzielen, Systeme, Daten und Kommunikation vor unbefugtem Zugriff, Manipulation und Ausfall zu schützen. Informationssicherheit bildet dabei die Grundlage um sichere Feldgeräte, und somit sichere Anlagen zu entwickeln. 
+Die Sicherheit moderner IT- und OT-Systeme stützt sich unter anderem auf das Konzept der Informationssicherheit.
+Dieses umfasst Maßnahmen und Strategien, die darauf abzielen, Systeme, Daten und Kommunikation vor unbefugtem Zugriff, Manipulation und Ausfällen zu schützen
+Informationssicherheit bildet eine wesentliche Grundlage für die Entwicklung sicherer Feldgeräte und damit auch für den Aufbau zuverlässiger und sicherer Anlagen.
 
 Ein zentrales Element der Informationssicherheit sind sogenannte Schutzziele.
 Diese beschreiben, welche sicherheitsrelevanten Eigenschaften eines Systems oder einer Komponente erhalten bleiben müssen, um einen sicheren Betrieb zu gewährleisten.
 Für Feldgeräte, die in sicherheitskritischen Umgebungen eingesetzt werden, sind Schutzziele von besonderer Bedeutung, da sie die Grundlage für den Schutz vor Angriffen und die Gewährleistung eines zuverlässigen Betriebs bilden.
 
+%CIA Triade
+\paragraph{Die CIA-Triade und deren Anwendung in OT-Systemen}
+
+Die CIA-Triade ist ein zentrales Konzept der Informationssicherheit und definiert drei grundlegende Schutzziele:
+
+\begin{itemize}
+  \item Geheimhaltung (Confidentiality)
+  \item Integrität (Integrity)
+  \item Verfügbarkeit (Availability)
+\end{itemize}
+
+Sie dient als Grundlage für die Bewertung und den Schutz von IT- und OT-Systemen.
+
+Während in IT-Systemen die Geheimhaltung oft oberste Priorität hat, stehen in OT-Systemen die Integrität und Verfügbarkeit im Vordergrund. Dies liegt daran, dass ein Systemausfall oder die Manipulation von Daten direkte Auswirkungen auf physische Prozesse haben kann. Die Vertraulichkeit von Daten spielt hier im Vergleich eine geringere Rolle \cite{stouffer_guide_2023}.
+
 Die Normenreihe IEC 62443-4-2 konkretisiert diese Schutzziele auf Komponentenebene und definiert sieben Foundational Requirements (FR), die als normative Schutzziele interpretiert werden können.
 Diese Anforderungen adressieren zentrale Sicherheitsaspekte wie Authentifikation, Zugriffskontrolle und Integrität und bieten einen klaren Rahmen für die Entwicklung sicherer Feldgeräte.
+Es wurde auch noch das Schutzziel "Organisation" hinzugefügt, das verdeutlicht, das diese Anforderungen mittels organisatorischer Maßnahmen umgesetzt werden müssen. \todo{Die Zuordnung in Schutzziel macht keinen Sinn}
 
-Da sich diese Thesis hauptsächlich mit dem sicheren Verbindungsaufbau bei nicht netzwerkfähigen Geräten befasst, werden die Schutzziele dahingehend bewertet, ob sie durch das Protokoll selbst umgesetzt werden können oder ob es sich um Schutzziele handelt, die nicht allein durch ein Kommunikationsprotokoll gewährleistet werden können und daher zusätzliche organisatorische Maßnahmen erfordern.
-Im weiteren Verlauf dieses Kapitels werden diese Schutzziele näher betrachtet und als Grundlage für die Analyse und Umsetzung sicherheitsrelevanter Maßnahmen verwendet.
+\todo{Tabelle sauber beschrieben in Latex einfügen.}
+%Mapping der Anforderungen
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=1\textwidth]
+		{003_Grundlagen/003_3_Zentrale_Schutzziele/Mapping_Schutzziele.png}
+		\caption[Mapping der Anforderungen]
+		{\label{fig:Mapping_FR}
+			Mapping der Anforderungen -> DELETE
+        }
+	\end{center}
+\end{figure}
 
-- In der klassischen Informationssicherheit sowie in der OT wird oft von der CIA-Triade gesprochen. Das bedeuet Confidentialy (Geheimhaltung), Integrity (Integrität), Availability (Verfügbarkeit).
-- Während bei IT die Geheimhaltung an wichtigster stelle steht, ist es bei OT die integrity und Availability. Nicht in allen fällen ist Geheimhaltung ein relevantes Schutzziel \cite{stouffer_guide_2023}.
-- Das Schutzziel Integrität kann auch noch um das Schutzziel Authenticity erweitert werden. Das bedeutet, dass man verifizeren kann, dass die Nachricht von dem Absender kommt, von dem man es erwartet.
-- Somit sind nun  4 Schutzziele festgelegt, die Relevant für Feldgeräte sind.
+% Das kommt nach der Bewertung der Schutzziele
+Da sich diese Thesis mit dem sicheren Verbindungsaufbau bei nicht netzwerkfähigen Geräten befasst, werden die Schutzziele, die durch organisatorische Maßnahmen gewährleistet werden nicht weiter betrachtet.
+Generell gilt, dass nur Anforderungen durch das in der Thesis entwickelte Protokoll umgesetzt werden können, die auch kryptographisch umsetzbar sind.
+So kann beispielsweise ein Angriff auf die Verfügbarkeit eines Gerätes nicht verhindert werden, wenn ein Angreifer das Gerät physisch zerstört. 
 
-
-
-
-
-
-- Im OT Bereich ist 
-
-% - Schutzziele aus der IEC 62443
-\paragraph{Identifizierung und Authentifikation}
-1. Identifizierung und Authentifikation von menschlichen Nutzern
-2. Identifizierung und Authentifikation von Softwareprozessen und Geräten
-
-\paragraph{Nutzungskontrolle}
-
-\paragraph{Systemintegrität}
-
-\paragraph{Vertraulichkeit der Daten}
-
-\paragraph{Eingeschränkter Datenfluss}
-
-\paragraph{Rechtzeitige Reaktion auf Ereignisse}
-
-\paragraph{Verfügbarkeit der Ressourcen}
-
-
-
-- Informationssicherheit -> Schutzziele -> IEC 62443-4-2
-- Was bedeutet das, warum gibt es sie und wie ist der Bezug zu der Entwicklung von Feldgeräten?
+\todo{Näher auf die Schutzziele eingehen oder passt das so?}
