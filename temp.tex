@@ -1,0 +1,45 @@
+Findest du quellen, die die schutzzeile von Sensoren / Feldgeräten beschreiben?
+--------------
+Die Informationssicherheit umfasst Maßnahmen und Konzepte, die darauf abzielen, Systeme, Daten und Kommunikation vor unbefugtem Zugriff, Manipulation und Ausfall zu schützen. Sie bildet die Grundlage für den Schutz moderner IT- und OT-Systeme und gewährleistet, dass zentrale Sicherheitsanforderungen wie Vertraulichkeit, Integrität und Verfügbarkeit erfüllt werden. Diese Anforderungen werden durch sogenannte Schutzziele konkretisiert, die definieren, welche sicherheitsrelevanten Eigenschaften eines Systems oder einer Komponente erhalten bleiben müssen. Für die Entwicklung von Feldgeräten sind Schutzziele von besonderer Bedeutung, da sie die Grundlage für den Schutz vor Angriffen und die Gewährleistung eines sicheren Betriebs bilden.
+
+Die Normenreihe IEC 62443-4-2 überträgt dieses Konzept auf die Komponentenebene und definiert sieben Foundational Requirements (FR), die als normative Schutzziele interpretiert werden können. Diese Anforderungen adressieren zentrale Sicherheitsaspekte wie Authentifikation, Zugriffskontrolle und Integrität und bieten einen klaren Rahmen für die Entwicklung sicherer Feldgeräte. Im weiteren Verlauf der Arbeit werden diese Schutzziele aufgegriffen und als Grundlage für die Analyse und Umsetzung sicherheitsrelevanter Maßnahmen verwendet.
+----
+Schutzziele beschreiben in dieser Arbeit auf abstrakter Ebene, welche sicherheitsrelevanten Eigenschaften eines Feldgeräts bzw. seiner Kommunikation erhalten bleiben sollen, unabhängig von einer konkreten Implementierung.
+Die IEC 62443-4-2 operationalisiert dieses Konzept auf Komponentenebene durch sieben Foundational Requirements (FR), die sich gut als „normative Schutzziele“ interpretieren lassen. Im Folgenden werden die FR daher als Schutzziele formuliert, sodass im weiteren Verlauf der Thesis konsistent darauf zurückgegriffen werden kann.
+
+### Schutzziel 1: Identität und Authentifikation (IAC)
+
+Dieses Schutzziel stellt sicher, dass Kommunikationspartner (Mensch, Softwareprozess oder Gerät) eindeutig identifiziert und ihre Identität vor dem Zugriff nachgewiesen wird. Für Feldgeräte bedeutet das, dass weder ein unberechtigtes Engineering-Tool noch ein gefälschtes Gerät Zugriff auf Parametrierung oder Datenkanäle erhält. Die IEC 62443-4-2 bündelt diese Anforderungen in der FR Identifizierung und Authentifikation und adressiert damit insbesondere Spoofing-Risiken aus dem Bedrohungsmodell.
+Beispiel: Der Sensor weist sich beim Verbindungsaufbau über ein Gerätezertifikat (IDevID) nach; das Display akzeptiert nur Zertifikate einer vertrauenswürdigen CA.
+
+### Schutzziel 2: Autorisierung und Nutzungskontrolle (UC)
+
+Dieses Schutzziel legt fest, welche authentifizierten Subjekte welche Aktionen an der Komponente ausführen dürfen (z. B. Messwert lesen vs. Parameter schreiben). Für Sensoren ist das zentral, weil viele sicherheitskritische Manipulationen nicht über das Auslesen, sondern über Änderungen von Konfiguration, Messbereich oder Diagnosefunktionen erfolgen. Die IEC 62443-4-2 beschreibt dies als FR Nutzungskontrolle und fordert damit eine überprüfbare Trennung von erlaubten und nicht erlaubten Handlungen.
+Beispiel: Konfigurationsschreiben ist nur für eine Administratorrolle möglich; im Normalbetrieb ist das Gerät „read-only“ und Schreibzugriffe werden zusätzlich lokal freigeschaltet.
+
+### Schutzziel 3: Integrität von Gerät und Kommunikation (SI)
+
+Dieses Schutzziel schützt die Komponente vor unbemerkter Manipulation ihrer Firmware, Konfiguration und sicherheitsrelevanten Zustände sowie die Kommunikation vor unbemerkter Veränderung übertragener Informationen. Für Feldgeräte ist das besonders relevant, weil verfälschte Messwerte (FDI) oder manipulierte Konfigurationsbefehle direkt zu falschen Regelentscheidungen führen können. Die IEC 62443-4-2 fasst dies in der FR Systemintegrität zusammen und beinhaltet ausdrücklich auch Kommunikationsintegrität.
+Beispiel: Firmware-Updates werden nur akzeptiert, wenn sie signiert sind; Messwerte und Parameter werden im Protokoll mit AEAD (z. B. AES-GCM) integritätsgeschützt übertragen.
+
+### Schutzziel 4: Vertraulichkeit von Daten (DC)
+
+Dieses Schutzziel verhindert, dass sensible Informationen aus dem Gerät oder aus Kommunikationskanälen unbefugt offengelegt werden. Bei Sensoren betrifft das typischerweise weniger den Messwert selbst als vielmehr Konfiguration, Diagnosedaten, Identitäten, Schlüsselmaterial oder Betriebsparameter, die Angriffe erleichtern können. Die IEC 62443-4-2 adressiert dies als FR Vertraulichkeit der Daten und deckt damit Information-Disclosure-Risiken aus STRIDE ab.
+Beispiel: Konfigurationsdaten und Applikationsdaten werden verschlüsselt übertragen; sensitive Parameter werden zusätzlich im Gerät geschützt gespeichert (z. B. in einem Secure Element).
+
+### Schutzziel 5: Eingeschränkter Datenfluss (RDF)
+
+Dieses Schutzziel stellt sicher, dass Daten nur entlang notwendiger Kommunikationsbeziehungen fließen und dass unnötige oder gefährliche Pfade verhindert werden. Für Feldgeräte ist das vor allem eine Architekturfrage, weil viele Angriffe erst durch unkontrollierte Erreichbarkeit (z. B. aus Office-IT) möglich werden. Die IEC 62443-4-2 formuliert dies als FR eingeschränkter Datenfluss und verweist damit implizit auf Zonen-/Conduit-Konzepte und Systemsegmentierung.
+Beispiel: Der Sensor ist nur aus einer definierten Engineering-Zone erreichbar; Übergänge sind durch Segmentierung/Filterregeln (Firewall/Gateway) beschränkt.
+
+### Schutzziel 6: Rechtzeitige Reaktion auf Ereignisse (TRE)
+
+Dieses Schutzziel umfasst die Fähigkeit, sicherheitsrelevante Ereignisse zu erkennen, zu protokollieren und angemessen darauf zu reagieren. Für Feldgeräte bedeutet das vor allem: nachvollziehbare Zustände (z. B. Konfigurationsänderungen, Auth-Fehler) und definierte Reaktionswege, damit Vorfälle zeitnah bearbeitet werden können. Die IEC 62443-4-2 beschreibt dies als FR rechtzeitige Reaktion auf Ereignisse – allerdings ist dieses Ziel nur teilweise durch Kryptografie in einem Kommunikationsprotokoll erreichbar und hängt stark von Betriebsprozessen ab, weshalb es in dieser Thesis nicht als primär „kryptografisch zu erfüllendes“ Schutzziel behandelt wird.
+Beispiel: Das Gerät protokolliert fehlgeschlagene Anmeldeversuche und Parametrieränderungen und stellt diese für Wartung/Analyse bereit (lokal oder über ein zentrales System).
+
+### Schutzziel 7: Verfügbarkeit der Ressourcen (RA)
+
+Dieses Schutzziel stellt sicher, dass die Komponente ihre wesentlichen Funktionen auch bei Überlast, Störungen oder gezielten DoS-Versuchen möglichst aufrechterhält. Für Sensoren bedeutet das insbesondere: Messwertbereitstellung und sicherheitsrelevante Basisfunktionen dürfen nicht durch Kommunikationsmissbrauch blockiert werden. Die IEC 62443-4-2 fasst dies als FR Verfügbarkeit der Ressourcen zusammen und adressiert damit Denial-of-Service-Risiken aus STRIDE.
+Beispiel: Rate-Limiting für eingehende Service-/Handshake-Anfragen, robuste Timeouts und Watchdog-Mechanismen verhindern, dass das Gerät durch Nachrichtenfluten dauerhaft gebunden wird.
+
+Einordnung für den weiteren Verlauf der Thesis: Der Fokus der Arbeit liegt auf Schutzzielen, die sich direkt kryptografisch durch das Protokoll unterstützen lassen – insbesondere Authentifikation/Authentizität (IAC), Integrität (SI) und Vertraulichkeit (DC) sowie in Teilen Nutzungskontrolle (UC) über abgesicherte Zugriffe auf Parametrierfunktionen. Schutzziele wie TRE und RDF bleiben dennoch wichtig, werden hier aber primär als system- und prozessgetriebene Anforderungen verstanden, die nicht allein durch ein Kommunikationsprotokoll garantiert werden können, sondern zusätzliche organisatorische und architekturelle Maßnahmen erfordern.
