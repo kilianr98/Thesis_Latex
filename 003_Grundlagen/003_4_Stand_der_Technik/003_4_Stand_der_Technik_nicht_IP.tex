@@ -71,93 +71,26 @@ Damit kann ein Angreifer mit physischem Zugriff auf die Signalleitung Daten mitl
 Genau an dieser Stelle setzt die vorliegende Arbeit an, indem eine gerätebasierte Identität über Zertifikate und ein sicherer Verbindungsaufbau auch für nicht IP-basierte Kommunikationskanäle konzipiert und umgesetzt wird.
 
 %Ausblick
-\paragraph{Kryptografie als praktikable Option auf modernen Feldgeräten}
-Die vorherigen Abschnitte zeigen, dass nicht ethernet-basierte Feldgeräte heute häufig keine protokollseitige Absicherung von Integrität und Vertraulichkeit bieten und dass diese Lücke in der Praxis überwiegend durch physische und organisatorische Maßnahmen kompensiert wird.
-Gleichzeitig haben sich die technischen Rahmenbedingungen in den letzten Jahren deutlich verschoben.
+\paragraph{Kryptografie als Option auf modernen Feldgeräten}
+Die vorherigen Abschnitte zeigen, dass nicht ethernet-basierte Feldgeräte heute häufig keine protokollseitige Absicherung von Integrität und Vertraulichkeit bieten und das diese Lücke in der Praxis überwiegend durch physische und organisatorische Maßnahmen kompensiert wird.
+Gleichzeitig haben sich die technischen Rahmenbedingungen für Feldgeräte in den letzten Jahren deutlich verschoben.
 Moderne Mikrocontroller integrieren dedizierte Krypto-Peripherie bzw. Hardwarebeschleuniger, sodass kryptografische Verfahren nicht mehr zwangsläufig im Widerspruch zu den typischen Restriktionen (begrenzte Rechenleistung, enger Energiehaushalt, zeitliche Anforderungen) stehen.
-Hierbei werden kryptographische Primitive, 
-spezialisierten Hardwareblöcken ausgeführt, wodurch sowohl die benötigten CPU-Taktzyklen als auch die aktive Laufzeit des Prozessorkerns deutlich sinken \cite{}.
-Beispielhafte Messungen auf einem STM32U3 verdeutlichen die Größenordnung: Für AES-128-GCM erreicht die Hardware etwa 9{,}17~\si{\mega\byte\per\second}, während eine Software-Implementierung auf demselben Controller bei etwa 0{,}76~\si{\mega\byte\per\second} liegt; für SHA-256 wurden 45{,}87~\si{\mega\byte\per\second} (Hardware) gegenüber 1{,}355~\si{\mega\byte\per\second} (Software) gemessen \cite{oryx_embedded_benchmark_nodate}.
-Das entspricht einer Beschleunigung um etwa den Faktor 12 bzw.~34.
-Für den Energiehaushalt ist dabei nicht nur die Effizienz der Hardwareoperation selbst relevant, sondern vor allem die verkürzte Aktivzeit: Wenn kryptografische Berechnungen schneller abgeschlossen sind, kann der Mikrocontroller früher in stromsparende Zustände zurückkehren, und zeitkritische Funktionen werden weniger lange durch CPU-Last blockiert.
+Hierbei werden kryptographische Primitive,\todo{Definition Kryptografische Primitive raussuchen}
+in speziell dafür entwickelten Hardwareblöcken berechnet, wodurch einerseits der Przoessor entlastet wird und die kryptographischen Berechnungen deutlich schneller und effizienter berechnet werden \cite{stmicroelectronics_ds14830_2025}.
+
+Beispielhafte Messungen auf einem STM32U3 verdeutlichen die Größenordnung: Für AES-128-GCM erreicht die Hardware\footnote{Hardware bezieht sich auf den HW-Beschleuniger und Software auf die Berechnung mittels CyclonePRO-Softwarebibliothek auf dem Mikrocontroller} etwa 9{,}17~\si{\mega\byte\per\second}, während eine Software-Implementierung auf demselben Controller bei etwa 0{,}76~\si{\mega\byte\per\second} liegt.
+Für SHA-256 wurden 45{,}87~\si{\mega\byte\per\second} (Hardware) gegenüber 1{,}355~\si{\mega\byte\per\second} (Software) gemessen \cite{oryx_embedded_benchmark_nodate}.
+Das entspricht einer Beschleunigung um etwa den Faktor 12 bzw.~34, während der Energieverbrauch nur leicht steigt \todo{Messungen hinzufügen, oder darauf verweisen}.
+
+Parallel zu dieser Entwicklung im Bereich Hardware, stehen aber auch für Berechnung in Software optimierte Verfahren zur Verfügung, etwa \emph{Curve25519} für Schlüsselaustausch und Signaturen, sowie \emph{ChaCha} als schnelle Alternative für symmetrische Verschlüsselung \cite{paar_understanding_2024}.
 
 Ergänzend dazu werden Secure Elements oder vergleichbare geschützte Ausführungsumgebungen eingesetzt, wenn langfristige Schlüssel und Identitäten auch gegen Softwarefehler und physische Angriffe abgesichert werden müssen.
-Sie trennen Schlüsselmaterial und sicherheitskritische Operationen (z.\,B. Signaturen oder Schlüsselaustausch) vom Anwendungsprozessor, sodass private Schlüssel idealerweise weder im Klartext im Hauptspeicher erscheinen noch durch die Applikation direkt verarbeitet werden.
+Sie trennen Schlüsselmaterial und sicherheitskritische Operationen (z.\,B. Signaturen oder Schlüsselaustausch) vom Mikrocontroller, sodass private Schlüssel idealerweise weder im Klartext im Hauptspeicher erscheinen noch durch die Applikation direkt verarbeitet werden.
 Je nach Plattform ist dies als separater Baustein oder als integrierte Sicherheitsfunktion des Mikrocontrollers realisiert.
+Diese Baugruppen bringen noch weitere Funktionen wie sichere Schlüsselerzeugung, zertifzierte Entropiequellen, Anti-Tampering- und sichere Bootmechanismen mit sich. 
 
-Damit entsteht ein neuer Handlungsspielraum: Obwohl klassische nicht IP-basierte Feldbusprotokolle weiterhin kaum Security-Funktionen bereitstellen, ist es heute technisch und energetisch realistisch, kryptografisch abgesicherte Geräteidentitäten und gesicherte Sitzungen auch in energieoptimierten Feldgeräten umzusetzen.
+Obwohl klassische nicht IP-basierte Feldbusprotokolle weiterhin kaum Security-Funktionen bereitstellen, ist es heute technisch und energetisch realistisch, kryptografisch abgesicherte Geräteidentitäten und gesicherte Sitzungen auch in energieoptimierten Feldgeräten umzusetzen.
 Diese Entwicklung bildet die Grundlage für die nachfolgenden Kapitel, in denen ein entsprechender Ansatz konzipiert und auf die Randbedingungen nicht netzwerkfähiger Feldgeräte angepasst wird.
-
-
-\iffalse
-% AKtueller Stand HW Krypto..
-\paragraph{HW Crypto}
-Ein etablierter Ansatz \todo{Formulierung}, um den Zielkonflikt zwischen Performance und Energieverbrauch zu entschärfen, ist der Einsatz dedizierter Krypto-Peripherie bzw.~ Hardwarebeschleuniger. 
-Hierbei werden rechenintensive Primitive wie AES, SHA oder ECC in eigenständigen Hardwareblöcken implementiert, die speziell auf diese Operationen hin optimiert sind und deutlich weniger Taktzyklen sowie weniger Energie pro Operation benötigen als eine reine Software-Implementierung. %\cite{banerjee_energy-efficient_2017,panic_embedded_2016,rozlomii_hardware_2024}
-Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
-Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
-9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
-Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
-Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
-Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
-Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware kryptographische Operationen in vertretbarer Zeit ausführbar, sobald geeignete Hardwarebeschleuniger vorhanden sind. \todo{Wie verhält sich der Energieverbrauch dabei?}
-
-
-Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
-Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
-Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.
-\fi
-
-% Energie
-
-% Rechenleistung
-
-% Warum ist Air gapped nicht ausreichend
-
-
-
-\iffalse
-\todo{Beschreibung des Kapitels einfügen}
-
-
-% ## 1. Einordnunug und Begriffsdefinition
-
-
-
-%%% Passt
-
-
-
-Die beschriebenen Verfahren sind in der industriellen Praxis etabliert, haben jedoch systematische Grenzen. Insbesondere liefern Seriennummer, Dokumentationsabgleich und konfigurierbare Kennzeichen (z.\,B.\ Tag-Felder) keinen kryptografischen Beweis dafür, dass die Kommunikationsbeziehung tatsächlich mit dem erwarteten physischen Gerät endet. Konfigurierbare Identifikationsattribute können prinzipiell geändert oder nachgeahmt werden.
-
-Zudem adressieren rein physische Schutzmaßnahmen Insider-Bedrohungen nur begrenzt: Personen mit berechtigtem Zugang können Geräte tauschen, manipulieren oder Parameter verändern, ohne dass dies zwangsläufig erkannt wird.
-OT-Sicherheitsleitfäden behandeln solche Risiken unter anderem durch Forderungen nach kontrollierten Änderungen, Protokollierung und klaren Rollen/Prozessen, weisen aber zugleich darauf hin, dass organisatorische Maßnahmen allein keinen technischen Herkunftsnachweis des Geräts liefern \cite{stouffer_guide_2023}.
-Für nicht netzwerkfähige Feldgeräte ergibt sich daraus eine Lücke zwischen praktischer Zuordnung (Asset-Verwaltung) und technischer, beweisbarer Geräteauthentizität.
-Weiterhin gibt es auch Einsatzbereiche, die nicht physisch schützbar sind, da sie öffentlich zugänglich sind.
-Beispielsweise Sensoren, die im Bereich Wastewater, also z.B. Kanalisation, eingesetzt werden. 
-
-% 5 Warum gibt es keine Krypto?
-\subsection{Warum gibt es keine Kryptografie?}
-Dieses Kapitel ordnet ein, weshalb kryptografisch abgesicherte Kommunikation in nicht netzwerkfähigen Feldgeräten historisch nur eingeschränkt umgesetzt wurde und welche Entwicklungen diese Situation heute verändern.
-
-
-
-%HW Krypto
-In den letzten Jahren hat sich die Hardwarelandschaft jedoch deutlich weiterentwickelt. Moderne Mikrocontroller für Industrie- und Embedded-Anwendungen integrieren zunehmend dedizierte Krypto-Beschleuniger, etwa für AES, SHA und elliptische Kurvenverfahren (ECC). Ergänzend werden Sicherheitsfunktionen wie geschützte Schlüsselspeicher, sichere Bootketten, TrustZone-basierte Isolierung, manipulationsresistente Speicherbereiche oder externe Secure-Elemente verfügbar. Dadurch verlagern sich rechenintensive kryptografische Primitive in spezialisierte Hardwareblöcke, die sowohl schneller als auch energieeffizienter arbeiten als reine Softwareimplementierungen.
-Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
-Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
-9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
-Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
-Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
-Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
-
-Aus Systemsicht hat dies zwei Konsequenzen. Erstens wird Kryptografie unter den Randbedingungen der Feldebene überhaupt erst praktikabel, weil Energie- und Laufzeitkosten pro Operation sinken. Zweitens eröffnen sich dadurch neue Architekturoptionen: Auch ohne vollwertigen IP-Stack kann ein Gerät kryptografische Operationen, Schlüsselableitung und geschützte Datenübertragung realisieren, sofern ein zuverlässiger Byte-Transportkanal vorhanden ist. Damit werden auf IP basierende Konzepte prinzipiell auch über serielle oder proprietäre Feldschnittstellen denkbar, vorausgesetzt Protokollaufbau und Nachrichtenformate werden an die beschränkten Ressourcen angepasst.
-
-Trotz der verbesserten Hardwarebasis bleibt eine wesentliche Lücke bestehen: Für viele nicht-IP-basierte Feldkommunikationswege existiert kein breit etablierter Standard, der eine kryptografisch eindeutige Geräteidentifikation bietet.
-Das obwohl mittlerweile durch entsrpechende HW, die Möglichkeit kryptografische Operationen in akzeptabler Zeit durchzuführen, da ist.
-
-\fi
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ende
 \iffalse
@@ -169,48 +102,6 @@ Hieraus entsteht die Gefahr das Daten von Angreifern abgefangen sogar manipulier
 In einem solchen Fall ist die Integrität und die Vertraulichkeit der Daten nicht mehr sichergestellt. 
 Ein Angreifer mit physischem Zugriff auf das OT-Netz kann diese Werte somit auslesen, verändern oder neue einspielen (z. B. zur Steuerung einer Maschine oder zur Fälschung von Sensordaten \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 
-% Warum gibt es keine krypto?
-
-
-% Wie wird geschützt?
-% Air Gapped
-
-
-% Thema lange Einsatzdauer
-Ein weiterer Aspekt ist die lange Einsatzdauer industrieller Feldgeräte.
-Komponenten der Betriebstechnik (OT) werden in industriellen Steuerungssystemen typischerweise über Zeiträume von 10 bis 15 Jahren oder länger betrieben, deutlich länger als klassische IT-Hardware (Zitat).
-Das bedeutet, dass heute noch eine große installierte Basis von Feldgeräten mit älterer, nicht kryptofähiger Hardware im Feld ist.
-Die Modernisierung hin zu Geräten mit integrierter Krypto-Hardware und damit die breite Umsetzung kryptografisch gesicherter Verbindungen bis hinunter zum Feldgerät erfolgt daher nur schrittweise im Rahmen von Migrations- und Retrofit-Projekten
-und wird durch Lebensdauer, Zertifizierungen (z. B. ATEX/IECEx) und die hohen Kosten von Gerätewechseln zusätzlich verlangsamt.
-
-
-% Thema begrenzter Strom
-Bei vielen industriellen Feldgeräten, insbesondere bei Feldgeräten mit 2-Draht-Technik, ist der verfügbare Energiehaushalt stark begrenzt.
-Der Strom für die gesamte Elektronik (Sensorik, A/D-Wandlung, Signalverarbeitung und Kommunikation) muss typischerweise aus wenigen Milliampere der Stromschleife bereitgestellt werden. 
-Designrichtlinien wie \cite{johnson_power_2013} nennen für Feldgeräte Budgets von etwa 3~bis 3{,}5~\si{\milli\ampere} für die interne Elektronik, die nicht überschritten werden dürfen, damit der Messbereich von 4~bis 20~\si{\milli\ampere} eingehalten werden kann. %Pass
-
-Kryptographische Verfahren, die rein in Software auf einem Mikrocontroller ohne spezielle Krypto-Peripherie ausgeführt werden,
-sind im Vergleich zu klassischer Signalverarbeitung in der Regel deutlich rechen- und energieintensiver.
-Die Ausführung von Beispielsweise AES oder ECC in Software, weist eine hohe Anzahl von Taktzyklen auf und entsprechend einen signifikanten Energiebedarf pro Operation, was sich unmittelbar auf Laufzeit und Leistungsaufnahme auswirkt. \todo{Brauch ich hier eine Quelle?}
-
-In Feldgeräten, deren Taktfrequenz zusätzlich bewusst niedrig gewählt wird, um die Verlustleistung zu minimieren, müssen diese kryptographischen Operationen in das ohnehin sehr knappe Leistungsbudget eingepasst werden. 
-Dies kann dazu führen, dass entweder die Rechenzeiten für Kryptofunktionen inakzeptabel lang werden, oder der zulässige Energieverbrauch überschritten würde. 
-In der Praxis ist dies ein wesentlicher Grund dafür, dass viele existierende Feldgeräte bislang keine oder nur sehr eingeschränkt kryptographische Mechanismen unterstützen. \todo{Quelle finden}.
- 
-Ein etablierter Ansatz \todo{Formulierung}, um diesen Zielkonflikt zu entschärfen, ist der Einsatz dedizierter Krypto-Peripherie bzw.~ Hardwarebeschleuniger. 
-Hierbei werden rechenintensive Primitive wie AES, SHA oder ECC in eigenständigen Hardwareblöcken implementiert, die speziell auf diese Operationen hin optimiert sind und deutlich weniger Taktzyklen sowie weniger Energie pro Operation benötigen als eine reine Software-Implementierung. %\cite{banerjee_energy-efficient_2017,panic_embedded_2016,rozlomii_hardware_2024}
-Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
-Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
-9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
-Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
-Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
-Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
-Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware kryptographische Operationen in vertretbarer Zeit ausführbar, sobald geeignete Hardwarebeschleuniger vorhanden sind. \todo{Wie verhält sich der Energieverbrauch dabei?}
-
-
-Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
-Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
-Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.
 
 %Unterschied IP non ip
 Zu den nicht-netzwerkfähigen Geräten im Sinne dieser Arbeit zählen ebenfalls Feldgeräte, die keine direkte Verbindung zu einer übergeordneten Steuerung besitzen, sondern deren Messwerte ausschließlich lokal bereitgestellt werden, beispielsweise über ein angeschlossenes Anzeige- oder Bediengerät.
