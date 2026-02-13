@@ -8,17 +8,17 @@ Jedes Feldgerät, das in ein OT-Netzwerk bzw. ICS integriert wird, erweitert die
 Abhängig von Fähigkeiten und Kommunikationsschnittstellen, sowie der Einbindung in die Systemarchitektur, können von einzelnen Feldgeräten verschiedene Risiken ausgehen.
 
 % - Wie kann ein Angriff auf Feldgeräte die OT gefährden MC3
-Betrachtet man die grundlegende Funktionalität von Feldgeräten, insbesondere von Sensoren, so lassen sich in den meisten Fällen, ausgenommen rein analoge Geräte ohne Kommunikationsschnittstellen, zwei wesentliche Kommunikationspfade unterscheiden
-Der Sensor-Kanal zur Übertragung von Messwerten an übergeordnete Steuerungen sowie der Control-Kanal, über den Parametrierung, Konfiguration oder Diagnose erfolgt.
+Betrachtet man die grundlegende Funktionalität von Feldgeräten, insbesondere von Sensoren, so lassen sich in den meisten Fällen, ausgenommen rein analoge Geräte ohne Kommunikationsschnittstellen, zwei wesentliche Kommunikationspfade unterscheiden.
+Der Sensor-Channel zur Übertragung von Messwerten an übergeordnete Steuerungen sowie der Control-Channel, über den Parametrierung, Konfiguration oder Diagnose erfolgt.
 
 % 	- Control Channel MC3, MC5
 % 		- Wie läuft das ab MC3
-Ein Angriff über den Control-Kanal zielt darauf ab, eine Systemkomponente aus einer höheren Kommunikationsschicht, zu kompromittieren, um anschließend manipulierte Befehle in das System einzuschleusen\cite{mclaughlin_cybersecurity_2016}.
+Ein Angriff über den Control-Channel zielt darauf ab, eine Systemkomponente aus einer höheren Kommunikationsschicht, zu kompromittieren, um anschließend manipulierte Befehle in das System einzuschleusen\cite{mclaughlin_cybersecurity_2016}.
 
 % - (HART as an attack vector)
 In der Praxis kann dies beispielsweise über ausgenutzte Schwachstellen in Feldbus- oder Serviceprotokollen erfolgen.
 Wie in \cite{alexander_hart_2014} gezeigt wurde, können manipulierte HART-Kommandos nicht nur Feldgeräte beeinflussen, sondern unter bestimmten Bedingungen auch weiterführende IT-Systeme bis hin zur Unternehmensebene kompromittieren.
-Der Control-Kanal eines Feldgeräts kann somit als Einstiegspunkt dienen, um über legitime Kommunikationsbeziehungen weiter in den OT- oder sogar IT-Bereich vorzudringen.
+Der Control-Channel eines Feldgeräts kann somit als Einstiegspunkt dienen, um über legitime Kommunikationsbeziehungen weiter in den OT- oder sogar IT-Bereich vorzudringen.
 
 % 	- Sensor Channel MC4
 Im Gegensatz dazu zielen Sensor-Channel-Angriffe auf die Manipulation der vom physikalischen Prozess gelieferten Messwerte.

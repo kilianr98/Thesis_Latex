@@ -1,71 +1,134 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Gesetzt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Stand der Technik bei nicht netzwerkfähigen Feldgeräten
 \subsection{Stand der Technik bei nicht netzwerkfähigen Feldgeräten}
-\label{2_3_1_Stand_Technik_Non_IP}
-\sloppy 
+\label{2_4_1_Stand_Technik_Non_IP}
+Für nicht netzwerkfähige Feldgeräte sehen die zugehörigen Feldbusstandards keinerlei Security-Maßnahmen vor.
+Keiner der gängigen Feldbusse, weder HART, PROFIBUS PA, OPC noch MODBUS unterstützt Sicherheitsfunktionen in Bezug auf Integrität, Verschlüsselung oder Authentifizierung. Auch ist nicht davon auszugehen, dass sich dies in absehbarer Zeit ändern wird \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics-security-kompendium_2014}\cite{niemann_ot-sicherheitsanforderungen_2022}.
+
+Die Ursachen für das Fehlen protokollseitiger Sicherheitsmechanismen sind vielfältig und historisch gewachsen.
+
+% PASS
+% Physischer Schutz und Air Gaps
+\paragraph{Physischer Schutz und Air-Gaps}
+ICS-Anlagen befinden sich in der Regel in physisch abgesicherten Bereichen, die durch Zäune, Mauern oder vergleichbare Barrieren geschützt sind.
+Der Zugang zu den Feldgeräten ist dabei auf das vor Ort tätige Betriebspersonal sowie auf externe Dienstleister, etwa für Inbetriebnahme oder Wartung, beschränkt \cite{niemann_ot-sicherheitsanforderungen_2022}.
+Zusätzlich wurden insbesondere ältere Anlagen häufig physisch von anderen Netzwerken isoliert, um sie vor Cyberangriffen zu schützen.
+Da sich die Geräte in einem abgeschotteten Bereich befanden und nicht von außen erreichbar waren, wurde lange Zeit argumentiert, dass dieser Schutz ausreichend sei \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+Diese sogenannten \emph{Air-Gaps}, also die vollständige Trennung von IT und OT, erreichen in der Praxis jedoch selten das angestrebte Schutzniveau.
+Häufig ist trotz der physischen Trennung ein Datenaustausch zwischen den Netzen notwendig oder gewünscht, und genau diese Schnittstellen können von Angreifern ausgenutzt werden, um die Isolation zu überwinden \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+Darüber hinaus ist eine vollständige Trennung der OT von der IT heute nur noch in Ausnahmefällen und bei besonders hohem Schutzbedarf umsetzbar.
+Mehrstufige Produktionsprozesse, deren systemübergreifende Steuerung sowie regulatorische Vorgaben erfordern zunehmend eine Vernetzung der OT, auch über Organisationsgrenzen hinweg. Verstärkt wird diese Entwicklung durch den Trend zur Optimierung von Fertigungsprozessen im Kontext von Industrie 4.0 \cite{deutschland_it-grundschutz-kompendium_2023}.
+
+Selbst bei ausreichender Absicherung der OT und einem physischen Zugangsschutz bestehen weiterhin Risiken den Angreifer von innen mit direktem Zugriff auf das Automatisierungsnetzwerk oder das Feldgerät könnten gezielt Schwachstellen ausnutzen.
+Eine Studie von Bitkom zeigt, dass interne Bedrohungen eine erhebliche Gefahr darstellen: 62\,\% der Angriffe auf deutsche Unternehmen gehen von aktuellen oder ehemaligen Mitarbeitern aus \cite{streim_spionage_2017}.
+Mit entsprechendem Zugang wäre es beispielsweise möglich, ein Feldgerät unbemerkt durch ein manipuliertes Gerät auszutauschen.
+
+Darüber hinaus gibt es Einsatzszenarien, in denen ein flächendeckender physischer Schutz nicht realisierbar ist.
+Auch wenn das Feldgerät selbst und zugehörige Komponenten wie Gateways vor unbefugtem Zugriff geschützt sind, können Verbindungsleitungen, insbesondere bei größeren Distanzen, ungeschützt verlaufen.
+Ein charakteristisches Beispiel ist die Füllstandsmessung an einem Stausee oder Überlaufbecken, wo die Messleitungen über längere Strecken außerhalb kontrollierten Bereichs verlaufen können.
+
+
+%Technische Einschränkungen
+\paragraph{Technische Einschränkungen}
+Neben den physischen Schutzmaßnahmen spielen auch technische Limitierungen eine wesentliche Rolle für das Fehlen protokollseitiger Sicherheitsmechanismen.
+
+Viele der heute eingesetzten Feldgeräte stammen aus einer Zeit, in der Cybersicherheitsbedrohungen noch nicht in dem heutigen Ausmaß existierten.
+Diese Legacy-Systeme verfügen weder über die erforderliche Hardware noch über die Softwareunterstützung, um moderne Sicherheitsverfahren umzusetzen.
+Da Anlagen im OT-Umfeld häufig über mehrere Jahrzehnte betrieben werden, ist eine große installierte Basis solcher Geräte nach wie vor im Einsatz \cite{stouffer_guide_2023}.
+
+Kryptografische Verfahren, insbesondere asymmetrische Algorithmen, sind ohne dedizierte Krypto-Peripherie vergleichsweise rechenintensiv.
+Zusätzlicher Rechenaufwand aufgrund Berechnung kryptographischer Operationen würde die verfügbare Verarbeitungszeit zusätzlich beanspruchen und steht damit in direktem Konflikt mit den begrenzten Ressourcen der Feldgeräte \cite{mclaughlin_cybersecurity_2016}.
+
+Kryptographische Operationen, stehen zudem auch im Konflikt mit dem Energieverbrauch der Fedlgeräte.
+Nicht netzwerkfähige Feldgeräte sind häufig für besonders robuste und energieeffiziente Betriebsbedingungen ausgelegt.
+Bei 2-Draht-Geräten muss die gesamte Elektronik aus dem begrenzten Energiehaushalt der \SI{4}{\milli\ampere}--\SI{20}{\milli\ampere}-Stromschleife versorgt werden.
+Abzüglich Toleranzen und Reserven stehen dabei lediglich ca.\ \SI{3,5}{\milli\ampere} für die interne Elektronik zur Verfügung \cite{johnson_power_2013}.
+Mikrocontroller werden daher häufig mit niedrigen Taktraten betrieben und die verfügbaren Ressourcen auf das für Messwerterfassung, Signalverarbeitung, Diagnose und Kommunikation notwendige Minimum optimiert.
+Zwischen Verarbeitungsdauer, Energieverbrauch und Sicherheitsniveau muss somit stets ein Kompromiss gefunden werden.
+In der Konsequenz wurden Sicherheitsmechanismen in vielen Feldgeräten entweder gar nicht vorgesehen oder auf einfache Schutzfunktionen wie Schreibschutz, PIN-basierte Sperren oder rein organisatorische Maßnahmen beschränkt \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
+
+%% Umsetzung der Maßnahmen
+\paragraph{Einordnung nach IEC 62443 und kompensierende Maßnahmen}
+In der IEC-62443-Familie werden Sicherheitsanforderungen für Komponenten im Kontext eines übergreifenden Zonen- und Leitungsmodells betrachtet.\todo{Security in Depth?}
+In der industriellen Praxis wird dabei häufig davon ausgegangen, dass Schutzmaßnahmen für einfache Komponenten nicht ausschließlich durch das Feldgerät selbst, sondern durch kompensierende Maßnahmen in der Umgebung erreicht werden.
+Insbesondere Security Level 2 wird in vielen Industriepublikationen als das niedrigste Niveau eingeordnet, ab dem Schutz gegen vorsätzlichen Missbrauch adressiert wird \cite{niemann_profinet_2025}.
+Dies verdeutlicht die Lücke zwischen klassischen Feldgeräteprotokollen ohne integrierte Security-Funktionen und den Anforderungen, die bei gezielten Angriffen typischerweise relevant werden.
+
+%Security Guideline 6X
+\paragraph{Praxisbeispiel: Security-Umsetzung bei einem nicht netzwerkfähigen Feldgerät}
+Am Beispiel eines 2-Draht-Feldgeräts (VEGAPULS 6X mit 4~\dots~20\,mA/HART) zeigt sich, dass Sicherheitsfunktionen in der Praxis stark auf lokale Schutzmechanismen und organisatorische Maßnahmen verteilt werden.
+Die zugehörige Security Guideline \cite{vega_grieshaber_kg_it-sicherheitsrichtlinien_nodate} weist explizit darauf hin, dass das standardisierte HART-Protokoll keinen ausreichenden Schutz gegen Datenmanipulation und Spionage bietet und deshalb nur in einer Umgebung mit Schutzniveau entsprechend SL1 bzw. bei sichergestelltem physischem Zugriffsschutz auf die Signalleitungen betrieben werden soll.
+Für Schnittstellen und den Gerätezugang werden daher Maßnahmen wie Zugriffsschutz per Passwort, Deaktivierung ungenutzter Kommunikationskanäle sowie physische Sicherungen (z.\,B. Verplombung) gefordert.
+Geräteseitig werden zudem Funktionen wie Firmware-Integritätsprüfungen, Ereignisspeicher und Ressourcenmanagement als Sicherheitsfunktionen genannt.
+Diese Maßnahmen erhöhen die Härtung des Geräts, ersetzen jedoch keinen kryptografisch geschützten Kommunikationskanal auf dem Feldbus.
+
+%Verbleibende Lücken
+\paragraph{Verbleibende Lücken auf Protokollebene}
+Aus Sicht der Schutzziele Vertraulichkeit und Integrität verbleibt bei nicht netzwerkfähigen Feldgeräten insbesondere eine Lücke in der Ende-zu-Ende-Absicherung der Kommunikation.
+Während Integrität im Feldbuskontext häufig nur über einfache Prüfsummen oder CRC-Mechanismen adressiert wird, existieren typischerweise keine Verfahren zur kryptografischen Authentifizierung von Geräten, keine aushandelbaren Sitzungsschlüssel und keine Verschlüsselung der Nutzdaten auf der Leitung.
+Damit kann ein Angreifer mit physischem Zugriff auf die Signalleitung Daten mitlesen oder manipulieren, ohne durch das Protokoll selbst zuverlässig detektiert oder ausgeschlossen zu werden.
+Genau an dieser Stelle setzt die vorliegende Arbeit an, indem eine gerätebasierte Identität über Zertifikate und ein sicherer Verbindungsaufbau auch für nicht IP-basierte Kommunikationskanäle konzipiert und umgesetzt wird.
+
+%Ausblick
+\paragraph{Kryptografie als praktikable Option auf modernen Feldgeräten}
+Die vorherigen Abschnitte zeigen, dass nicht ethernet-basierte Feldgeräte heute häufig keine protokollseitige Absicherung von Integrität und Vertraulichkeit bieten und dass diese Lücke in der Praxis überwiegend durch physische und organisatorische Maßnahmen kompensiert wird.
+Gleichzeitig haben sich die technischen Rahmenbedingungen in den letzten Jahren deutlich verschoben.
+Moderne Mikrocontroller integrieren dedizierte Krypto-Peripherie bzw. Hardwarebeschleuniger, sodass kryptografische Verfahren nicht mehr zwangsläufig im Widerspruch zu den typischen Restriktionen (begrenzte Rechenleistung, enger Energiehaushalt, zeitliche Anforderungen) stehen.
+Hierbei werden kryptographische Primitive, 
+spezialisierten Hardwareblöcken ausgeführt, wodurch sowohl die benötigten CPU-Taktzyklen als auch die aktive Laufzeit des Prozessorkerns deutlich sinken \cite{}.
+Beispielhafte Messungen auf einem STM32U3 verdeutlichen die Größenordnung: Für AES-128-GCM erreicht die Hardware etwa 9{,}17~\si{\mega\byte\per\second}, während eine Software-Implementierung auf demselben Controller bei etwa 0{,}76~\si{\mega\byte\per\second} liegt; für SHA-256 wurden 45{,}87~\si{\mega\byte\per\second} (Hardware) gegenüber 1{,}355~\si{\mega\byte\per\second} (Software) gemessen \cite{oryx_embedded_benchmark_nodate}.
+Das entspricht einer Beschleunigung um etwa den Faktor 12 bzw.~34.
+Für den Energiehaushalt ist dabei nicht nur die Effizienz der Hardwareoperation selbst relevant, sondern vor allem die verkürzte Aktivzeit: Wenn kryptografische Berechnungen schneller abgeschlossen sind, kann der Mikrocontroller früher in stromsparende Zustände zurückkehren, und zeitkritische Funktionen werden weniger lange durch CPU-Last blockiert.
+
+Ergänzend dazu werden Secure Elements oder vergleichbare geschützte Ausführungsumgebungen eingesetzt, wenn langfristige Schlüssel und Identitäten auch gegen Softwarefehler und physische Angriffe abgesichert werden müssen.
+Sie trennen Schlüsselmaterial und sicherheitskritische Operationen (z.\,B. Signaturen oder Schlüsselaustausch) vom Anwendungsprozessor, sodass private Schlüssel idealerweise weder im Klartext im Hauptspeicher erscheinen noch durch die Applikation direkt verarbeitet werden.
+Je nach Plattform ist dies als separater Baustein oder als integrierte Sicherheitsfunktion des Mikrocontrollers realisiert.
+
+Damit entsteht ein neuer Handlungsspielraum: Obwohl klassische nicht IP-basierte Feldbusprotokolle weiterhin kaum Security-Funktionen bereitstellen, ist es heute technisch und energetisch realistisch, kryptografisch abgesicherte Geräteidentitäten und gesicherte Sitzungen auch in energieoptimierten Feldgeräten umzusetzen.
+Diese Entwicklung bildet die Grundlage für die nachfolgenden Kapitel, in denen ein entsprechender Ansatz konzipiert und auf die Randbedingungen nicht netzwerkfähiger Feldgeräte angepasst wird.
+
+
+\iffalse
+% AKtueller Stand HW Krypto..
+\paragraph{HW Crypto}
+Ein etablierter Ansatz \todo{Formulierung}, um den Zielkonflikt zwischen Performance und Energieverbrauch zu entschärfen, ist der Einsatz dedizierter Krypto-Peripherie bzw.~ Hardwarebeschleuniger. 
+Hierbei werden rechenintensive Primitive wie AES, SHA oder ECC in eigenständigen Hardwareblöcken implementiert, die speziell auf diese Operationen hin optimiert sind und deutlich weniger Taktzyklen sowie weniger Energie pro Operation benötigen als eine reine Software-Implementierung. %\cite{banerjee_energy-efficient_2017,panic_embedded_2016,rozlomii_hardware_2024}
+Beispielhafte Messungen für einen STM32U3-Mikrocontroller zeigen diesen Effekt deutlich:
+Für AES-128 im Galois/Counter Mode (GCM) wird in der dedizierten Krypto-Hardware ein Datendurchsatz von etwa
+9{,}17~\si{\mega\byte\per\second} erreicht, während eine reine Software-Implementierung auf demselben Controller lediglich etwa 0{,}76~\si{\mega\byte\per\second} erzielt.
+Für SHA-256 liegen die gemessenen Durchsätze bei 45{,}87~\si{\mega\byte\per\second} in Hardware gegenüber 1{,}355~\si{\mega\byte\per\second} in Software \cite{oryx_embedded_benchmark_nodate}.
+Somit ist die Verarbeitung in Hardware ca. 12- bzw.~ 34-mal schneller als in Software.
+Während diese Werte natürlich von Controller, Krypo-Peripherie und Implementierung des Algorithmus abhängen, zeigen sie doch deutlich, um welche Größenordnung die Aktionen beschleunigt werden können.
+Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware kryptographische Operationen in vertretbarer Zeit ausführbar, sobald geeignete Hardwarebeschleuniger vorhanden sind. \todo{Wie verhält sich der Energieverbrauch dabei?}
+
+
+Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
+Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
+Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.
+\fi
+
+% Energie
+
+% Rechenleistung
+
+% Warum ist Air gapped nicht ausreichend
+
+
 
 \iffalse
 \todo{Beschreibung des Kapitels einfügen}
 
 
 % ## 1. Einordnunug und Begriffsdefinition
-% ### 1.1 Was heißt nicht-netzwerkfähige Geräte
-\subsection{Einordnung und Begriffsdefinition}
-Im Rahmen dieser Arbeit werden unter nicht-netzwerkfähigen Geräten solche Feldgeräte verstanden, die entweder ausschließlich einen kontinuierlichen Messwert bereitstellen oder zwar mit einer Steuerungs- oder Leitebene kommunizieren, selbst jedoch keinen eigenen Netzwerk- oder IP-Stack implementieren.
-\todo{Abschnitt einfügen was Netzwerk-Stack ist}
-
-%%%
-Typische Vertreter dieser Geräteklasse sind klassische Prozessfeldgeräte wie Druck-, Temperatur-, Durchfluss- oder Füllstandssensoren sowie Grenz- und Näherungsschalter.
-Sie sind üblicherweise über 4-20-mA-Stromschleifen, über HART oder über feldbusbasierte Systeme wie PROFIBUS-PA oder vergleichbare Feldbusse an eine übergeordnete Steuerung angebunden.
-In der Automatisierungspyramide sind diese Geräte der Feldebene (Level 0) zuzuordnen, wie in Abbildung \todo{insert ref} dargestellt.
-\todo{Was ist die AUtomatisierungspyramide}
 
 
-Sie erfassen physikalische Größen direkt im Prozess oder wirken unmittelbar auf diesen ein und bilden damit die Schnittstelle zwischen physikalischer Anlage und digitaler Steuerung.
-%%%
 
-%%%
-Zu den nicht-netzwerkfähigen Geräten im Sinne dieser Arbeit zählen ebenfalls Feldgeräte, die keine direkte Verbindung zu einer übergeordneten Steuerung besitzen, sondern deren Messwerte ausschließlich lokal bereitgestellt werden, beispielsweise über ein angeschlossenes Anzeige- oder Bediengerät.
-In solchen Fällen wird der Messwert ausschließlich von einem Menschen abgelesen, ohne dass das Feldgerät selbst Teil eines automatisierten Kommunikationssystems ist.
-
-Feldgeräte, die über Feldbusse kommunizieren, sind damit zwar grundsätzlich kommunikationsfähig, jedoch nicht im Sinne eines autonomen Netzwerkteilnehmers.
-Die Kommunikation erfolgt typischerweise entweder über Punkt-zu-Punkt-Verbindungen (z.~B. klassische 4-20-mA-Schleifen) oder über Feldbusse, bei denen mehrere Feldgeräte gemeinsam an einem Bussegment betrieben werden.
-Solche Segmente sind elektrisch und logisch klar abgegrenzt und werden über definierte Kopplungspunkte, etwa Ein-/Ausgangskarten oder Gateway-Module, an die darüberliegenden Steuerungs- oder Leitebenen angebunden.
-
-Aus Sicht des einzelnen Feldgeräts bleibt die Kommunikationsschnittstelle dabei stets auf ein analoges Signal (4-20 mA) und/oder ein nicht-IP-basiertes Feldprotokoll beschränkt. Die Anbindung in IP-basierte Automatisierungs- oder IT-Netze erfolgt ausschließlich indirekt über die vorgelagerte Infrastruktur. Genau diese strukturelle Eigenschaft unterscheidet nicht-netzwerkfähige Feldgeräte grundlegend von modernen IoT- oder IIoT-Geräten und bildet die Ausgangsbasis für die Betrachtung sicherer Kommunikation und sicheren Onboardings in dieser Arbeit.
 %%% Passt
 
-% ## 2. Wie kommunizieren nicht netzwerkfähige Feldgeräte
-% ### 2.1 Kommunikationskanälee
-\subsection{Kommunikation bei nicht netzwerkfähigen Feldgeräten}
 
-Nicht netzwerkfähige Feldgeräte kommunizieren in der Praxis über vergleichsweise einfache, feldnahe Übertragungsmechanismen, die historisch auf Robustheit, deterministisches Verhalten und lange Lebensdauern ausgelegt sind. Im Unterschied zu IP-basierten Endgeräten treten sie nicht als eigenständige Netzwerkteilnehmer auf, sondern sind aus Sicht der höheren Ebenen typischerweise über Kopplungskomponenten (z.~B. Ein-/Ausgangskarten, Remote-I/O oder Gateways) angebunden.
 
-\todo{Was noch?}
-%%% Passt
-
-% ## 4. Onboardung und Geräteidentität
-\subsection{Onboarding und Geräteidentität}
-Im Folgenden wird beschrieben, wie nicht netzwerkfähige Feldgeräte heute in Anlagen aufgenommen (Onboarding) und im Betrieb eindeutig zugeordnet werden.
-
-% ### 4.1
-%% Onboarding Prozess
-In der Praxis beginnt das Onboarding eines Feldgeräts meist mit der Zuordnung zwischen dem physischen Gerät und einer Messstelle bzw.\ einem Anlagentag.
-Dazu werden typischerweise Typenschildinformationen (Hersteller, Typbezeichnung, Seriennummer) mit den Planungsunterlagen abgeglichen.
-Diese Informationen werden dann im Asset Management System abgelegt.
-Dort wird die physische Messstelle (z.\,B.\ Tag-Nummer) manuell mit Geräteinformationen verknüpft.
-Dadurch können die Feldgeräte in Zukunt lokalisiert und identifiziert werden, sowie das Austauschen von Geräten, bzw\. das Aktualisieren von Geräten (z.~B. neue Firmware) koordiniert werden. \cite{stouffer_guide_2023}.
-Diese Informationen die eine Identifikation unterstützen sollen, sind dabei aber nicht kryptografisch gesichert, sondern dienen lediglich der Identifikation und sicherstellung, dass das Gerät äußerlich dem entspricht, das man erwartet.
-
-%% Security Maßnahmen
-Da die Identität nicht netzwerkfähiger Feldgeräte hauptsächlich organisatorisch, und nicht kryptografisch, abgesichert ist,  muss auch organisatorisch sichergestellt werden,
-dass es keinen unbefugten Zutritt zur Anlage bzw. zum Gerät gibt.
-Wenn kryptografisch nicht sichergestellt werden kann, ob ein Gerät evt. unautorisiert getauscht bzw. manipuliert wurde, muss es organisatorisch sichergestellt werden.
-Dafür werden physische Schutzmaßnahmen angewendet.
-Zutrittskontrollen (Wer darf an die Anlage, Schaltschränke, Klemmenkästen), Zäune, verschlossene Technikräume oder Schränke. NIST SP~800-82 nennt physische und organisatorische Kontrollen als integralen Bestandteil eines OT-Sicherheitsprogramms, u.\,a.\ weil viele Angriffe und Fehlhandlungen in OT erst durch physischen Zugriff möglich werden \cite{stouffer_guide_2023}.
-In der Praxis wird damit ein erheblicher Teil der Verantwortung für die Sicherstellung der Geräteintegrität und -identität auf Betreiberprozesse und physische Zugriffskontrolle verlagert.
-
-Die beschriebenen Verfahren sind in der industriellen Praxis etabliert, haben jedoch systematische Grenzen. Insbesondere liefern Nameplate/Seriennummer, Dokumentationsabgleich und konfigurierbare Kennzeichen (z.\,B.\ Tag-Felder) keinen kryptografischen Beweis dafür, dass die Kommunikationsbeziehung tatsächlich mit dem erwarteten physischen Gerät endet. Konfigurierbare Identifikationsattribute können prinzipiell geändert oder nachgeahmt werden.
+Die beschriebenen Verfahren sind in der industriellen Praxis etabliert, haben jedoch systematische Grenzen. Insbesondere liefern Seriennummer, Dokumentationsabgleich und konfigurierbare Kennzeichen (z.\,B.\ Tag-Felder) keinen kryptografischen Beweis dafür, dass die Kommunikationsbeziehung tatsächlich mit dem erwarteten physischen Gerät endet. Konfigurierbare Identifikationsattribute können prinzipiell geändert oder nachgeahmt werden.
 
 Zudem adressieren rein physische Schutzmaßnahmen Insider-Bedrohungen nur begrenzt: Personen mit berechtigtem Zugang können Geräte tauschen, manipulieren oder Parameter verändern, ohne dass dies zwangsläufig erkannt wird.
 OT-Sicherheitsleitfäden behandeln solche Risiken unter anderem durch Forderungen nach kontrollierten Änderungen, Protokollierung und klaren Rollen/Prozessen, weisen aber zugleich darauf hin, dass organisatorische Maßnahmen allein keinen technischen Herkunftsnachweis des Geräts liefern \cite{stouffer_guide_2023}.
@@ -77,18 +140,7 @@ Beispielsweise Sensoren, die im Bereich Wastewater, also z.B. Kanalisation, eing
 \subsection{Warum gibt es keine Kryptografie?}
 Dieses Kapitel ordnet ein, weshalb kryptografisch abgesicherte Kommunikation in nicht netzwerkfähigen Feldgeräten historisch nur eingeschränkt umgesetzt wurde und welche Entwicklungen diese Situation heute verändern.
 
-Nicht netzwerkfähige Feldgeräte sind häufig für besonders robuste und energieeffiziente Betriebsbedingungen ausgelegt. Bei loop-versorgten 2-Draht-Geräten muss die gesamte Elektronik aus dem begrenzten Energiehaushalt der \SI{4}{\milli\ampere}--\SI{20}{\milli\ampere}-Stromschleife betrieben werden.
-Abzüglich Toleranzen und Puffer, stehen 4...20mA Geräten ein Strom von ca. \SI{3.5}{\milli\ampere} zur Verfügung \cite{johnson_power_2013.}
-Daraus resultiert, dass Mikrocontroller in Feldgeräten oft mit niedrigen Taktraten betrieben werden und die verfügbaren Ressourcen auf das für Messwerterfassung, Signalverarbeitung, Diagnose und Kommunikation notwendige Minimum optimiert sind.
 
-Kryptografische Verfahren, insbesondere asymmetrische Verfahren sowie moderne, authentifizierte Verschlüsselung, sind in reiner Softwareausführung vergleichsweise rechenintensiv.
-In ressourcenbeschränkten Feldgeräten führt dies typischerweise zu langen Ausführungszeiten und erhöhtem Energieverbrauch.
-Für den Anlagenbetrieb kann dies problematisch sein, da zusätzliche Latenzen im Kommunikations- oder Parametrierpfad auftreten und gleichzeitig der ohnehin knappe Leistungsrahmen belastet wird.
-In der Konsequenz wurden Sicherheitsmechanismen in vielen Feldgerätekategorien entweder gar nicht vorgesehen oder auf einfache Schutzfunktionen (z.\,B.\ Schreibschutz, PIN/Lock, organisatorische Prozesse) beschränkt \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
-
-Diese Situation wird durch die lange Nutzungsdauer industrieller Feldgeräte zusätzlich verstärkt. Feldgeräte verbleiben häufig über Zeiträume von 10 bis 15 Jahren (oder länger) im Betrieb.
-Gerätewechsel sind kostenintensiv, erfordern Stillstände und sind durch Zertifizierungen, und qualitätssichernde Prozesse gebremst.
-Dadurch existiert eine große installierte Basis an Legacy-Geräten, deren Hardwareplattformen nicht für moderne Kryptografie ausgelegt wurden. Selbst wenn neue Sicherheitsanforderungen entstehen, setzen sie sich in der Feldebene daher nur langsam durch \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 
 %HW Krypto
 In den letzten Jahren hat sich die Hardwarelandschaft jedoch deutlich weiterentwickelt. Moderne Mikrocontroller für Industrie- und Embedded-Anwendungen integrieren zunehmend dedizierte Krypto-Beschleuniger, etwa für AES, SHA und elliptische Kurvenverfahren (ECC). Ergänzend werden Sicherheitsfunktionen wie geschützte Schlüsselspeicher, sichere Bootketten, TrustZone-basierte Isolierung, manipulationsresistente Speicherbereiche oder externe Secure-Elemente verfügbar. Dadurch verlagern sich rechenintensive kryptografische Primitive in spezialisierte Hardwareblöcke, die sowohl schneller als auch energieeffizienter arbeiten als reine Softwareimplementierungen.
@@ -159,5 +211,14 @@ Somit werden auch auf eigentlich leistungsschwacher, energieoptimierter Hardware
 Ein zusätzlicher Vorteil integrierter Krypto-Peripherie liegt in der verbesserten Sicherheit des Gesamtsystems. 
 Moderne Mikrocontroller für Industrie- und IoT-Anwendungen kombinieren Hardwarebeschleuniger für symmetrische und asymmetrische Kryptographie mit weiteren Sicherheitsfunktionen wie sicherer Schlüsselerzeugung, zertifizierten Entropiequellen, geschützten Schlüsselspeichern, Anti-Tampering-Mechanismen und sicheren Boot-Mechanismen.
 Damit bilden sie die Grundlage dafür, auch in nicht IP-basierten Feldgeräten zertifikatsbasierte Identitäten und kryptographisch gesicherte Verbindungen zu realisieren, ohne die strengen Vorgaben an den Energieverbrauch und die Echtzeitfähigkeit zu verletzen.
+
+%Unterschied IP non ip
+Zu den nicht-netzwerkfähigen Geräten im Sinne dieser Arbeit zählen ebenfalls Feldgeräte, die keine direkte Verbindung zu einer übergeordneten Steuerung besitzen, sondern deren Messwerte ausschließlich lokal bereitgestellt werden, beispielsweise über ein angeschlossenes Anzeige- oder Bediengerät.
+In solchen Fällen wird der Messwert ausschließlich von einem Menschen abgelesen, ohne dass das Feldgerät selbst Teil eines automatisierten Kommunikationssystems ist.
+
+Feldgeräte, die über Feldbusse kommunizieren, sind damit zwar grundsätzlich kommunikationsfähig, jedoch nicht im Sinne eines autonomen Netzwerkteilnehmers.
+Die Kommunikation erfolgt typischerweise entweder über Punkt-zu-Punkt-Verbindungen (z.~B. klassische 4-20-mA-Schleifen) oder über Feldbusse, bei denen mehrere Feldgeräte gemeinsam an einem Bussegment betrieben werden.
+Solche Segmente sind elektrisch und logisch klar abgegrenzt und werden über definierte Kopplungspunkte, etwa Ein-/Ausgangskarten oder Gateway-Module, an die darüberliegenden Steuerungs- oder Leitebenen angebunden.
+
 
 \fi
