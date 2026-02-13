@@ -1,2 +1,95 @@
 \subsection{Stand der Technik bei netzwerkfähigen Feldgeräten}
 \label{2_3_2_Stand_Technik_IP}
+
+\subsection{Stand der Technik bei ethernetbasierten Feldgeräten}
+\label{2_4_2_Stand_Technik_Ethernet}
+Ethernetbasierte Feldgeräte unterscheiden sich von klassischen Feldbussen vor allem dadurch, dass für die Kommunikation grundsätzlich Protokollmechanismen verfügbar sind, die einen sicheren Verbindungsaufbau auf Basis kryptografischer Identitäten abbilden.
+Damit verschiebt sich der Schwerpunkt des Standes der Technik: Nicht die prinzipielle Machbarkeit von Authentisierung, Schlüsselaushandlung und optionaler Verschlüsselung steht im Vordergrund, sondern die Frage, ob diese Funktionen im Feld tatsächlich aktiviert sind und wie Identitäts- und Zertifikatsmanagement über den Lebenszyklus organisatorisch umgesetzt wird.
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\caption{Vergleich sicherheitsrelevanter Bausteine in ethernetbasierten Feldkommunikationsansätzen.
+Legacy bezeichnet den in Brownfield-Umgebungen häufig anzutreffenden Betrieb ohne aktivierte Protokollsecurity (Schutz primär durch Segmentierung und physische Maßnahmen).}
+\label{tab:stand_technik_ethernet_security_vergleich}
+\begin{tabularx}{\textwidth}{p{3.2cm} *{5}{>{\raggedright\arraybackslash}X}}
+\hline
+Kriterium
+& Legacy Betrieb (ohne Protokollsecurity)
+& PROFINET mit Security
+& OPC~UA (Secure Channel)
+& EtherNet/IP mit CIP Security
+& Modbus TCP mit TLS (Modbus Security)
+\\
+\hline
+
+Primäres Einsatzprofil
+& Zyklische I/O und Parametrierung, Absicherung über Zone/Conduit
+& Zyklische I/O mit definierter Echtzeitkommunikation
+& Semantischer Datenaustausch, Integration OT bis IT
+& Zyklische I/O und Steuerungskommunikation (CIP)
+& Einfache Registerkommunikation (Request/Response)
+\\
+
+Geräteidentität
+& Keine kryptografische Geräteidentität, Gerätewechsel nur organisatorisch erkennbar
+& X.509-basierte Identitäten (Controller und Device)
+& Application Instance Zertifikate (X.509)
+& Typisch X.509 (profilabhängig auch andere Mechanismen möglich)
+& X.509 (serverseitig, optional clientseitig)
+\\
+
+Authentisierung beim Verbindungsaufbau
+& Keine, Vertrauen in das Netzsegment
+& Gegenseitige Authentisierung im Hochlauf, z.\,B. über EAP-TLS \cite{niemann_profinet_2025}
+& Aufbau eines Secure Channel mit Zertifikatsprüfung (SecurityPolicy-abhängig)
+& TLS/DTLS-basierte Authentisierung (profilabhängig) \todo{Quelle CIP Security}
+& TLS Handshake, optional beidseitige Authentisierung \todo{Quelle Modbus Security}
+\\
+
+Sitzungsschlüssel
+& Nicht vorhanden
+& Ableitung symmetrischer Schlüssel nach Authentisierung \cite{niemann_profinet_2025}
+& Ableitung symmetrischer Schlüssel im Secure Channel
+& Symmetrische Schlüssel aus TLS/DTLS
+& Symmetrische Schlüssel aus TLS
+\\
+
+Schutzumfang
+& Typisch keine Kryptografie, Integrität ggf. nur durch CRC/Checksummen
+& Klasse 2: Integrität/Authentizität, Klasse 3: zusätzlich Vertraulichkeit \cite{niemann_profinet_2025}
+& Signierung und optional Verschlüsselung (Policy-abhängig)
+& Integrität und optional Vertraulichkeit über TLS/DTLS
+& Integrität und Vertraulichkeit über TLS
+\\
+
+Rekeying / Schlüssellebensdauer
+& Nicht anwendbar
+& Periodische Schlüsselaktualisierung zur Begrenzung der Schlüssellebensdauer \cite{niemann_profinet_2025}
+& Erneuerung des Secure Channel, Schlüsselrotation möglich (Policy-abhängig)
+& Abhängig von TLS/DTLS Parametern und Session-Lifetime
+& Abhängig von TLS Parametern und Session-Lifetime
+\\
+
+Echtzeitbezug
+& Echtzeit über Protokollmechanismen ohne kryptografische Absicherung
+& Zielgerichtet für Echtzeit, Security-Konzept in Echtzeitkommunikation integriert \cite{niemann_profinet_2025}
+& Fokus typischerweise nicht auf harter Echtzeit, abhängig vom Profil und Einsatz
+& Zyklische I/O möglich, Security über Transportabsicherung
+& Nicht deterministisch für harte Echtzeit ausgelegt
+\\
+
+Typische Praxis-Hürde
+& Keine Infrastruktur für Zertifikate und Schlüssel, Security wird als Umgebungsthema behandelt
+& PKI-Integration, Provisionierung, Zertifikatswechsel, Interoperabilität
+& Trust-Listen, Zertifikatsverwaltung, Engineering-Aufwand
+& Profilwahl, Geräteunterstützung, Rollout in Bestandsanlagen
+& Geringe Verbreitung in Geräten, Umstellung bestehender Tools und Gateways
+\\
+\hline
+\end{tabularx}
+
+Ethernet-APL ist in diesem Kontext als physikalische Übertragungsschicht zu verstehen und wirkt vor allem als Enabler: Ethernet wird bis in die Prozessfeldebene getragen, wodurch die oben genannten Security-Mechanismen prinzipiell auch für Messumformer und Feldgeräte nutzbar werden, ohne dass die Absicherung bereits durch die physikalische Schicht selbst bereitgestellt würde.
+
+Zusammenfassend zeigt sich für ethernetbasierte Feldgeräte ein klares Grundmuster, das für diese Arbeit relevant ist: Geräteauthentisierung über Zertifikate, anschließende Ableitung symmetrischer Sitzungsschlüssel und darauf aufbauender Integritäts- und optional Vertraulichkeitsschutz der Nutzdaten.
+Der wesentliche Unterschied zum Legacy Betrieb liegt nicht im Kommunikationsmedium, sondern im Vorhandensein und der konsequenten Nutzung dieser Mechanismen sowie in der Fähigkeit, Identitäten und Schlüssel über den Lebenszyklus kontrolliert zu verwalten.
+Für nicht netzwerkfähige Feldgeräte fehlen diese Bausteine auf der Kommunikationsschnittstelle weiterhin, weshalb die nachfolgenden Kapitel das etablierte Muster auf nicht IP-basierte Kanäle übertragen und an Ressourcen- und Betriebsrandbedingungen anpassen.
