@@ -1,8 +1,87 @@
 \section{Public-Key-Infrastrukturen und Zertifikate}
 \label{PKI}
 
-\subsection{Rolle von PKI in industriellen Kommunikationssystemen}
+\fi
+\subsection{Geräteidentitäten und PKI als Grundlage für sichere Verbindungsaufbauten}
+%\label{2_5_device_identity_pki}
+Für kryptografisch abgesicherte Kommunikationsbeziehungen (Klasse~2) ist eine belastbare Geräteidentität eine zentrale Voraussetzung.
+In modernen Sicherheitsarchitekturen wird diese Identität typischerweise über X.509-Zertifikate abgebildet, die einen öffentlichen Schlüssel kryptografisch an ein Subjekt binden und von einer vertrauenswürdigen Zertifizierungsstelle signiert werden.
+Auf dieser Basis kann ein Kommunikationspartner die Echtheit des Gegenübers prüfen und anschließend Sitzungsschlüssel für einen effizienten Integritäts- und optional Vertraulichkeitsschutz ableiten.
 
-\subsection{Architektur industrieller PKI}
+\iffalse
+\paragraph{Public Key Infrastructure (PKI) und Begrifflichkeiten}
+Eine Public Key Infrastructure (PKI) beschreibt die organisatorische und technische Struktur, mit der Zertifikate ausgestellt, verwaltet und überprüft werden.
+Zentrale Rollen sind Zertifizierungsstellen (Certificate Authorities, CA), optionale Registrierungsstellen (Registration Authorities, RA) sowie die End-Entities (EE), also Geräte oder Anwendungen, die Zertifikate nutzen.
+Typischerweise ist eine PKI hierarchisch aufgebaut:
 
-\subsection{Geräteidentitäten auf Basis von Zertifikaten}
+\begin{itemize}
+  \item Trust-Anchor-Ebene: Eine Root-CA fungiert als Vertrauensanker. Sie ist meist selbstsigniert und wird nicht über das Netzwerk ``vertraut'', sondern durch einen sicheren Verteilprozess in Truststores\todo{Trust store gefällt mir nicht} eingebracht. Unterhalb der Root-CA können Intermediate-CAs eingesetzt werden, um Aufgaben zu trennen und die Root-CA offline betreiben zu können.
+  \item Issuing-Ebene: Eine Issuing-CA stellt die End-Entity-Zertifikate für Geräte aus. In industriellen Szenarien wird häufig zwischen einer herstellerseitigen PKI (Manufacturing PKI) und einer betriebsseitigen PKI (Operational PKI) unterschieden.
+  \item Registration Authority: Eine RA kann die Identitätsprüfung, Autorisierung und Freigabe eines Zertifikatsantrags übernehmen, während die CA ausschließlich signiert. Damit lassen sich organisatorische Prozesse trennen, ohne dass die CA ihre Signaturschlüssel in operative Abläufe einbinden muss.
+  \item Enrollment-Schnittstelle: Das Gerät oder ein Stellvertreter erzeugt Schlüsselmaterial und übergibt einen Zertifikatsantrag, typischerweise als Certificate Signing Request (CSR) nach PKCS\#10.
+  \item Status und Widerruf: Zertifikate können vor Ablauf ihrer Gültigkeit ungültig werden (z.\,B. Schlüsselkompromittierung). RFC 5280 beschreibt hierfür Widerrufsmechanismen wie Certificate Revocation Lists (CRLs); in anderen Umgebungen wird zusätzlich OCSP eingesetzt.
+\end{itemize}
+
+Diese Begriffe werden im weiteren Verlauf genutzt, um die Rollen von CA, RA, Zertifikatskette und Trust Anchor eindeutig zu beschreiben.
+\fi
+
+\paragraph{Root of Trust und Validierung von Zertifikatsketten}
+Die Vertrauensentscheidung in einer PKI basiert auf einem Root of Trust, der typischerweise als Trust Anchor im Truststore der prüfenden Instanz hinterlegt ist.
+Die Validierung eines End-Entity-Zertifikats erfolgt dann entlang der Zertifikatskette, indem jede Signatur mit dem öffentlichen Schlüssel des jeweils ausstellenden Zertifikats geprüft wird.
+Vereinfacht ergibt sich dabei folgende Prüfreihenfolge:
+
+\begin{enumerate}
+  \item Die Signatur des Geräte- (End-Entity-) Zertifikats wird mit dem öffentlichen Schlüssel der ausstellenden Issuing-CA geprüft.
+  \item Die Signatur der Issuing-CA wird mit dem öffentlichen Schlüssel der übergeordneten CA (Intermediate oder Root) geprüft.
+  \item Für ein selbstsigniertes Root-Zertifikat kann die Signatur formal mit dem eigenen öffentlichen Schlüssel geprüft werden.
+  \item Entscheidend ist anschließend die Vertrauensentscheidung: Die Kette gilt nur dann als vertrauenswürdig, wenn das Root-Zertifikat als Trust Anchor im Truststore des prüfenden Kommunikationspartners hinterlegt ist.
+\end{enumerate}
+
+Damit wird klar, dass nicht die Selbstsignatur der Root-CA Vertrauen erzeugt, sondern die sichere Verteilung und Hinterlegung des Trust Anchors.
+
+\paragraph{Secure Device Identity nach IEEE 802.1AR (DevID)}
+Der IEEE-Standard zu Secure Device Identifiers beschreibt DevIDs als eindeutige, kryptografisch gebundene Geräteidentitäten und unterscheidet dabei Initial Device Identifiers (IDevID) und Local Device Identifiers (LDevID).
+Ein DevID besteht aus einem RFC-5280-konformen X.509-Zertifikat, einem zugehörigen privaten Schlüssel (DevID secret) sowie der Zertifikatskette bis zu einem Vertrauensanker.
+Damit ist eine DevID nicht nur ein Identifier, sondern ein vollständiges Credential, mit dem ein Gerät seine Identität in Authentisierungsprotokollen nachweisen kann.
+
+Die sichere Bindung an das Gerät erfolgt dadurch, dass der private Schlüssel in einem DevID-Modul geschützt gespeichert wird und ausschließlich für kryptografische Operationen genutzt werden kann.
+Unter einem DevID-Modul wird dabei die Kombination aus geschützter Schlüsselablage und einer Schnittstelle verstanden, die Signieroperationen ausführt, ohne den privaten Schlüssel preiszugeben.
+Das Gerät weist seine Identität nach, indem es Signaturoperationen mit dem DevID secret ausführt und damit den Besitz des privaten Schlüssels beweist.
+Dieses Prinzip der Besitzprüfung ist entscheidend, da nur so eine Nachahmung des Geräts durch Dritte verhindert wird.
+
+Die IDevID wird vom Hersteller vor Auslieferung bereitgestellt, ist global eindeutig und gegen Modifikation geschützt.
+Zusätzlich kann das Gerät eine oder mehrere LDevIDs unterstützen, die durch den Betreiber erzeugt und verwaltet werden.
+LDevIDs erleichtern die Einbindung in eine lokale Sicherheitsinfrastruktur, da sie eine betriebsspezifische Identität bereitstellen können, ohne die herstellerseitige Grundidentität zu ersetzen.
+Je nach Betriebsmodell kann eine LDevID mit einem neu erzeugten Schlüssel arbeiten oder auf einem bestehenden Schlüssel aufsetzen, sofern dies durch die Sicherheitsrichtlinie zugelassen ist.
+
+\paragraph{X.509-PKI nach RFC 5280}
+RFC 5280 beschreibt das Profil der X.509-Zertifikate und den grundlegenden PKI-Mechanismus im Internet.
+Zertifikate binden öffentliche Schlüssel an Subjekte und werden von einer Zertifizierungsstelle signiert, wodurch sich ein prüfbarer Vertrauensnachweis ergibt.
+Da ein Kommunikationspartner nur eine begrenzte Menge an vertrauenswürdigen CA-Schlüsseln im Voraus besitzt, wird die Vertrauensprüfung typischerweise über Zertifikatsketten realisiert.
+Dabei wird ein End-Entity-Zertifikat über eine oder mehrere Zwischenzertifizierungsstellen bis zu einem Trust Anchor validiert.
+Zertifikate können zudem vor Ablauf ihrer Gültigkeit ungültig werden, etwa durch Schlüsselkompromittierung oder organisatorische Änderungen.
+RFC 5280 beschreibt hierfür Widerrufsmechanismen wie Certificate Revocation Lists (CRLs), die es erlauben, kompromittierte oder nicht mehr gültige Zertifikate vorzeitig aus dem Vertrauensmodell zu entfernen.
+
+Im DevID-Kontext ist relevant, dass IDevIDs typischerweise sehr lange Gültigkeitszeiten besitzen, um Gerätelebensdauern nicht künstlich zu begrenzen.
+Gleichzeitig bleibt die Vertrauensprüfung von der Qualität der PKI und der Integrität der Trust-Anchor-Verteilung abhängig.
+Der IEEE-Standard benennt hierzu Risiken wie kompromittierte Signierschlüssel in der Hersteller-PKI, fehlerhafte Trust-Anchor-Listen oder die Offenlegung des DevID secret als kritische Angriffspunkte.
+
+\paragraph{CSR als Schnittstelle zwischen Gerät und PKI (PKCS\#10, RFC 2986)}
+Für die Ausstellung eines Gerätezertifikats wird in der Praxis häufig ein Certificate Signing Request verwendet.
+RFC 2986 (PKCS\#10) definiert den CSR als signierte Datenstruktur, die den Subject Name, den öffentlichen Schlüssel und optionale Attribute enthält.
+Die Signatur über die Request-Information dient als Nachweis, dass der Antragsteller den zugehörigen privaten Schlüssel besitzt.
+
+Der Ablauf ist in Abbildung~\ref{fig:csr_flow} dargestellt.
+Zunächst erzeugt das Gerät ein Schlüsselpaar und erstellt daraus einen CSR, der neben dem öffentlichen Schlüssel auch Metadaten enthalten kann (z.\,B. Seriennummer oder Geräteattribute).
+Anschließend wird der CSR vom Gerät mit dem privaten Schlüssel signiert und an eine RA übermittelt.
+Die RA prüft den Antrag gemäß den lokalen Richtlinien und leitet ihn im Erfolgsfall an die CA weiter.
+Die CA stellt daraufhin ein X.509-Zertifikat aus, signiert dieses und liefert es über die RA an das Gerät zurück.
+Das Gerät speichert das Zertifikat zusammen mit der notwendigen Zertifikatskette und kann es anschließend verwenden, um seine Identität in Authentisierungsprotokollen nachzuweisen.
+
+\missingfigure{Ablauf CSR}
+\label{fig:csr_flow}
+
+\paragraph{Bezug zur Arbeit}
+Die beschriebenen Konzepte bilden ein etabliertes Fundament für sichere Verbindungsaufbauten: Ein Gerät besitzt eine kryptografische Identität (DevID), weist diese durch Besitz des privaten Schlüssels nach und nutzt darauf aufbauend eine PKI-gestützte Vertrauenskette zur Authentisierung.
+Darauf aufbauend können Sitzungsschlüssel abgeleitet werden, um Kommunikationsdaten effizient gegen Manipulation zu schützen und optional zu verschlüsseln.
+Im weiteren Verlauf der Arbeit werden diese Bausteine aufgegriffen und auf nicht IP-basierte Kommunikationskanäle übertragen, wobei insbesondere die Bereitstellung einer herstellerseitigen IDevID als zentraler Baustein dient.

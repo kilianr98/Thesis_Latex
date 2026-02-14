@@ -2,14 +2,18 @@
 % Stand der Technik bei nicht netzwerkfähigen Feldgeräten
 \subsection{Stand der Technik bei nicht netzwerkfähigen Feldgeräten}
 \label{2_4_1_Stand_Technik_Non_IP}
-Für nicht netzwerkfähige Feldgeräte sehen die zugehörigen Feldbusstandards keinerlei Security-Maßnahmen vor.
-Keiner der gängigen Feldbusse, weder HART, PROFIBUS PA, OPC noch MODBUS unterstützt Sicherheitsfunktionen in Bezug auf Integrität, Verschlüsselung oder Authentifizierung. Auch ist nicht davon auszugehen, dass sich dies in absehbarer Zeit ändern wird \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics-security-kompendium_2014}\cite{niemann_ot-sicherheitsanforderungen_2022}.
+Wie in Abschnitt~\ref{Zentrale_Schutzziele} abgegrenzt, fokussiert diese Arbeit auf Anforderungen der Kommunikationssicherheit (Klasse~2 der Anforderungen), also auf kryptografische Mechanismen zur Authentisierung sowie zum Integritäts- und optional Vertraulichkeitsschutz der übertragenen Daten.
+Für nicht netzwerkfähige Feldgeräte sehen die zugehörigen Feldbusstandards solche Mechanismen typischerweise nicht vor.
+Keiner der gängigen Feldbusse, weder HART, PROFIBUS PA, OPC noch MODBUS unterstützt Sicherheitsfunktionen in Bezug auf Integrität, Verschlüsselung oder Authentifizierung auf Protokollebene.
+Auch ist nicht davon auszugehen, dass sich dies in absehbarer Zeit ändern wird \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics-security-kompendium_2014}\cite{niemann_ot-sicherheitsanforderungen_2022}.
+In der Praxis werden die fehlenden Protokollmechanismen daher überwiegend durch Maßnahmen der Umgebung (Klasse~1) sowie durch gerätespezifische Härtungsmaßnahmen (Klasse~3) kompensiert.
 
 Die Ursachen für das Fehlen protokollseitiger Sicherheitsmechanismen sind vielfältig und historisch gewachsen.
 
 % PASS
 % Physischer Schutz und Air Gaps
 \paragraph{Physischer Schutz und Air-Gaps}
+Die folgenden Maßnahmen adressieren primär Anforderungen der Klasse~1, da sie außerhalb des Einflussbereichs eines Feldbusprotokolls liegen und durch Anlagenbetrieb und Umgebung umgesetzt werden.
 ICS-Anlagen befinden sich in der Regel in physisch abgesicherten Bereichen, die durch Zäune, Mauern oder vergleichbare Barrieren geschützt sind.
 Der Zugang zu den Feldgeräten ist dabei auf das vor Ort tätige Betriebspersonal sowie auf externe Dienstleister, etwa für Inbetriebnahme oder Wartung, beschränkt \cite{niemann_ot-sicherheitsanforderungen_2022}.
 Zusätzlich wurden insbesondere ältere Anlagen häufig physisch von anderen Netzwerken isoliert, um sie vor Cyberangriffen zu schützen.
@@ -18,9 +22,11 @@ Da sich die Geräte in einem abgeschotteten Bereich befanden und nicht von auße
 Diese sogenannten \emph{Air-Gaps}, also die vollständige Trennung von IT und OT, erreichen in der Praxis jedoch selten das angestrebte Schutzniveau.
 Häufig ist trotz der physischen Trennung ein Datenaustausch zwischen den Netzen notwendig oder gewünscht, und genau diese Schnittstellen können von Angreifern ausgenutzt werden, um die Isolation zu überwinden \cite{bsi_-_bundesamt_fur_sicherheit_in_der_informationstechnik_ics_2024}.
 Darüber hinaus ist eine vollständige Trennung der OT von der IT heute nur noch in Ausnahmefällen und bei besonders hohem Schutzbedarf umsetzbar.
-Mehrstufige Produktionsprozesse, deren systemübergreifende Steuerung sowie regulatorische Vorgaben erfordern zunehmend eine Vernetzung der OT, auch über Organisationsgrenzen hinweg. Verstärkt wird diese Entwicklung durch den Trend zur Optimierung von Fertigungsprozessen im Kontext von Industrie 4.0 \cite{deutschland_it-grundschutz-kompendium_2023}.
+Mehrstufige Produktionsprozesse, deren systemübergreifende Steuerung sowie regulatorische Vorgaben erfordern zunehmend eine Vernetzung der OT, auch über Organisationsgrenzen hinweg.
+Verstärkt wird diese Entwicklung durch den Trend zur Optimierung von Fertigungsprozessen im Kontext von Industrie 4.0 \cite{deutschland_it-grundschutz-kompendium_2023}.
 
-Selbst bei ausreichender Absicherung der OT und einem physischen Zugangsschutz bestehen weiterhin Risiken den Angreifer von innen mit direktem Zugriff auf das Automatisierungsnetzwerk oder das Feldgerät könnten gezielt Schwachstellen ausnutzen.
+
+Selbst bei ausreichender Absicherung der OT und einem physischen Zugangsschutz bestehen weiterhin Risiken, da Angreifer mit internem Zugriff auf das Automatisierungsnetzwerk oder mit direktem Zugang zum Feldgerät gezielt Schwachstellen ausnutzen könnten.
 Eine Studie von Bitkom zeigt, dass interne Bedrohungen eine erhebliche Gefahr darstellen: 62\,\% der Angriffe auf deutsche Unternehmen gehen von aktuellen oder ehemaligen Mitarbeitern aus \cite{streim_spionage_2017}.
 Mit entsprechendem Zugang wäre es beispielsweise möglich, ein Feldgerät unbemerkt durch ein manipuliertes Gerät auszutauschen.
 
@@ -28,10 +34,9 @@ Darüber hinaus gibt es Einsatzszenarien, in denen ein flächendeckender physisc
 Auch wenn das Feldgerät selbst und zugehörige Komponenten wie Gateways vor unbefugtem Zugriff geschützt sind, können Verbindungsleitungen, insbesondere bei größeren Distanzen, ungeschützt verlaufen.
 Ein charakteristisches Beispiel ist die Füllstandsmessung an einem Stausee oder Überlaufbecken, wo die Messleitungen über längere Strecken außerhalb kontrollierten Bereichs verlaufen können.
 
-
 %Technische Einschränkungen
 \paragraph{Technische Einschränkungen}
-Neben den physischen Schutzmaßnahmen spielen auch technische Limitierungen eine wesentliche Rolle für das Fehlen protokollseitiger Sicherheitsmechanismen.
+Neben den physischen Schutzmaßnahmen spielen auch technische Limitierungen eine wesentliche Rolle für das Fehlen protokollseitiger Sicherheitsmechanismen der Klasse~2.
 
 Viele der heute eingesetzten Feldgeräte stammen aus einer Zeit, in der Cybersicherheitsbedrohungen noch nicht in dem heutigen Ausmaß existierten.
 Diese Legacy-Systeme verfügen weder über die erforderliche Hardware noch über die Softwareunterstützung, um moderne Sicherheitsverfahren umzusetzen.
@@ -50,8 +55,8 @@ In der Konsequenz wurden Sicherheitsmechanismen in vielen Feldgeräten entweder 
 
 %% Umsetzung der Maßnahmen
 \paragraph{Einordnung nach IEC 62443 und kompensierende Maßnahmen}
-In der IEC-62443-Familie werden Sicherheitsanforderungen für Komponenten im Kontext eines übergreifenden Zonen- und Leitungsmodells betrachtet.\todo{Security in Depth?}
-In der industriellen Praxis wird dabei häufig davon ausgegangen, dass Schutzmaßnahmen für einfache Komponenten nicht ausschließlich durch das Feldgerät selbst, sondern durch kompensierende Maßnahmen in der Umgebung erreicht werden.
+In der IEC-62443-Familie werden Sicherheitsanforderungen für Komponenten im Kontext eines übergreifenden Zonen- und Leitungsmodells betrachtet, das dem Prinzip einer Defense in Depth Strategie folgt, indem mehrere Schutzschichten kombiniert werden (z.\,B. organisatorische Maßnahmen, physischer Schutz, Netzwerksegmentierung und Komponentenhärtung).
+Für nicht netzwerkfähige Feldgeräte zeigt sich dabei ein typisches Bild: Anforderungen der Klasse~1 dominieren den Betriebsschutz, plattformspezifische Maßnahmen der Klasse~3 sind je nach Gerätegeneration teilweise vorhanden, während die protokollseitige Absicherung der Kommunikation (Klasse~2) auf dem Feldbus in der Regel fehlt.
 Insbesondere Security Level 2 wird in vielen Industriepublikationen als das niedrigste Niveau eingeordnet, ab dem Schutz gegen vorsätzlichen Missbrauch adressiert wird \cite{niemann_profinet_2025}.
 Dies verdeutlicht die Lücke zwischen klassischen Feldgeräteprotokollen ohne integrierte Security-Funktionen und den Anforderungen, die bei gezielten Angriffen typischerweise relevant werden.
 
@@ -59,21 +64,22 @@ Dies verdeutlicht die Lücke zwischen klassischen Feldgeräteprotokollen ohne in
 \paragraph{Praxisbeispiel: Security-Umsetzung bei einem nicht netzwerkfähigen Feldgerät}
 Am Beispiel eines 2-Draht-Feldgeräts (VEGAPULS 6X mit 4~\dots~20\,mA/HART) zeigt sich, dass Sicherheitsfunktionen in der Praxis stark auf lokale Schutzmechanismen und organisatorische Maßnahmen verteilt werden.
 Die zugehörige Security Guideline \cite{vega_grieshaber_kg_it-sicherheitsrichtlinien_nodate} weist explizit darauf hin, dass das standardisierte HART-Protokoll keinen ausreichenden Schutz gegen Datenmanipulation und Spionage bietet und deshalb nur in einer Umgebung mit Schutzniveau entsprechend SL1 bzw. bei sichergestelltem physischem Zugriffsschutz auf die Signalleitungen betrieben werden soll.
+Damit werden zentrale Risiken durch Maßnahmen der Klasse~1 (physischer Zugriffsschutz, Betriebsvorgaben) adressiert und um ausgewählte geräteinterne Funktionen der Klasse~3 ergänzt.
 Für Schnittstellen und den Gerätezugang werden daher Maßnahmen wie Zugriffsschutz per Passwort, Deaktivierung ungenutzter Kommunikationskanäle sowie physische Sicherungen (z.\,B. Verplombung) gefordert.
 Geräteseitig werden zudem Funktionen wie Firmware-Integritätsprüfungen, Ereignisspeicher und Ressourcenmanagement als Sicherheitsfunktionen genannt.
 Diese Maßnahmen erhöhen die Härtung des Geräts, ersetzen jedoch keinen kryptografisch geschützten Kommunikationskanal auf dem Feldbus.
 
 %Verbleibende Lücken
 \paragraph{Verbleibende Lücken auf Protokollebene}
-Aus Sicht der Schutzziele Vertraulichkeit und Integrität verbleibt bei nicht netzwerkfähigen Feldgeräten insbesondere eine Lücke in der Ende-zu-Ende-Absicherung der Kommunikation.
+Aus Sicht der Schutzziele Vertraulichkeit und Integrität verbleibt bei nicht netzwerkfähigen Feldgeräten insbesondere eine Lücke in den Anforderungen der Klasse~2, also in der Ende-zu-Ende-Absicherung der Kommunikation.
+
 Während Integrität im Feldbuskontext häufig nur über einfache Prüfsummen oder CRC-Mechanismen adressiert wird, existieren typischerweise keine Verfahren zur kryptografischen Authentifizierung von Geräten, keine aushandelbaren Sitzungsschlüssel und keine Verschlüsselung der Nutzdaten auf der Leitung.
 Damit kann ein Angreifer mit physischem Zugriff auf die Signalleitung Daten mitlesen oder manipulieren, ohne durch das Protokoll selbst zuverlässig detektiert oder ausgeschlossen zu werden.
 Genau an dieser Stelle setzt die vorliegende Arbeit an, indem eine gerätebasierte Identität über Zertifikate und ein sicherer Verbindungsaufbau auch für nicht IP-basierte Kommunikationskanäle konzipiert und umgesetzt wird.
 
 %Ausblick
 \paragraph{Kryptografie als Option auf modernen Feldgeräten}
-Die vorherigen Abschnitte zeigen, dass nicht ethernet-basierte Feldgeräte heute häufig keine protokollseitige Absicherung von Integrität und Vertraulichkeit bieten und das diese Lücke in der Praxis überwiegend durch physische und organisatorische Maßnahmen kompensiert wird.
-Gleichzeitig haben sich die technischen Rahmenbedingungen für Feldgeräte in den letzten Jahren deutlich verschoben.
+Obwohl die Feldbusprotokolle nicht IP-basierter Geräte die Anforderungen der Klasse~2 weiterhin kaum adressieren, haben sich die technischen Rahmenbedingungen für Feldgeräte in den letzten Jahren deutlich verschoben.
 Moderne Mikrocontroller integrieren dedizierte Krypto-Peripherie bzw. Hardwarebeschleuniger, sodass kryptografische Verfahren nicht mehr zwangsläufig im Widerspruch zu den typischen Restriktionen (begrenzte Rechenleistung, enger Energiehaushalt, zeitliche Anforderungen) stehen.
 Hierbei werden kryptographische Primitive,\todo{Definition Kryptografische Primitive raussuchen}
 in speziell dafür entwickelten Hardwareblöcken berechnet, wodurch einerseits der Przoessor entlastet wird und die kryptographischen Berechnungen deutlich schneller und effizienter berechnet werden \cite{stmicroelectronics_ds14830_2025}.
@@ -87,9 +93,9 @@ Parallel zu dieser Entwicklung im Bereich Hardware, stehen aber auch für Berech
 Ergänzend dazu werden Secure Elements oder vergleichbare geschützte Ausführungsumgebungen eingesetzt, wenn langfristige Schlüssel und Identitäten auch gegen Softwarefehler und physische Angriffe abgesichert werden müssen.
 Sie trennen Schlüsselmaterial und sicherheitskritische Operationen (z.\,B. Signaturen oder Schlüsselaustausch) vom Mikrocontroller, sodass private Schlüssel idealerweise weder im Klartext im Hauptspeicher erscheinen noch durch die Applikation direkt verarbeitet werden.
 Je nach Plattform ist dies als separater Baustein oder als integrierte Sicherheitsfunktion des Mikrocontrollers realisiert.
-Diese Baugruppen bringen noch weitere Funktionen wie sichere Schlüsselerzeugung, zertifzierte Entropiequellen, Anti-Tampering- und sichere Bootmechanismen mit sich. 
+Diese Baugruppen bringen noch weitere Funktionen wie sichere Schlüsselerzeugung, zertifizierte Entropiequellen, Anti-Tampering- und sichere Bootmechanismen mit sich \cite{stmicroelectronics_ds14830_2025}. 
 
-Obwohl klassische nicht IP-basierte Feldbusprotokolle weiterhin kaum Security-Funktionen bereitstellen, ist es heute technisch und energetisch realistisch, kryptografisch abgesicherte Geräteidentitäten und gesicherte Sitzungen auch in energieoptimierten Feldgeräten umzusetzen.
+Damit wird es möglich, die Anforderungen der Klasse~2 auch für nicht netzwerkfähige Feldgeräte auf Applikations- und Protokollebene nachzurüsten, ohne die Randbedingungen energieoptimierter Hardware grundsätzlich zu verletzen.
 Diese Entwicklung bildet die Grundlage für die nachfolgenden Kapitel, in denen ein entsprechender Ansatz konzipiert und auf die Randbedingungen nicht netzwerkfähiger Feldgeräte angepasst wird.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ende

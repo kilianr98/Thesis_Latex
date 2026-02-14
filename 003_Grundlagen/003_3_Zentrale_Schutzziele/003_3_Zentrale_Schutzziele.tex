@@ -28,7 +28,7 @@ Während in IT-Systemen die Geheimhaltung oft oberste Priorität hat, stehen in 
 
 Die Normenreihe IEC 62443-4-2 konkretisiert diese Schutzziele auf Komponentenebene und definiert sieben Foundational Requirements (FR), die als normative Schutzziele interpretiert werden können.
 Diese Anforderungen adressieren zentrale Sicherheitsaspekte wie Authentifikation, Zugriffskontrolle und Integrität und bieten einen klaren Rahmen für die Entwicklung sicherer Feldgeräte.
-Es wurde auch noch das Schutzziel "Organisation" hinzugefügt, das verdeutlicht, das diese Anforderungen mittels organisatorischer Maßnahmen umgesetzt werden müssen. \todo{Die Zuordnung in Schutzziel macht keinen Sinn}
+Es wurde auch noch das Schutzziel \emph{Organisation} hinzugefügt, das verdeutlicht, das diese Anforderungen mittels organisatorischer Maßnahmen umgesetzt werden müssen. \todo{Die Zuordnung in Schutzziel macht keinen Sinn}
 
 \todo{Tabelle sauber beschrieben in Latex einfügen.}
 %Mapping der Anforderungen
@@ -43,9 +43,16 @@ Es wurde auch noch das Schutzziel "Organisation" hinzugefügt, das verdeutlicht,
 	\end{center}
 \end{figure}
 
-% Das kommt nach der Bewertung der Schutzziele
-Da sich diese Thesis mit dem sicheren Verbindungsaufbau bei nicht netzwerkfähigen Geräten befasst, werden die Schutzziele, die durch organisatorische Maßnahmen gewährleistet werden nicht weiter betrachtet.
-Generell gilt, dass nur Anforderungen durch das in der Thesis entwickelte Protokoll umgesetzt werden können, die auch kryptographisch umsetzbar sind.
-So kann beispielsweise ein Angriff auf die Verfügbarkeit eines Gerätes nicht verhindert werden, wenn ein Angreifer das Gerät physisch zerstört. 
+% Abgrenzung der betrachteten Anforderungen
+Da sich diese Thesis mit dem sicheren Verbindungsaufbau bei Feldgeräten ohne Netzwerkschnittstelle befasst, werden Anforderungen, die ausschließlich durch organisatorische oder bauliche Maßnahmen in der Umgebung umgesetzt werden können, im weiteren Verlauf nicht vertieft.
+Für die Eingrenzung des Untersuchungsumfangs werden die aus IEC~62443-4-2 abgeleiteten Anforderungen danach unterschieden, ob sie durch den Kommunikationsmechanismus adressierbar sind oder außerhalb des Einflussbereichs eines Protokolls liegen.
+Daraus ergibt sich eine Einteilung in drei Klassen, nach \cite{niemann_profinet_2025}:
 
-\todo{Näher auf die Schutzziele eingehen oder passt das so?}
+\begin{enumerate}
+  \item Anforderungen, die für das betrachtete Feldgerätprofil nicht relevant sind (z.\,B. Notstromversorgung, Schutz der Zonengrenze).
+  \item Anforderungen, die unmittelbar durch kryptografische Mechanismen auf der Kommunikationsstrecke umgesetzt werden können (z.\,B. Integritätsschutz und Vertraulichkeit der übertragenen Daten).
+  \item Anforderungen, die sicherheitsrelevant sind, deren Umsetzung jedoch primär von der Geräteplattform abhängt (z.\,B. Integrität beim Software-Update, Integrität des Boot-Prozesses).
+\end{enumerate}
+
+Die vorliegende Arbeit fokussiert daher auf Klasse~2, da nur diese Anforderungen direkt durch den Verbindungsaufbau, die Authentisierung und die Aushandlung von Sitzungsschlüsseln auf Protokollebene beeinflussbar sind.
+Angriffe auf die Verfügbarkeit, die durch physischen Zugriff oder Zerstörung des Geräts entstehen, können durch ein Kommunikationsprotokoll hingegen nicht verhindert werden.
